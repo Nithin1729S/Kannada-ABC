@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "~/*": [
+                "*"
+            ],
+            "~src/*": [
+                "src/*"
+            ],
+            "~pages/*": [
+                "src/pages/*"
+            ],
+            "~components/*": [
+                "src/components/*"
+            ],
+            "~@props/*": [
+                "src/lib/@props/*"
+            ],
+            "~public/*": [
+                "public/*"
+            ],
+            "~types/*": [
+                "types/*"
+            ],
+        }
+    }
+}
