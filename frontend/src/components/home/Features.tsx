@@ -28,7 +28,7 @@ export default function Features() {
                 <NextImage src={ImgAbc} alt="Colorful ABC toy blocks" />
               </Box>
               <Text mt={1} fontSize="fxl" fontWeight={500}>
-                English Letters
+                Kannada Letters
               </Text>
             </MotionPop>
           </ListItem>

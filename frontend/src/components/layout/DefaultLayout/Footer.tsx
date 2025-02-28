@@ -94,7 +94,7 @@ const FooterBase = () => {
           }}
           aria-label="Contact Me"
           bgColor="whiteAlpha.50"
-          href={`mailto:evathecoderr@outlook.com?subject=REF From ${SITE_CONFIG.appName.toUpperCase()}`}
+          href={`mailto:*?subject=REF From ${SITE_CONFIG.appName.toUpperCase()}`}
           icon={<Icon as={MailSvg} />}
           isExternal
           size="md"
@@ -121,7 +121,7 @@ const FooterBase = () => {
       <Text align={['center', null, 'right']} w="full">
         &copy; {new Date().getFullYear()}. Made with love by{' '}
         <Link href={SITE_CONFIG.repoOwnerLink} isExternal variant="footer">
-          Nithin1729S
+          {SITE_CONFIG.appFullName}
         </Link>
       </Text>
     </Flex>
@@ -145,24 +145,6 @@ const FullFooter = () => {
       </AspectRatio>
       <Flex flex={1} overflow="hidden" color="brand.600" bgGradient="linear(brand.900 5px, black)">
         <Container gridTemplateRows="auto 1fr" display="grid" maxW="container.max" minH="inherit">
-          <Text
-            as="small"
-            align="center"
-            display="block"
-            py={4}
-            opacity={0.4}
-            _hover={{ opacity: 1 }}
-          >
-            Site Illustrations by{' '}
-            <Link href="https://www.vecteezy.com" isExternal variant="footer">
-              Vecteezy
-            </Link>{' '}
-            and{' '}
-            <Link href="https://www.freepik.com/" isExternal variant="footer">
-              Freepik
-            </Link>
-            .
-          </Text>
           <Flex
             ref={containerRef}
             justify="flex-end"

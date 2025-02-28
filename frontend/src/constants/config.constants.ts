@@ -1,7 +1,7 @@
 export const SITE_CONFIG = {
-  appName: 'HCI',
-  appFullName: 'HCI Course Project',
+  appName: 'ಅಕ್ಷರ ಕಲಿ',
+  appFullName: 'ಅಕ್ಷರ ಕಲಿ',
   githubLink: 'https://github.com/Nithin1729S/HCI',
-  repoOwnerLink: 'https://github.com/Nithin1729S',
-  supportLink: 'https://www.buymeacoffee.com/Nithin1729S',
+  repoOwnerLink: '',
+  supportLink: '',
 }
