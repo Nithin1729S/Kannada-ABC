@@ -1,3 +1,4 @@
+'use client';
 import NextLink from 'next/link'
 import NextImage from 'next/image'
 import { NextSeo } from 'next-seo'

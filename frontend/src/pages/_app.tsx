@@ -8,7 +8,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { getDefaultLayout } from '~components/layout/DefaultLayout'
 
 import SEO from '~/next-seo.config'
-
+import '~components/global.css'
 import theme from '~src/theme'
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<P, IP> & {

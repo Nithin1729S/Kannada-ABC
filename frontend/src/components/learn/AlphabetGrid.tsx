@@ -124,7 +124,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                 color="text.highlight"
                 fontSize="3xl"
               >
-                26
+                49
               </Box>{' '}
               Alphabets
             </Heading>

@@ -1,3 +1,4 @@
+'use client';
 import NextImage from 'next/image'
 import { useRef, useState, useCallback, useEffect } from 'react'
 import type { AnimationItem } from 'lottie-web'
