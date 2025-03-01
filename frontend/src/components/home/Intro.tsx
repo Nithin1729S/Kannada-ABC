@@ -93,30 +93,6 @@ export default function Intro() {
         maxH={['3xl', null, '4xl', 'none']}
       >
         <ChakraScenery h="full" />
-        <Text
-          as="small"
-          pos="absolute"
-          right={1}
-          bottom="27%"
-          align="right"
-          maxW="2xs"
-          opacity={0.1}
-          _hover={{ opacity: 0.4 }}
-        >
-          Artworks by{' '}
-          <Link href="https://www.vecteezy.com/members/wawau9615931" isExternal variant="footer">
-            @wawausetya
-          </Link>
-          ,{' '}
-          <Link href="https://www.freepik.com/author/gstudioimagen" isExternal variant="footer">
-            @gstudioimagen
-          </Link>
-          ,{' '}
-          <Link href="https://www.vecteezy.com/members/doodervector" isExternal variant="footer">
-            @Dooder
-          </Link>
-          .
-        </Text>
       </Box>
       <Flex
         align="center"

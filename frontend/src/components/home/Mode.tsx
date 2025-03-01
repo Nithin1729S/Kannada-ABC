@@ -137,17 +137,6 @@ export default function Mode() {
           </Flex>
         </Box>
       </MotionFlex>
-      <Text as="small" align="center" display="block" opacity={0.15} _hover={{ opacity: 0.4 }}>
-        Artworks by{' '}
-        <Link fontWeight="bold" href="https://www.vecteezy.com/members/studiogstock" isExternal>
-          @studiogstock
-        </Link>
-        ,{' '}
-        <Link fontWeight="bold" href="https://www.freepik.com/author/freepik" isExternal>
-          @freepik
-        </Link>
-        .
-      </Text>
     </section>
   )
 }

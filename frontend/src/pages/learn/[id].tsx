@@ -51,8 +51,19 @@ export default function LearnAlphabet({
     <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw">
       <VisuallyHidden as="h1">{`Alphabet ${alphabet?.name ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
-        <AlphabetAnimals bg={bgTheme} />
-      </AlphabetEnterAnimation>
+  <AlphabetAnimals 
+    bg={bgTheme}
+    style={{
+      position: "fixed",
+      top: "0",
+      right: "0",
+      width: "100%",
+      height: "90vh", // Adjust this if needed to leave space at the bottom
+      zIndex: "docked"
+    }}
+  />
+</AlphabetEnterAnimation>
+
       <Flex
         pos="fixed"
         zIndex="docked"
