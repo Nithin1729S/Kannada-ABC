@@ -67,8 +67,8 @@ export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalPro
                 onAnimationComplete={playSound}
               >
                 <NextImage
-                  src={`/img/glyphs/${selected.name.toUpperCase()}.svg`}
-                  alt={`Animal letter ${selected.name}`}
+                  src={`/img/glyphs/${selected.numeral}.svg`}
+                  alt={`Animal letter ${selected.numeral}`}
                   fill
                 />
               </MotionAspectRatio>
@@ -165,7 +165,7 @@ export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalPro
             <Tooltip hasArrow label="Learn">
               <SfxIconButton
                 as={NextLink}
-                href={`${ROUTES.learn}/${selected?.name.toLowerCase() ?? ''}`}
+                href={`${ROUTES.learn}/${selected?.numeral ?? ''}`}
                 shadow="sm"
                 bg="white"
                 color={selected?.color ?? 'inherit'}

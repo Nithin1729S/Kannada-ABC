@@ -25,13 +25,13 @@ export default function LearnAlphabet({
 
   const prev = useCallback(() => {
     if (prevId) {
-      void push(`${ROUTES.learn}/${prevId.toLowerCase()}`)
+      void push(`${ROUTES.learn}/${prevId}`)
     }
   }, [prevId, push])
 
   const next = useCallback(() => {
     if (nextId) {
-      void push(`${ROUTES.learn}/${nextId.toLowerCase()}`)
+      void push(`${ROUTES.learn}/${nextId}`)
     }
   }, [nextId, push])
 
@@ -39,22 +39,20 @@ export default function LearnAlphabet({
     prev,
     next,
     allowPrefetch: !!prevId || !!nextId,
-    ...(prevId && { prevUrl: `${ROUTES.learn}/${prevId.toLowerCase()}` }),
-    ...(nextId && { nextUrl: `${ROUTES.learn}/${nextId.toLowerCase()}` }),
+    ...(prevId && { prevUrl: `${ROUTES.learn}/${prevId}` }),
+    ...(nextId && { nextUrl: `${ROUTES.learn}/${nextId}` }),
   })
 
   const bgTheme = alphabet ? `${alphabet.bg}.100` : 'white'
-  const prevLabel = `Alphabet ${prevId.toUpperCase()}`
-  const nextLabel = `Alphabet ${nextId.toUpperCase()}`
+  const prevLabel = `Alphabet ${prevId}`
+  const nextLabel = `Alphabet ${nextId}`
 
   return (
     <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw">
-      <VisuallyHidden as="h1">{`Alphabet ${alphabet?.name ?? ''}`}</VisuallyHidden>
+      <VisuallyHidden as="h1">{`Alphabet ${alphabet?.numeral ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
-  <AlphabetAnimals 
-    bg={bgTheme}
-  />
-</AlphabetEnterAnimation>
+        <AlphabetAnimals bg={bgTheme} />
+      </AlphabetEnterAnimation>
 
       <Flex
         pos="fixed"
@@ -100,7 +98,6 @@ export default function LearnAlphabet({
           </Tooltip>
         </Flex>
       </Flex>
-      {/* <AlphabetDiscovery alphabet={alphabet} /> */}
     </Box>
   )
 }
@@ -112,7 +109,7 @@ LearnAlphabet.getLayout = (page: ReactElement) =>
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = alphabets.map((alphabet) => ({
     params: {
-      id: alphabet.name.toLowerCase(),
+      id: alphabet.numeral.toString(), // Use numeral instead of name
     },
   }))
 
@@ -125,14 +122,14 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext<{ id: str
   let nextId = ''
 
   const alphabet = alphabets.find((_alphabet, i, self) => {
-    const match = _alphabet.name.toLowerCase() === params?.id
+    const match = _alphabet.numeral.toString() === params?.id // Use numeral for matching
     if (match) {
       self.forEach((a) => {
         if (a.numeral === _alphabet.numeral - 1) {
-          prevId = a.name
+          prevId = a.numeral.toString() // Use numeral for prevId
         }
         if (a.numeral === _alphabet.numeral + 1) {
-          nextId = a.name
+          nextId = a.numeral.toString() // Use numeral for nextId
         }
       })
     }

@@ -31,7 +31,8 @@ interface SoundRegisterProps {
 
 const SoundRegister = forwardRef<SoundRef, PropsWithChildren<SoundRegisterProps>>(
   ({ children, glyph }, ref) => {
-    const [play] = usePhonics(`/sounds/alphabets/${glyph.toLowerCase()}.mp3`)
+    // Dynamically load the sound based on the glyph name (e.g., numeral or alphabet name)
+    const [play] = usePhonics(`/sounds/alphabets/1.mp3`)
 
     useImperativeHandle(
       ref,
@@ -44,6 +45,7 @@ const SoundRegister = forwardRef<SoundRef, PropsWithChildren<SoundRegisterProps>
     return <>{children}</>
   }
 )
+
 SoundRegister.displayName = 'SoundRegister'
 
 const list: Variants = {
@@ -172,8 +174,8 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                           ratio={1}
                         >
                           <NextImage
-                            src={`/img/glyphs/${name.toUpperCase()}.svg`}
-                            alt={`Animal letter ${name}`}
+                            src={`/img/glyphs/${alphabet.numeral}.svg`}
+                            alt={`Animal letter ${alphabet.numeral}`}
                             fill
                           />
                         </MotionAspectRatio>

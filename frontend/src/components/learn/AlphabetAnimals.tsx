@@ -2,10 +2,10 @@ import { Box, Flex, Center, Heading, Tooltip } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 const letterComponents: Record<string, React.ComponentType> = {
-  A: dynamic(() => import('~/src/components/letters/A')),
-  B: dynamic(() => import('~/src/components/letters/B')),
-  C: dynamic(() => import('~/src/components/letters/C')),
-  S: dynamic(() => import('~/src/components/letters/S')),
+  1: dynamic(() => import('~/src/components/letters/A')),
+  2: dynamic(() => import('~/src/components/letters/B')),
+  3: dynamic(() => import('~/src/components/letters/C')),
+  4: dynamic(() => import('~/src/components/letters/S')),
   // Add other letters as needed...
 }
 interface AlphabetAnimalsProps {

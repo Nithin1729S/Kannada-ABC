@@ -89,7 +89,7 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
     const [letterScope, animateLetter] = useAnimate()
     const [cardScope, animateCard] = useAnimate()
 
-    const title = alphabet ? alphabet.name.toUpperCase() + alphabet.name.toLowerCase() : ''
+    const title = alphabet ? alphabet.name.toUpperCase(): ''
 
     const handleComplete = useCallback(() => {
       setShowOverlay(false)
