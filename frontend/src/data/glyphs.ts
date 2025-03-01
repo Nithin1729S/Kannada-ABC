@@ -10,44 +10,44 @@ export const AIrow: GlyphType[] = [
     color: 'pink',
   },
   {
-    name: 'A',
+    name: 'ಅ',
     type: 'letter',
   },
   {
-    name: 'B',
+    name: 'ಆ',
     type: 'letter',
   },
   {
-    name: 'C',
+    name: 'ಇ',
     type: 'letter',
   },
   {
-    name: 'D',
+    name: 'ಈ',
     type: 'letter',
   },
   {
-    name: 'E',
+    name: 'ಉ',
     type: 'letter',
   },
   {
-    name: '🌺',
+    name: 'ಊ',
     type: 'emoji',
     color: 'thistle',
   },
   {
-    name: 'F',
+    name: 'ಋ',
     type: 'letter',
   },
   {
-    name: 'G',
+    name: 'ಎ',
     type: 'letter',
   },
   {
-    name: 'H',
+    name: 'ಐ',
     type: 'letter',
   },
   {
-    name: 'I',
+    name: 'ಓ',
     type: 'letter',
   },
   {
@@ -64,19 +64,19 @@ export const JQrow: GlyphType[] = [
     color: 'tomato',
   },
   {
-    name: 'J',
+    name: 'ಔ',
     type: 'letter',
   },
   {
-    name: 'K',
+    name: 'ಕ',
     type: 'letter',
   },
   {
-    name: 'L',
+    name: 'ಖ',
     type: 'letter',
   },
   {
-    name: 'M',
+    name: 'ಗ',
     type: 'letter',
   },
   {
@@ -85,19 +85,19 @@ export const JQrow: GlyphType[] = [
     color: 'blanchedalmond',
   },
   {
-    name: 'N',
+    name: 'ಘ',
     type: 'letter',
   },
   {
-    name: 'O',
+    name: 'ಞ',
     type: 'letter',
   },
   {
-    name: 'P',
+    name: 'ಚ',
     type: 'letter',
   },
   {
-    name: 'Q',
+    name: 'ಛ',
     type: 'letter',
   },
   {
@@ -114,19 +114,19 @@ export const RZrow: GlyphType[] = [
     color: 'palegreen',
   },
   {
-    name: 'R',
+    name: 'ಜ',
     type: 'letter',
   },
   {
-    name: 'S',
+    name: 'ಝ',
     type: 'letter',
   },
   {
-    name: 'T',
+    name: 'ಟ',
     type: 'letter',
   },
   {
-    name: 'U',
+    name: 'ಠ',
     type: 'letter',
   },
   {
@@ -135,23 +135,23 @@ export const RZrow: GlyphType[] = [
     color: 'gold',
   },
   {
-    name: 'V',
+    name: 'ಡ',
     type: 'letter',
   },
   {
-    name: 'W',
+    name: 'ಢ',
     type: 'letter',
   },
   {
-    name: 'X',
+    name: 'ಣ',
     type: 'letter',
   },
   {
-    name: 'Y',
+    name: 'ತ',
     type: 'letter',
   },
   {
-    name: 'Z',
+    name: 'ಥ',
     type: 'letter',
   },
   {

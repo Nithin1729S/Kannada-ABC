@@ -133,7 +133,7 @@ export default function Activity() {
                 variants={slideUpItem}
               >
                 <Box as="span" px={3} py={1} color="background" bg="accent.300" rounded="xtiny">
-                  asdfjkl;
+                  ಕಖಗಘಙ
                 </Box>
               </MotionText>
             </MotionBox>

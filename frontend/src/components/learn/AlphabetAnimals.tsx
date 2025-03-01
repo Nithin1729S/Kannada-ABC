@@ -2,9 +2,9 @@ import { Box, Flex, Center, Heading, Tooltip } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 const letterComponents: Record<string, React.ComponentType> = {
-  1: dynamic(() => import('~/src/components/letters/A')),
-  2: dynamic(() => import('~/src/components/letters/B')),
-  3: dynamic(() => import('~/src/components/letters/C')),
+  1: dynamic(() => import('~/src/components/letters/1')),
+  2: dynamic(() => import('~/src/components/letters/2')),
+  3: dynamic(() => import('~/src/components/letters/3')),
   4: dynamic(() => import('~/src/components/letters/S')),
   // Add other letters as needed...
 }

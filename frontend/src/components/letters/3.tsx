@@ -25,9 +25,9 @@ const C: React.FC = () => {
 
   return (
     <div className={styles.container}> 
-      <h2 className={styles.title}>Connect the C</h2>
+      <h2 className={styles.title}>Connect the ಇ </h2>
       <p className={styles.description}>
-        Connect the dots in numerical order to form the letter C. Start with dot 1 and continue connecting
+        Connect the dots in numerical order to form the letter ಇ . Start with dot 1 and continue connecting
         until you reach dot 10.
       </p>
       <ConnectDots dots={dots} />

@@ -8,7 +8,7 @@ interface Dot {
   y: number
 }
 
-const B: React.FC = () => {
+const A: React.FC = () => {
   const dots: Dot[] = [
     { id: 1, x: 350, y: 100 },
     { id: 2, x: 300, y: 50 },
@@ -25,9 +25,9 @@ const B: React.FC = () => {
 
   return (
     <div className={styles.container}> 
-      <h2 className={styles.title}>Connect the B</h2>
+      <h2 className={styles.title}>Connect the ಅ</h2>
       <p className={styles.description}>
-        Connect the dots in numerical order to form the letter B. Start with dot 1 and continue connecting
+        Connect the dots in numerical order to form the letter ಅ. Start with dot 1 and continue connecting
         until you reach dot 10.
       </p>
       <ConnectDots dots={dots} />
@@ -35,4 +35,4 @@ const B: React.FC = () => {
   )
 }
 
-export default B;
+export default A;
