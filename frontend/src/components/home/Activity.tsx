@@ -154,16 +154,16 @@ export default function Activity() {
       {/* make container or give bounding padding */}
       <List mb={8} fontFamily="glyph" pointerEvents="none" spacing={16}>
         <ListItem pos="sticky" top={4} overflow="hidden">
-          <AlphabetBubble bg="orange.200">AaBbCcDdEeFf</AlphabetBubble>
+          <AlphabetBubble bg="orange.200">ಅಆಇಈಉಊಋಋೂ</AlphabetBubble>
         </ListItem>
         <ListItem pos="sticky" top={12} overflow="hidden">
-          <AlphabetBubble bg="pink.200">GgHhIiJjKkLlMm</AlphabetBubble>
+          <AlphabetBubble bg="pink.200">ಌಎಏಐಓಔಅಂಅಃ</AlphabetBubble>
         </ListItem>
         <ListItem pos="sticky" top={20} overflow="hidden">
-          <AlphabetBubble bg="green.200">NnOoPpQqRrSsTt</AlphabetBubble>
+          <AlphabetBubble bg="green.200">ಕಖಗಘಞಚಛಜಝಞ</AlphabetBubble>
         </ListItem>
         <ListItem pos="sticky" top={28} overflow="hidden">
-          <AlphabetBubble bg="purple.200">UuVvWwXxYyZz</AlphabetBubble>
+          <AlphabetBubble bg="purple.200">ಟಠಡಢಣತಥದಧನ</AlphabetBubble>
         </ListItem>
         <ListItem h={32} aria-hidden="true" />
       </List>

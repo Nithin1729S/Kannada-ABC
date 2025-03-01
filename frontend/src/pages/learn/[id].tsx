@@ -53,14 +53,6 @@ export default function LearnAlphabet({
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
   <AlphabetAnimals 
     bg={bgTheme}
-    style={{
-      position: "fixed",
-      top: "0",
-      right: "0",
-      width: "100%",
-      height: "90vh", // Adjust this if needed to leave space at the bottom
-      zIndex: "docked"
-    }}
   />
 </AlphabetEnterAnimation>
 
