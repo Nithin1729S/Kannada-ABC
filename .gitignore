@@ -1,6 +1,5 @@
 Kannada_Alphabets/
 *.npy
-*.ipynb
 .ipynb_checkpoints/
 200.jpg
 206.jpg
@@ -16,3 +15,7 @@ test_3.png
 test.png
 wver.jpg
 lol.png
+Untitled.ipynb
+Untitled1.ipynb
+Untitled2.ipynb
+Untitled3.ipynb
