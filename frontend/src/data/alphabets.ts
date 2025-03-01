@@ -59,7 +59,7 @@ export const alphabets: AlphabetType[] = [
   },
   {
     numeral: 9,
-    name: 'ಎ',
+    name: 'ಏ',
     modalBg: '#99cc66',
     bg: 'green',
     color: '#7AA21D',
@@ -73,7 +73,7 @@ export const alphabets: AlphabetType[] = [
   },
   {
     numeral: 11,
-    name: 'ಓ',
+    name: 'ಒ',
     modalBg: '#666699',
     bg: 'purple',
     color: '#B3AAD3',
