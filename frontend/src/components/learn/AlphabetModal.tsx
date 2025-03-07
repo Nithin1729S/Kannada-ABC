@@ -67,9 +67,13 @@ export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalPro
                 onAnimationComplete={playSound}
               >
                 <NextImage
-                  src={`/img/glyphs/${selected.numeral}.svg`}
+                  src={`/img/glyphs/${selected.numeral}.png`}
                   alt={`Animal letter ${selected.numeral}`}
-                  fill
+                  // fill
+                  width={200}  // Set desired width
+                    height={200} // Set desired height
+                    priority // Marks this image as high priority
+                    style={{ objectFit: 'contain' }} 
                 />
               </MotionAspectRatio>
               <MotionBox

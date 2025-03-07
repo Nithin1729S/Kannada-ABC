@@ -182,6 +182,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
   width={200}  // Set desired width
   height={200} // Set desired height
   style={{ objectFit: 'contain' }} // Ensures no cropping
+  priority
 />
 
 

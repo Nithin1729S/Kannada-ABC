@@ -161,10 +161,11 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                     onLayoutAnimationComplete={handleCompleteLayout}
                   >
                     <NextImage
-                      src={`/img/glyphs/${alphabet.numeral}.svg`}
+                      src={`/img/glyphs/${alphabet.numeral}.png`}
                       alt={`Animal letter ${alphabet.numeral}`}
                       fill
                       priority
+                      style={{ objectFit: 'contain' }}
                     />
                   </MotionAspectRatio>
                 )}
@@ -204,10 +205,11 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                   onAnimationComplete={handleComplete}
                 >
                   <NextImage
-                    src={`/img/glyphs/${alphabet.numeral}.svg`}
+                    src={`/img/glyphs/${alphabet.numeral}.png`}
                     alt={`Animal letter ${alphabet.numeral}`}
                     fill
                     priority
+  style={{ objectFit: 'contain' }}
                   />
                 </MotionAspectRatio>
               )}
