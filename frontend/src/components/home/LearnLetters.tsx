@@ -19,36 +19,41 @@ const colorList = [
   'green.100',
   'blue.100',
 ]
+
 interface LearnLettersProps<T extends GlyphType[]> {
   letters: T
 }
+
 interface LetterProps {
   glyph: Alphabet
   color: string
+  soundFile: string
 }
+
 interface LetterRef {
   play: PlayFunction
 }
+
 type PlayLettersRef<T extends GlyphType[]> = {
   [K in T[number]['name']]?: LetterRef
 }
 
+// Function to get the corresponding sound file based on letter index
+const getSoundFile = (glyph: Alphabet, letters: Alphabet[]) => {
+  const index = letters.indexOf(glyph) + 1 // Convert to 1-based index
+  return `/sounds/alphabets/${index}.mp3`
+}
+
 const Letter = forwardRef<LetterRef, PropsWithChildren<LetterProps>>(
-  ({ children, glyph, color }, ref) => {
+  ({ children, glyph, color, soundFile }, ref) => {
     const { playHover } = useGeneralSfx()
-    const [play] = usePhonics(`/sounds/alphabets/1.mp3`)
+    const [play] = usePhonics(soundFile)
 
     const handleClick = useCallback(() => {
       play()
     }, [play])
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        play,
-      }),
-      [play]
-    )
+    useImperativeHandle(ref, () => ({ play }), [play])
 
     return (
       <Text
@@ -87,6 +92,8 @@ Letter.displayName = 'Letter'
 export function LearnLetters<T extends GlyphType[]>({ letters }: LearnLettersProps<T>) {
   const playLettersRef = useRef<PlayLettersRef<T>>({})
   const [colors, setColors] = useState(useToken('colors', colorList))
+  // Precompute an array of alphabet names from letters
+  const letterNames = letters.map(letter => letter.name as Alphabet)
 
   const getRef = useCallback(
     (glyph: Alphabet) => (elm: LetterRef) => {
@@ -151,7 +158,12 @@ export function LearnLetters<T extends GlyphType[]>({ letters }: LearnLettersPro
                 </motion.div>
               )}
               {!isEmoji && (
-                <Letter ref={getRef(name as Alphabet)} color={randomColor} glyph={name as Alphabet}>
+                <Letter
+                  ref={getRef(name as Alphabet)}
+                  color={randomColor}
+                  glyph={name as Alphabet}
+                  soundFile={getSoundFile(name as Alphabet, letterNames)}
+                >
                   {name}
                 </Letter>
               )}

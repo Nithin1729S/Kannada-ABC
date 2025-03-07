@@ -29,10 +29,16 @@ interface SoundRegisterProps {
   glyph: GlyphType
 }
 
+// Helper function to map a glyph to its corresponding sound file based on its index
+const getSoundFile = (glyph: GlyphType): string => {
+  const index = alphabets.findIndex((alphabet) => alphabet.name === glyph) + 1
+  return `/sounds/alphabets/${index}.mp3`
+}
+
 const SoundRegister = forwardRef<SoundRef, PropsWithChildren<SoundRegisterProps>>(
   ({ children, glyph }, ref) => {
-    // Dynamically load the sound based on the glyph name (e.g., numeral or alphabet name)
-    const [play] = usePhonics(`/sounds/alphabets/1.mp3`)
+    const soundFile = getSoundFile(glyph) // Dynamically determine the correct sound file
+    const [play] = usePhonics(soundFile)
 
     useImperativeHandle(
       ref,
@@ -75,9 +81,6 @@ type AlphabetSounds = Record<GlyphType, SoundRef>
 interface AlphabetGridProps {
   show: boolean
 }
-
-
-
 
 export function AlphabetGrid({ show }: AlphabetGridProps) {
   const [selected, setSelected] = useState<AlphabetType | null>(null)
@@ -176,16 +179,14 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                           w="full"
                           ratio={1}
                         >
-                         <NextImage
-  src={`/img/glyphs/${alphabet.numeral}.svg`}
-  alt={`Animal letter ${alphabet.numeral}`}
-  width={200}  // Set desired width
-  height={200} // Set desired height
-  style={{ objectFit: 'contain' }} // Ensures no cropping
-  priority
-/>
-
-
+                          <NextImage
+                            src={`/img/glyphs/${alphabet.numeral}.svg`}
+                            alt={`Animal letter ${alphabet.numeral}`}
+                            width={200} // Set desired width
+                            height={200} // Set desired height
+                            style={{ objectFit: 'contain' }} // Ensures no cropping
+                            priority
+                          />
                         </MotionAspectRatio>
                       </SfxLink>
                     </SoundRegister>
