@@ -36,7 +36,7 @@ export default function Mode() {
         <Box w="full">
           <Box px={6} textAlign={[null, 'center']}>
             <Heading color="brand.600" fontSize="f4xl" id={HOMEPAGE_IDS.mode}>
-              Learn + Play
+              Learn + Practice
             </Heading>
             <Text maxW="2xs" mx={[null, 'auto']} fontSize={['fxl', null, 'f2xl']} opacity={0.95}>
               Two fun and easy educational modes for kids to enjoy.
@@ -118,7 +118,7 @@ export default function Mode() {
                   />
                   <SfxButton
                     as={NextLink}
-                    href={ROUTES.play}
+                    href={ROUTES.practice}
                     w="55%"
                     mt={2}
                     shadow="2xl"
@@ -129,7 +129,7 @@ export default function Mode() {
                     }}
                     bgColor="brand.500"
                   >
-                    Play
+                    Practice
                   </SfxButton>
                 </Box>
               </MotionFlex>
