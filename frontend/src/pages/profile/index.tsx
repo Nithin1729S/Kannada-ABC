@@ -22,9 +22,9 @@ export default function Play() {
       <Fade transition={{ enter: { duration: 0.6 } }} in>
         <Heading as="h1" color="text.inverse" textAlign="center">
           <Box as="span" color="text.highlight">
-            Play
+            Your
           </Box>{' '}
-          Zone
+          Profile
         </Heading>
       </Fade>
       <Box mt={20} mb={24}>
@@ -42,9 +42,9 @@ export default function Play() {
           <Box px={4} py={12} color="text.inverse" textAlign="center">
             <Heading maxW={[44, null, 'none']} mx="auto" mb={4} lineHeight="none" variant="body">
               <Box as="span" color="text.highlight" fontSize="2xl">
-                10
+                49
               </Box>{' '}
-              Mini Games to Play for Fun.
+              Letters Mastery Level
             </Heading>
             <Text opacity={0.75}>Level Up in your Quest.</Text>
           </Box>
@@ -52,32 +52,32 @@ export default function Play() {
           <List sx={{ '--size': 'sizes.60' }} layerStyle="gridy" px={[5, 12]}>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard title="Memory Mix" colorScheme="orange" />
+                <GameCard title="Letter 1" colorScheme="orange" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard title="Pair Up" colorScheme="pink" />
+                <GameCard title="Letter 2" colorScheme="pink" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard imgSrc={ImgGameSwap} title="Scrabble" colorScheme="blue" />
+                <GameCard imgSrc={ImgGameSwap} title="Letter 3" colorScheme="blue" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard href="/play" title="Word Guess" colorScheme="cyan" />
+                <GameCard title="Letter 4" colorScheme="cyan" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard imgSrc={ImgGameSwap} title="Memory Mix" />
+                <GameCard imgSrc={ImgGameSwap} title="Letter 5" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard colorScheme="yellow" />
+                <GameCard colorScheme="yellow" title='Letter 6' />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
@@ -85,14 +85,14 @@ export default function Play() {
                 <GameCard
                   href="/play"
                   imgSrc={ImgGameSwap}
-                  title="Memory Mix Match"
+                  title="Letter 7"
                   colorScheme="red"
                 />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard title="Animal Hunt" colorScheme="purple" />
+                <GameCard title="Letter 8" colorScheme="purple" />
               </Flex>
             </MotionPop>
           </List>
