@@ -27,7 +27,7 @@ export const AIrow: GlyphType[] = [
     type: 'letter',
   },
   {
-    name: 'ಊ',
+    name: '🐔',
     type: 'emoji',
     color: 'thistle',
   },

@@ -65,7 +65,7 @@ const FooterBase = () => {
         <BrandLogo flex={1} />
         <BrandLogoName flex={2.5} />
       </SfxLink>
-      <Flex justify="center" wrap={['wrap', null, 'nowrap']} gap={[2, null, null, 4]}>
+      {/* <Flex justify="center" wrap={['wrap', null, 'nowrap']} gap={[2, null, null, 4]}>
         <SfxIconButton
           as={Link}
           color="inherit"
@@ -117,7 +117,7 @@ const FooterBase = () => {
           size="md"
           title="Support Me"
         />
-      </Flex>
+      </Flex> */}
       <Text align={['center', null, 'right']} w="full">
         &copy; {new Date().getFullYear()}. Made with love by{' '}
         <Link href={SITE_CONFIG.repoOwnerLink} isExternal variant="footer">
@@ -209,7 +209,7 @@ const FullFooter = () => {
                       <Box as="span" display="block" color="brand.200">
                         Pssst...
                       </Box>{' '}
-                      the animals would love a Github Star!
+                      the animals are excited to see you learn to write letters!
                     </SfxLinkOverlay>
                   </Text>
                   <Box pos="absolute" top="-10%" right={0} w={['20%', null, '23%']}>

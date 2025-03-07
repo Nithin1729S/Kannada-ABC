@@ -19,8 +19,8 @@ export const routes = [
   },
   {
     id: 3,
-    name: 'Play',
-    url: ROUTES.play,
+    name: 'Practice',
+    url: ROUTES.practice,
     color: 'purple.300',
     img: '/img/menu-monkey.svg',
     imgAlt: 'cute monkey',

@@ -70,7 +70,7 @@ export default function Menu() {
         </Box>
         <MenuFaces hovered={hovered} />
       </Flex>
-      <SfxLink
+      {/* <SfxLink
         pos="fixed"
         bottom={0}
         left={0}
@@ -105,7 +105,7 @@ export default function Menu() {
         transitionDuration="normal"
       >
         <GithubSvg />
-      </SfxLink>
+      </SfxLink> */}
     </MotionBox>
   )
 }

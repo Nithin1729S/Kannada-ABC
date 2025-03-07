@@ -91,7 +91,7 @@ export function LearnLettersBoard() {
             rounded="50% 50% 10% 90% / 70% 60% 40% 30%"
             style={{ y: bubbleMove }}
           >
-            <MotionSpan style={{ opacity: stickyOpacity }}>ABC</MotionSpan>
+            <MotionSpan style={{ opacity: stickyOpacity }}>ಅಆಇ</MotionSpan>
           </MotionBox>
           <PandySvg />
         </MotionFlex>

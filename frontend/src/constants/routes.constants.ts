@@ -5,6 +5,7 @@ export const ROUTES = {
   learn: '/learn',
   play: '/play',
   profile: '/profile',
+  practice: '/practice',
   wiki: '/wiki',
 } as const
 
