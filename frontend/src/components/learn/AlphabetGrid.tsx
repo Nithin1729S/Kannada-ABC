@@ -177,7 +177,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                           ratio={1}
                         >
                          <NextImage
-  src={`/img/glyphs/${alphabet.numeral}.png`}
+  src={`/img/glyphs/${alphabet.numeral}.svg`}
   alt={`Animal letter ${alphabet.numeral}`}
   width={200}  // Set desired width
   height={200} // Set desired height

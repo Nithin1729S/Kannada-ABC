@@ -67,7 +67,7 @@ export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalPro
                 onAnimationComplete={playSound}
               >
                 <NextImage
-                  src={`/img/glyphs/${selected.numeral}.png`}
+                  src={`/img/glyphs/${selected.numeral}.svg`}
                   alt={`Animal letter ${selected.numeral}`}
                   // fill
                   width={200}  // Set desired width

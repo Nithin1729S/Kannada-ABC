@@ -161,7 +161,7 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                     onLayoutAnimationComplete={handleCompleteLayout}
                   >
                     <NextImage
-                      src={`/img/glyphs/${alphabet.numeral}.png`}
+                      src={`/img/glyphs/${alphabet.numeral}.svg`}
                       alt={`Animal letter ${alphabet.numeral}`}
                       fill
                       priority
@@ -205,7 +205,7 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                   onAnimationComplete={handleComplete}
                 >
                   <NextImage
-                    src={`/img/glyphs/${alphabet.numeral}.png`}
+                    src={`/img/glyphs/${alphabet.numeral}.svg`}
                     alt={`Animal letter ${alphabet.numeral}`}
                     fill
                     priority
