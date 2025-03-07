@@ -89,7 +89,7 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
     const [letterScope, animateLetter] = useAnimate()
     const [cardScope, animateCard] = useAnimate()
 
-    const title = alphabet ? alphabet.name.toUpperCase(): ''
+    const title = alphabet ? alphabet.name: ''
 
     const handleComplete = useCallback(() => {
       setShowOverlay(false)
@@ -161,8 +161,8 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                     onLayoutAnimationComplete={handleCompleteLayout}
                   >
                     <NextImage
-                      src={`/img/glyphs/${alphabet.name.toUpperCase()}.svg`}
-                      alt={`Animal letter ${alphabet.name}`}
+                      src={`/img/glyphs/${alphabet.numeral}.svg`}
+                      alt={`Animal letter ${alphabet.numeral}`}
                       fill
                       priority
                     />
@@ -204,8 +204,8 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
                   onAnimationComplete={handleComplete}
                 >
                   <NextImage
-                    src={`/img/glyphs/${alphabet.name.toUpperCase()}.svg`}
-                    alt={`Animal letter ${alphabet.name}`}
+                    src={`/img/glyphs/${alphabet.numeral}.svg`}
+                    alt={`Animal letter ${alphabet.numeral}`}
                     fill
                     priority
                   />

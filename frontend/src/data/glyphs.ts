@@ -1,7 +1,4 @@
 import type { GlyphType } from '~types/data'
-// const stripOne = ['🐱🦊', 'Aa', 'Bb', 'Cc', 'Dd', 'Ee', '🌺', 'Ff', 'Gg', 'Hh', 'Ii', '🐝']
-// const stripTwo = ['🐵', 'Jj', 'Kk', 'Ll', 'Mm', '🐾', 'Nn', 'Oo', 'Pp', 'Qq', '🦚']
-// const stripThree = ['🐢', 'Rr', 'Ss', 'Tt', 'Uu', '🌝', 'Vv', 'Ww', 'Xx', 'Yy', 'Zz', '🐼🦓']
 
 export const AIrow: GlyphType[] = [
   {

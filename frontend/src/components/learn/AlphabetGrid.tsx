@@ -76,6 +76,9 @@ interface AlphabetGridProps {
   show: boolean
 }
 
+
+
+
 export function AlphabetGrid({ show }: AlphabetGridProps) {
   const [selected, setSelected] = useState<AlphabetType | null>(null)
 
@@ -173,11 +176,15 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                           w="full"
                           ratio={1}
                         >
-                          <NextImage
-                            src={`/img/glyphs/${alphabet.numeral}.svg`}
-                            alt={`Animal letter ${alphabet.numeral}`}
-                            fill
-                          />
+                         <NextImage
+  src={`/img/glyphs/${alphabet.numeral}.png`}
+  alt={`Animal letter ${alphabet.numeral}`}
+  width={200}  // Set desired width
+  height={200} // Set desired height
+  style={{ objectFit: 'contain' }} // Ensures no cropping
+/>
+
+
                         </MotionAspectRatio>
                       </SfxLink>
                     </SoundRegister>
