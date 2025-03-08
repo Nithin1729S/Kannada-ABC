@@ -11,7 +11,7 @@ npm run dev
 ## Available Routes
 | Route | Description |
 |-------|-------------|
-| `/learn` | Connect the Dots Activity |
+| `/learn` | Connect the Dots |
 | `/practice` | Letter Tracing Exercise |
 | `/profile` | View Learning Progress |
 | `/wiki` | Random Animal Thing |

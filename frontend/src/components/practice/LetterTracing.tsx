@@ -1,5 +1,4 @@
 'use client';
-
 import React from 'react';
 
 interface LetterTracingProps {
@@ -7,6 +6,9 @@ interface LetterTracingProps {
 }
 
 const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
+  // Configurable tolerance value; change this value in the code as needed.
+  const tolerance = 10;
+
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isOutOfBounds, setIsOutOfBounds] = React.useState(false);
   const [isCompleted, setIsCompleted] = React.useState(false);
@@ -38,18 +40,6 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     bgContext.textBaseline = 'middle';
     bgContext.fillText(letter, canvasWidth / 2, canvasHeight / 2);
 
-    const imageData = bgContext.getImageData(0, 0, canvasWidth, canvasHeight);
-    const pixels = imageData.data;
-
-    const letterPixels = new Set();
-    for (let i = 0; i < pixels.length; i += 4) {
-      if (pixels[i + 3] > 0) {
-        const x = (i / 4) % canvasWidth;
-        const y = Math.floor((i / 4) / canvasWidth);
-        letterPixels.add(`${x},${y}`);
-      }
-    }
-
     context.clearRect(0, 0, canvasWidth, canvasHeight);
   }, [letter]);
 
@@ -73,6 +63,7 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     const y = e.clientY - rect.top;
     
     ctx.lineTo(x, y);
+    // If drawing out-of-bound, show red stroke
     ctx.strokeStyle = isOutOfBounds ? '#ff0000' : '#000000';
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
@@ -97,63 +88,71 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
   const calculateScore = () => {
     if (!ctx || !bgCtx) return;
   
-    const userDrawingData = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
-    const letterTemplateData = bgCtx.getImageData(0, 0, canvasWidth, canvasHeight).data;
+    // Get image data for the drawn stroke and the letter template.
+    const userDrawing = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+    const letterTemplate = bgCtx.getImageData(0, 0, canvasWidth, canvasHeight);
   
-    let overlap = 0;
-    let totalDrawnPixels = 0;
-    let totalLetterPixels = 0;
+    // Create an empty buffer for the "expanded" (dilated) drawing.
+    // We use this to determine how well the user covered the letter.
+    const expandedDrawing = new Uint8ClampedArray(userDrawing.data.length);
   
-    // Count all pixels that form the letter.
-    for (let i = 0; i < letterTemplateData.length; i += 4) {
-      if (letterTemplateData[i + 3] > 0) {
-        totalLetterPixels++;
-      }
-    }
-  
-    // Helper function to check neighboring pixels for a match within the letter.
-    const isNearLetter = (x: number, y: number, tolerance = 1) => {
-      for (let dx = -tolerance; dx <= tolerance; dx++) {
-        for (let dy = -tolerance; dy <= tolerance; dy++) {
-          const nx = x + dx;
-          const ny = y + dy;
-          if (nx < 0 || nx >= canvasWidth || ny < 0 || ny >= canvasHeight) continue;
-          const neighborIndex = (ny * canvasWidth + nx) * 4;
-          if (letterTemplateData[neighborIndex + 3] > 0) {
-            return true;
+    for (let y = 0; y < canvasHeight; y++) {
+      for (let x = 0; x < canvasWidth; x++) {
+        const index = (y * canvasWidth + x) * 4;
+        if (userDrawing.data[index + 3] > 0) {
+          // Mark the neighboring pixels (within the given tolerance) as drawn.
+          for (let dx = -tolerance; dx <= tolerance; dx++) {
+            for (let dy = -tolerance; dy <= tolerance; dy++) {
+              const nx = x + dx;
+              const ny = y + dy;
+              if (nx < 0 || nx >= canvasWidth || ny < 0 || ny >= canvasHeight) continue;
+              const nIndex = (ny * canvasWidth + nx) * 4;
+              expandedDrawing[nIndex + 3] = 255;
+            }
           }
         }
       }
-      return false;
-    };
+    }
   
-    // Iterate over drawn pixels.
-    for (let i = 0; i < userDrawingData.length; i += 4) {
-      if (userDrawingData[i + 3] > 0) {
-        totalDrawnPixels++;
-        const pixelIndex = i / 4;
-        const x = pixelIndex % canvasWidth;
-        const y = Math.floor(pixelIndex / canvasWidth);
-  
-        // Check if the pixel or any of its neighbors fall within the letter area.
-        if (letterTemplateData[i + 3] > 0 || isNearLetter(x, y)) {
-          overlap++;
+    // Calculate letter coverage using the dilated drawing.
+    let dilatedOverlap = 0;
+    let totalLetterPixels = 0;
+    for (let y = 0; y < canvasHeight; y++) {
+      for (let x = 0; x < canvasWidth; x++) {
+        const index = (y * canvasWidth + x) * 4;
+        if (letterTemplate.data[index + 3] > 0) {
+          totalLetterPixels++;
+          if (expandedDrawing[index + 3] > 0) {
+            dilatedOverlap++;
+          }
         }
       }
     }
   
-    // If nothing was drawn, score is 0.
-    if (totalDrawnPixels === 0) {
+    // Calculate raw drawing accuracy:
+    // rawDrawnCount: total drawn pixels (without dilation)
+    // rawInsideCount: drawn pixels that fall directly within the letter template.
+    let rawDrawnCount = 0;
+    let rawInsideCount = 0;
+    for (let i = 0; i < userDrawing.data.length; i += 4) {
+      if (userDrawing.data[i + 3] > 0) {
+        rawDrawnCount++;
+        if (letterTemplate.data[i + 3] > 0) {
+          rawInsideCount++;
+        }
+      }
+    }
+  
+    if (rawDrawnCount === 0 || totalLetterPixels === 0) {
       setScore(0);
     } else {
-      const accuracy = overlap / totalDrawnPixels; // Fraction of drawn pixels within or near the letter.
-      const coverage = overlap / totalLetterPixels;  // Fraction of the letter's pixels covered by the drawing.
-      const calculatedScore = Math.round(accuracy * coverage * 100);
+      const coverage = dilatedOverlap / totalLetterPixels;         // How much of the letter was covered.
+      const drawingAccuracy = rawInsideCount / rawDrawnCount;          // How accurately the user stayed within the letter.
+      const calculatedScore = Math.round(coverage * drawingAccuracy * 100);
       setScore(calculatedScore);
     }
     setIsCompleted(true);
   };
-  
 
   const styles = {
     container: {
