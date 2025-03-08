@@ -79,7 +79,7 @@ export default function Intro() {
           <Box as="strong" px="0.3em" color="brand.900" bg="secondary.300" rounded="0.3em">
             {SITE_CONFIG.appName}
           </Box>{' '}
-          is an early learning app for kids to practise the Kannada Alphabets with a variety of
+          is an early learning app for kids to practice the Kannada Alphabets with a variety of
           animals.
         </Text>
       </Box>
