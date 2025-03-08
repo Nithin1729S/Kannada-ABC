@@ -16,8 +16,8 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const backgroundCanvasRef = React.useRef<HTMLCanvasElement>(null);
 
-  const canvasWidth = 400;
-  const canvasHeight = 400;
+  const canvasWidth = 1600;
+  const canvasHeight = 600;
 
   React.useEffect(() => {
     if (!canvasRef.current || !backgroundCanvasRef.current) return;
@@ -32,7 +32,7 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     setCtx(context);
     setBgCtx(bgContext);
 
-    bgContext.font = '300px Arial';
+    bgContext.font = '500px Arial';
     bgContext.fillStyle = 'rgba(0, 0, 0, 0.1)';
     bgContext.textAlign = 'center';
     bgContext.textBaseline = 'middle';
@@ -96,26 +96,64 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
 
   const calculateScore = () => {
     if (!ctx || !bgCtx) return;
-    
-    const userDrawing = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
-    const letterTemplate = bgCtx.getImageData(0, 0, canvasWidth, canvasHeight).data;
-    
+  
+    const userDrawingData = ctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
+    const letterTemplateData = bgCtx.getImageData(0, 0, canvasWidth, canvasHeight).data;
+  
     let overlap = 0;
     let totalDrawnPixels = 0;
-    
-    for (let i = 0; i < userDrawing.length; i += 4) {
-      if (userDrawing[i + 3] > 0) {
+    let totalLetterPixels = 0;
+  
+    // Count all pixels that form the letter.
+    for (let i = 0; i < letterTemplateData.length; i += 4) {
+      if (letterTemplateData[i + 3] > 0) {
+        totalLetterPixels++;
+      }
+    }
+  
+    // Helper function to check neighboring pixels for a match within the letter.
+    const isNearLetter = (x: number, y: number, tolerance = 1) => {
+      for (let dx = -tolerance; dx <= tolerance; dx++) {
+        for (let dy = -tolerance; dy <= tolerance; dy++) {
+          const nx = x + dx;
+          const ny = y + dy;
+          if (nx < 0 || nx >= canvasWidth || ny < 0 || ny >= canvasHeight) continue;
+          const neighborIndex = (ny * canvasWidth + nx) * 4;
+          if (letterTemplateData[neighborIndex + 3] > 0) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+  
+    // Iterate over drawn pixels.
+    for (let i = 0; i < userDrawingData.length; i += 4) {
+      if (userDrawingData[i + 3] > 0) {
         totalDrawnPixels++;
-        if (letterTemplate[i + 3] > 0) {
+        const pixelIndex = i / 4;
+        const x = pixelIndex % canvasWidth;
+        const y = Math.floor(pixelIndex / canvasWidth);
+  
+        // Check if the pixel or any of its neighbors fall within the letter area.
+        if (letterTemplateData[i + 3] > 0 || isNearLetter(x, y)) {
           overlap++;
         }
       }
     }
-    
-    const calculatedScore = Math.round((overlap / totalDrawnPixels) * 100);
-    setScore(calculatedScore);
+  
+    // If nothing was drawn, score is 0.
+    if (totalDrawnPixels === 0) {
+      setScore(0);
+    } else {
+      const accuracy = overlap / totalDrawnPixels; // Fraction of drawn pixels within or near the letter.
+      const coverage = overlap / totalLetterPixels;  // Fraction of the letter's pixels covered by the drawing.
+      const calculatedScore = Math.round(accuracy * coverage * 100);
+      setScore(calculatedScore);
+    }
     setIsCompleted(true);
   };
+  
 
   const styles = {
     container: {
@@ -130,7 +168,6 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     },
     canvas: {
       position: 'relative' as const,
-      border: '1px solid #e2e8f0',
       borderRadius: '0.5rem',
       cursor: 'crosshair',
     },

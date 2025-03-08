@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import LetterTracing from './LetterTracing';
 
@@ -33,7 +32,7 @@ export const AlphabetAnimals = () => {
   const letterData = alphabets.find(item => item.numeral === numeral);
 
   return (
-    <div style={{ textAlign: 'center', background: 'white', padding: '20px', borderRadius: '10px' }}>
+    <div style={{ textAlign: 'center', background: '', padding: '20px', borderRadius: '10px' }}>
       {letterData ? <LetterTracing letter={letterData.name} /> : <p>Letter Not Found</p>}
     </div>
   );

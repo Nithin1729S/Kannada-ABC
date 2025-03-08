@@ -65,7 +65,7 @@ export const AlphabetAnimals = ({ bg }: AlphabetAnimalsProps) => {
 
   return (
     <Flex direction="column" gap={{ base: 28, '2xl': '4vw' }} w="full" px={[4, '5%', '10%']}>
-      <Box pos="relative" textAlign="center" bg="white" rounded={{ base: '5em', xl: '5vw' }}>
+      <Box pos="relative" textAlign="center" bg="" rounded={{ base: '5em', xl: '5vw' }}>
         <LetterComponent />
       </Box>
     </Flex>
