@@ -1,7 +1,17 @@
-cd frontend \
-npm install --legacy-peer-deps \
-npm run dev \
+# Frontend Setup and Navigation
 
-Connect to Dots - /learn \
-Trace Letters   - /practice \
-profile progress - /profile 
+## Getting Started
+To run the frontend application:
+```bash
+cd frontend
+npm install --legacy-peer-deps
+npm run dev
+```
+
+## Available Routes
+| Route | Description |
+|-------|-------------|
+| `/learn` | Connect the Dots Activity |
+| `/practice` | Letter Tracing Exercise |
+| `/profile` | View Learning Progress |
+| `/wiki` | Random Animal Thing |
