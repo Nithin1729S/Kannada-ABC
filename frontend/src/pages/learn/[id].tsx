@@ -19,6 +19,13 @@ export default function LearnAlphabet({
   prevId,
   nextId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const letters = [
+    'ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ',
+    'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ', 'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
+    'ಚ', 'ಛ', 'ಜ', 'ಝ', 'ಞ', 'ಟ', 'ಠ', 'ಡ', 'ಢ', 'ಣ',
+    'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ', 'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
+    'ಯ', 'ರ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ'
+  ];
   const shadowColor = useToken('colors', 'brand.300', 'white')
   const { push } = useRouter()
 
@@ -49,8 +56,8 @@ export default function LearnAlphabet({
   })
 
   const bgTheme = alphabet ? `${alphabet.bg}.100` : 'white'
-  const prevLabel = `Alphabet ${prevId}`
-  const nextLabel = `Alphabet ${nextId}`
+  const prevLabel = `Alphabet ${letters[Number(prevId)-1]}`
+  const nextLabel = `Alphabet ${letters[Number(nextId)-1]}`
 
   return (
     // The onClick handler is added here so that clicking anywhere inside the Box logs the coordinates
