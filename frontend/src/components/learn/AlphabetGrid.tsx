@@ -1,5 +1,6 @@
 import NextImage from 'next/image'
 import type { PropsWithChildren } from 'react'
+import { useRouter } from 'next/router';
 import type { Variants } from 'framer-motion'
 import type { ListProps, ListItemProps, AspectRatioProps } from '@chakra-ui/react'
 import type { PlayFunction } from 'use-sound/dist/types'
@@ -86,6 +87,11 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
   const [selected, setSelected] = useState<AlphabetType | null>(null)
 
   const alphabetSoundsRef = useRef<Partial<AlphabetSounds>>({})
+  const router = useRouter();
+    const currentPath = router.pathname; // Get the current 
+    let title = currentPath.startsWith('/learn') ? "Learn": 
+                    currentPath.startsWith('/practice') ? "Practice" : 
+                    "/learn"; // Default to /learn if neither matches
 
   const getRef = useCallback(
     (alphabet: GlyphType) => (elm: SoundRef) => {
@@ -124,7 +130,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
         >
           <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
             <Heading color="text.inverse" textAlign="center">
-              Learn the{' '}
+              {title} the{' '}
               <Box
                 as="span"
                 display={['block', 'inline']}

@@ -1,4 +1,5 @@
 import NextLink from 'next/link'
+import { useRouter } from 'next/router';
 import NextImage from 'next/image'
 import type { AspectRatioProps } from '@chakra-ui/react'
 import {
@@ -31,6 +32,11 @@ interface AlphabetModalProps {
 export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalProps) => {
   const modalBg = selected?.modalBg ?? 'orange.200'
   const idx = (selected?.numeral ?? 1) % settings.length
+  const router = useRouter();
+  const currentPath = router.pathname; // Get the current 
+  let baseRoute = currentPath.startsWith('/learn') ? ROUTES.learn : 
+                  currentPath.startsWith('/practice') ? ROUTES.practice : 
+                  ROUTES.learn; // Default to /learn if neither matches
 
   return (
     <Modal autoFocus={false} isOpen={!!selected} motionPreset="none" onClose={onClose} size="full">
@@ -166,22 +172,22 @@ export const AlphabetModal = ({ onClose, selected, playSound }: AlphabetModalPro
                 onClick={playSound}
               />
             </Tooltip>
-            <Tooltip hasArrow label="Learn">
+            <Tooltip hasArrow label={baseRoute.replace('/', '').charAt(0).toUpperCase() + baseRoute.replace('/', '').slice(1)}>
               <SfxIconButton
-                as={NextLink}
-                href={`${ROUTES.learn}/${selected?.numeral ?? ''}`}
-                shadow="sm"
-                bg="white"
-                color={selected?.color ?? 'inherit'}
-                layerStyle="pushy"
-                _hover={{
-                  color: 'white',
-                  bg: selected?.color ?? 'black',
-                  shadow: '0 0 0 5px rgba(255,255,255,0.25)',
-                }}
-                aria-label="Learn"
-                icon={<Book1Bold color="currentColor" size="65%" />}
-                size="lg"
+              as={NextLink}
+              href={`${baseRoute}/${selected?.numeral ?? ''}`}
+              shadow="sm"
+              bg="white"
+              color={selected?.color ?? 'inherit'}
+              layerStyle="pushy"
+              _hover={{
+                color: 'white',
+                bg: selected?.color ?? 'black',
+                shadow: '0 0 0 5px rgba(255,255,255,0.25)',
+              }}
+              aria-label={baseRoute.replace('/', '')}
+              icon={<Book1Bold color="currentColor" size="65%" />}
+              size="lg"
               />
             </Tooltip>
           </MotionFlex>

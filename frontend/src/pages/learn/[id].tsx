@@ -20,8 +20,13 @@ export default function LearnAlphabet({
   nextId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const shadowColor = useToken('colors', 'brand.300', 'white')
-
   const { push } = useRouter()
+
+  // This function logs the x and y coordinates of the click event
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    console.log('X coordinate:', e.clientX)
+    console.log('Y coordinate:', e.clientY)
+  }
 
   const prev = useCallback(() => {
     if (prevId) {
@@ -48,7 +53,8 @@ export default function LearnAlphabet({
   const nextLabel = `Alphabet ${nextId}`
 
   return (
-    <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw">
+    // The onClick handler is added here so that clicking anywhere inside the Box logs the coordinates
+    <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw" onClick={handleClick}>
       <VisuallyHidden as="h1">{`Alphabet ${alphabet?.numeral ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
         <AlphabetAnimals bg={bgTheme} />

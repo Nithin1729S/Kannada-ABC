@@ -8,7 +8,6 @@ import { SfxIconButton } from '~components/sfx'
 import { AlphabetEnterAnimation } from '~components/learn/AlphabetEnterAnimation'
 import { AlphabetAnimals } from '~components/learn/AlphabetAnimals'
 import { useGestureNavigation } from '~src/hooks/useGestureNavigation'
-import { ROUTES } from '~src/constants'
 
 import { getLayout } from '~components/layout/AlphabetLayout'
 
@@ -20,32 +19,38 @@ export default function LearnAlphabet({
   nextId,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const shadowColor = useToken('colors', 'brand.300', 'white')
-
+  const router = useRouter();
+  const currentPath = router.pathname; // Get the current 
+  let backRoute = currentPath.startsWith('/learn') ? "/learn": 
+                    currentPath.startsWith('/practice') ? "/practice" : 
+                    "/learn"; // Default to /learn if neither matches
   const { push } = useRouter()
 
   const prev = useCallback(() => {
     if (prevId) {
-      void push(`${ROUTES.learn}/${prevId}`)
+      void push(`${backRoute}/${prevId}`)
     }
   }, [prevId, push])
-
+  
   const next = useCallback(() => {
     if (nextId) {
-      void push(`${ROUTES.learn}/${nextId}`)
+      void push(`${backRoute}/${nextId}`)
     }
   }, [nextId, push])
+  
 
   const handlers = useGestureNavigation({
     prev,
     next,
     allowPrefetch: !!prevId || !!nextId,
-    ...(prevId && { prevUrl: `${ROUTES.learn}/${prevId}` }),
-    ...(nextId && { nextUrl: `${ROUTES.learn}/${nextId}` }),
+    ...(prevId && { prevUrl: `${backRoute}/${prevId}` }),
+    ...(nextId && { nextUrl: `${backRoute}/${nextId}` }),
   })
 
   const bgTheme = alphabet ? `${alphabet.bg}.100` : 'white'
   const prevLabel = `Alphabet ${prevId}`
   const nextLabel = `Alphabet ${nextId}`
+  
 
   return (
     <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw">
@@ -102,8 +107,13 @@ export default function LearnAlphabet({
   )
 }
 
-LearnAlphabet.getLayout = (page: ReactElement) =>
-  getLayout(page, { back: ROUTES.learn, bg: 'brand.400' })
+LearnAlphabet.getLayout = (page: ReactElement) => {
+  const currentPath = page.props.router?.pathname || '';
+  const backRoute = currentPath.startsWith('/learn') ? "learn": 
+                    currentPath.startsWith('/practice') ? "practice" : 
+                    "learn";
+  return getLayout(page, { back: `/${backRoute}`, bg: 'brand.400' })
+}
 
 // eslint-disable-next-line @typescript-eslint/require-await
 export const getStaticPaths: GetStaticPaths = async () => {

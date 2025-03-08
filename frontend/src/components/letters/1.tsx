@@ -10,18 +10,17 @@ interface Dot {
 
 const A: React.FC = () => {
   const dots: Dot[] = [
-    { id: 1, x: 350, y: 100 },
-    { id: 2, x: 300, y: 50 },
-    { id: 3, x: 200, y: 50 },
-    { id: 4, x: 150, y: 100 },
-    { id: 5, x: 150, y: 170 },
-    { id: 6, x: 200, y: 225 },
-    { id: 7, x: 300, y: 225 },
-    { id: 8, x: 350, y: 300 },
-    { id: 9, x: 300, y: 400 },
-    { id: 10, x: 200, y: 400 },
-    { id: 11, x: 150, y: 350 },
-  ]
+    { id: 1, x: 150, y: 100 },  // Top of the left vertical stroke
+    { id: 2, x: 250, y: 80 },   // Start curving to the right at the top
+    { id: 3, x: 350, y: 120 },  // Upper right curve
+    { id: 4, x: 370, y: 200 },  // Far right of the curve
+    { id: 5, x: 350, y: 280 },  // Lower right curve
+    { id: 6, x: 250, y: 320 },  // Bottom center of the curved part
+    { id: 7, x: 150, y: 280 },  // Bottom left curve
+    { id: 8, x: 150, y: 200 },  // Back up along the left vertical stroke
+    { id: 9, x: 150, y: 100 },  // Return to the starting point
+  ];
+  
 
   return (
     <div className={styles.container}> 

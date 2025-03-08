@@ -7,7 +7,7 @@ import { MotionFlex, MotionBox, MotionSpan, MotionBurger } from '~components/mot
 import { SfxLink, SfxButton } from '~components/sfx'
 import { useLayoutContext } from '~src/context/layout'
 import { ROUTES, SITE_CONFIG } from '~src/constants'
-
+import { useRouter } from 'next/router';
 import { MusicButton, SoundFxButton } from './MenuAudioButtons'
 import { menuBarBg } from './variants'
 
@@ -61,7 +61,11 @@ export default function MenuBar() {
       transition: { duration: 0.2, ease: 'easeInOut' },
     })
   }, [barMotion, whenFixed, whenVisible, isOpen])
-
+  const router = useRouter();
+    const currentPath = router.pathname; // Get the current 
+    let backroute = currentPath.startsWith('/learn') ? "/learn": 
+                    currentPath.startsWith('/practice') ? "/practice" : 
+                    "/learn"; // Default to /learn if neither matches
   return (
     <MotionFlex
       pos="fixed"
@@ -83,7 +87,7 @@ export default function MenuBar() {
           <SfxLink
             key={back}
             as={NextLink}
-            href={back}
+            href={backroute}
             textTransform="uppercase"
             fontWeight="medium"
             pointerEvents="auto"
