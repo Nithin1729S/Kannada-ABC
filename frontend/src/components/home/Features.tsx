@@ -58,7 +58,7 @@ export default function Features() {
                 <NextImage src={ImgRobot} alt="Colorful toy robot" />
               </Box>
               <Text mt={1} fontSize="fxl" fontWeight={500}>
-                Puzzle
+                Practice
               </Text>
             </MotionPop>
           </ListItem>
