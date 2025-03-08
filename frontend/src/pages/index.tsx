@@ -10,6 +10,7 @@ import Mode from '~components/home/Mode'
 import Activity from '~components/home/Activity'
 import FunWiki from '~components/home/FunWiki'
 import Cta from '~components/home/Cta'
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
       <Underline fill="brand.500" fillTopDots="secondary.200" fillBottomDots="secondary.300" />
       <Cta />
       <Box h="100vh" />
+      <Analytics />
     </>
   )
 }
