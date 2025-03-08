@@ -3,11 +3,16 @@ import NextLink from 'next/link'
 import NextImage from 'next/image'
 import { NextSeo } from 'next-seo'
 import { Box, Flex, Container, Heading, Text } from '@chakra-ui/react'
-import { Error404 as LottieError404 } from '~components/lottie/Error404'
+import dynamic from 'next/dynamic'
 import { SfxLink } from '~components/sfx'
 import { ROUTES } from '~src/constants'
 
 import ImgBg from '~public/img/bg-pattern-1.svg'
+
+// Fix: Dynamically import LottieError404 to prevent SSR issues
+const LottieError404 = dynamic(() => import('~components/lottie/Error404').then((mod) => mod.Error404), {
+  ssr: false,
+})
 
 export default function Error404() {
   return (

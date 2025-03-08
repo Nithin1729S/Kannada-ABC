@@ -110,11 +110,17 @@ export const AlphabetEnterAnimation = forwardRef<AlphabetEnterAnimationProps, 'd
         const enterAnimation = async () => {
           await animateImage(imageScope.current, { scale: 0, opacity: 0 }, { duration: 0.3 })
           await animateLetter(letterScope.current, { scale: 1 }, { type: 'spring', stiffness: 100 })
-          await animateCard(
-            cardScope.current,
-            { scale: 1, opacity: 1, y: '0%' },
-            { duration: 0.35 }
-          )
+          try {
+            if (cardScope.current) {
+              await animateCard(
+                cardScope.current,
+                { scale: 1, opacity: 1, y: '0%' },
+                { duration: 0.35 }
+              )
+            }
+          } catch (error) {
+            console.error("Animation error suppressed:", error)
+          }
         }
         void enterAnimation()
       }
