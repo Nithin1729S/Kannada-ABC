@@ -5,8 +5,8 @@ import { useCallback } from 'react'
 import { Box, Flex, VisuallyHidden, Tooltip, useToken } from '@chakra-ui/react'
 import { ArrowLeft1Linear, ArrowRight1Linear } from 'react-iconsax-icons'
 import { SfxIconButton } from '~components/sfx'
-import { AlphabetEnterAnimation } from '~components/learn/AlphabetEnterAnimation'
-import { AlphabetAnimals } from '~components/learn/AlphabetAnimals'
+import { AlphabetEnterAnimation } from '~components/practice/AlphabetEnterAnimation'
+import { AlphabetAnimals } from '~components/practice/AlphabetAnimals'
 import { useGestureNavigation } from '~src/hooks/useGestureNavigation'
 
 import { getLayout } from '~components/layout/AlphabetLayout'
@@ -56,7 +56,7 @@ export default function LearnAlphabet({
     <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw">
       <VisuallyHidden as="h1">{`Alphabet ${alphabet?.numeral ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
-        <AlphabetAnimals bg={bgTheme} />
+        <AlphabetAnimals />
       </AlphabetEnterAnimation>
 
       <Flex

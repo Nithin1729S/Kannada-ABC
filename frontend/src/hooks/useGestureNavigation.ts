@@ -20,9 +20,14 @@ export function useGestureNavigation({
 }: GestureNavigationOptions) {
   const { prefetch } = useRouter()
 
+  // Modify swipeable handlers to disable navigation
   const handlers = useSwipeable({
-    onSwipedLeft: next,
-    onSwipedRight: prev,
+    onSwipedLeft: () => {
+      // Do nothing on swipe left to disable navigation
+    },
+    onSwipedRight: () => {
+      // Do nothing on swipe right to disable navigation
+    },
     trackMouse: true,
   })
 

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { Flex } from '@chakra-ui/react'
-import { IntroScreen } from '~components/learn/IntroScreen'
-import { AlphabetGrid } from '~components/learn/AlphabetGrid'
+import { IntroScreen } from '~components/practice/IntroScreen'
+import { AlphabetGrid } from '~components/practice/AlphabetGrid'
 import { FixedBackground } from '~components/FixedBackground'
 import { useGeneralStore, useGeneralHydration } from '~src/store'
 

@@ -1,24 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+'use client';
+
+import React from 'react';
 
 interface LetterTracingProps {
   letter: string;
 }
 
-const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const backgroundCanvasRef = useRef<HTMLCanvasElement>(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [isOutOfBounds, setIsOutOfBounds] = useState(false);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [score, setScore] = useState(0);
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [bgCtx, setBgCtx] = useState<CanvasRenderingContext2D | null>(null);
+const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
+  const [isDrawing, setIsDrawing] = React.useState(false);
+  const [isOutOfBounds, setIsOutOfBounds] = React.useState(false);
+  const [isCompleted, setIsCompleted] = React.useState(false);
+  const [score, setScore] = React.useState(0);
+  const [ctx, setCtx] = React.useState<CanvasRenderingContext2D | null>(null);
+  const [bgCtx, setBgCtx] = React.useState<CanvasRenderingContext2D | null>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const backgroundCanvasRef = React.useRef<HTMLCanvasElement>(null);
 
   const canvasWidth = 400;
   const canvasHeight = 400;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!canvasRef.current || !backgroundCanvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -31,18 +32,15 @@ const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     setCtx(context);
     setBgCtx(bgContext);
 
-    // Draw the background letter
     bgContext.font = '300px Arial';
     bgContext.fillStyle = 'rgba(0, 0, 0, 0.1)';
     bgContext.textAlign = 'center';
     bgContext.textBaseline = 'middle';
     bgContext.fillText(letter, canvasWidth / 2, canvasHeight / 2);
 
-    // Get the pixel data of the letter
     const imageData = bgContext.getImageData(0, 0, canvasWidth, canvasHeight);
     const pixels = imageData.data;
 
-    // Create a map of letter pixels
     const letterPixels = new Set();
     for (let i = 0; i < pixels.length; i += 4) {
       if (pixels[i + 3] > 0) {
@@ -52,7 +50,6 @@ const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
       }
     }
 
-    // Clear the drawing canvas
     context.clearRect(0, 0, canvasWidth, canvasHeight);
   }, [letter]);
 
@@ -120,20 +117,64 @@ const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
     setIsCompleted(true);
   };
 
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column' as const,
+      alignItems: 'center',
+      gap: '1rem',
+      padding: '2rem',
+    },
+    canvasContainer: {
+      position: 'relative' as const,
+    },
+    canvas: {
+      position: 'relative' as const,
+      border: '1px solid #e2e8f0',
+      borderRadius: '0.5rem',
+      cursor: 'crosshair',
+    },
+    backgroundCanvas: {
+      position: 'absolute' as const,
+    },
+    warningMessage: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      color: '#ef4444',
+    },
+    completionContainer: {
+      display: 'flex',
+      flexDirection: 'column' as const,
+      alignItems: 'center',
+      gap: '0.5rem',
+    },
+    successMessage: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      color: '#22c55e',
+    },
+    score: {
+      fontSize: '1.125rem',
+      fontWeight: '600',
+    },
+  };
+
   return (
-    <div className="flex flex-col items-center gap-4 p-8">
-      <div className="relative">
+    <div style={styles.container}>
+      <div style={styles.canvasContainer}>
         <canvas
           ref={backgroundCanvasRef}
           width={canvasWidth}
           height={canvasHeight}
-          className="absolute"
+          style={styles.backgroundCanvas}
         />
         <canvas
           ref={canvasRef}
           width={canvasWidth}
           height={canvasHeight}
-          className="relative border border-gray-300 rounded-lg cursor-crosshair"
+          style={styles.canvas}
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
@@ -142,19 +183,44 @@ const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
       </div>
       
       {isOutOfBounds && !isCompleted && (
-        <div className="flex items-center gap-2 text-red-500">
-          <AlertCircle className="w-5 h-5" />
+        <div style={styles.warningMessage}>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
           <span>Stay within the letter outline!</span>
         </div>
       )}
       
       {isCompleted && (
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 text-green-500">
-            <CheckCircle2 className="w-5 h-5" />
+        <div style={styles.completionContainer}>
+          <div style={styles.successMessage}>
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
             <span>Completed!</span>
           </div>
-          <div className="text-lg font-semibold">
+          <div style={styles.score}>
             Accuracy Score: {score}%
           </div>
         </div>
@@ -163,4 +229,4 @@ const LetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
   );
 };
 
-export default LetterTracing;
+export default StandaloneLetterTracing;
