@@ -12,8 +12,14 @@ export default class Document extends NextDocument {
           <meta name="msapplication-TileColor" content="#94eaaa" />
           <meta name="msapplication-square150x150logo" content="/mstile-150x150.png" />
           <meta name="theme-color" content="#94eaaa" />
-          <meta name="apple-mobile-web-app-title" content="HCI" />
-          <meta name="application-name" content="HCI" />
+          <meta name="apple-mobile-web-app-title" content="ಅಕ್ಷರ ಕಲಿ" />
+          <meta name="application-name" content="ಅಕ್ಷರ ಕಲಿ" />
+          <meta property="og:title" content="ಅಕ್ಷರ ಕಲಿ" />
+          <meta property="og:description" content="Kannada Alphabet Learning Application" />
+          <meta property="og:image" content="/opengraph.png" />
+          <meta property="og:url" content="https://kannada-abc.vercel.app/" />
+          <meta property="og:type" content="website" />
+
           <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
