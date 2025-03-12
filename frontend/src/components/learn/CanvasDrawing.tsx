@@ -44,7 +44,7 @@ const styles = {
     marginRight: '0.5rem',
   },
   canvasContainer: {
-    border: '4px solid #e5e7eb',
+    
     borderRadius: '0.5rem',
   },
   canvas: {
@@ -194,34 +194,20 @@ export default function CanvasDrawing() {
   return (
     <div style={styles.container}>
       <div style={styles.buttonGroup}>
-        <button
-          style={{
-            ...styles.button,
-            ...(tool === "pen" ? styles.primaryButton : styles.secondaryButton),
-          }}
-          onClick={() => setTool("pen")}
-        >
-          <Pencil style={styles.icon} />
-          Pen
-        </button>
-        <button
-          style={{...styles.button, ...styles.secondaryButton}}
-          onClick={clearCanvas}
-        >
-          Clear
-        </button>
+        
       </div>
 
-      <div style={styles.canvasContainer}>
+      <div style={{...styles.canvasContainer, paddingTop: '6rem'}}>
         <canvas
           ref={canvasRef}
-          width={280}
-          height={280}
+          width={400}
+          height={400}
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
           onMouseLeave={stopDrawing}
           style={styles.canvas}
+          
         />
       </div>
 
@@ -238,6 +224,12 @@ export default function CanvasDrawing() {
         >
           <Send style={styles.icon} />
           Submit
+        </button>
+        <button
+          style={{...styles.button, ...styles.secondaryButton}}
+          onClick={clearCanvas}
+        >
+          Clear
         </button>
       </div>
     </div>
