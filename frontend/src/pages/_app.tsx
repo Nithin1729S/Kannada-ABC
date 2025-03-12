@@ -1,3 +1,4 @@
+// pages/_app.tsx
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
@@ -5,6 +6,7 @@ import { useRouter } from 'next/router'
 import { DefaultSeo } from 'next-seo'
 import { AnimatePresence } from 'framer-motion'
 import { ChakraProvider } from '@chakra-ui/react'
+import { SessionProvider } from 'next-auth/react'
 import { getDefaultLayout } from '~components/layout/DefaultLayout'
 
 import SEO from '~/next-seo.config'
@@ -26,7 +28,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return (
     <ChakraProvider theme={theme}>
       <DefaultSeo {...SEO} />
-      <AnimatePresence>{getLayout(<Component key={key} {...pageProps} />)}</AnimatePresence>
+      <SessionProvider session={pageProps.session}>
+        <AnimatePresence>
+          {getLayout(<Component key={key} {...pageProps} />)}
+        </AnimatePresence>
+      </SessionProvider>
     </ChakraProvider>
   )
 }

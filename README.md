@@ -1,5 +1,6 @@
-# Frontend Setup and Navigation
+# Setup and Navigation
 
+# Envii
 ## Getting Started
 To run the frontend application:
 ```bash
@@ -15,3 +16,4 @@ npm run dev
 | `/practice` | Letter Tracing Exercise |
 | `/profile` | View Learning Progress |
 | `/wiki` | Random Animal Thing |
+
