@@ -29,7 +29,11 @@ pip install -r requirements.txt
 uvicorn api.main:app --reload
 ```
 
+## Function
 
+MongoDB - For User and his Progress related data
+FastAPI Server - to serve the cnn model
+ 
 ## Available Routes
 | Route | Description |
 |-------|-------------|
