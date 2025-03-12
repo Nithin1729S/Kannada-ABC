@@ -20,6 +20,16 @@ npm install --legacy-peer-deps
 npm run dev
 ```
 
+To run the fastapi backend server:
+```bash
+cd backend
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+uvicorn api.main:app --reload
+```
+
+
 ## Available Routes
 | Route | Description |
 |-------|-------------|
