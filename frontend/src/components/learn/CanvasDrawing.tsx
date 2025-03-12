@@ -239,13 +239,6 @@ export default function CanvasDrawing() {
           <Send style={styles.icon} />
           Submit
         </button>
-        <button
-          onClick={processImage}
-          style={{...styles.button, ...styles.secondaryButton}}
-        >
-          <Download style={styles.icon} />
-          Download
-        </button>
       </div>
     </div>
   );
