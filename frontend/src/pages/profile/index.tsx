@@ -13,10 +13,12 @@ import { useScrollReveal } from '~/src/hooks/useScrollReveal'
 
 import ImgPlay from '~public/img/bg-play.svg'
 import ImgGameSwap from '~public/img/bg-game-swap.svg'
+import { useSession } from "next-auth/react";
+
 
 export default function Play() {
   const { scrollReveal } = useScrollReveal({ offset: ['start end', 'end start'] })
-
+  const { data: session } = useSession();
   return (
     <Box layerStyle="page" pos="relative" zIndex={1} px={0} pb={0}>
       <Fade transition={{ enter: { duration: 0.6 } }} in>
@@ -30,6 +32,8 @@ export default function Play() {
       <Box mt={20} mb={24}>
         <BannerHeads />
       </Box>
+      {session && <Text>Signed in as {session.user?.email}</Text>}
+
       <SlideFade transition={{ enter: { duration: 0.6, delay: 0.25 + 0.65 + 2.25 } }} in>
         <MotionBox
           minH="sm"

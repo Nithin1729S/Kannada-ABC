@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react'
 import NextLink from 'next/link'
 import { BackSquareBold } from 'react-iconsax-icons'
 import { useAnimationControls, useScroll, useVelocity, AnimatePresence } from 'framer-motion'
-import { Box, Flex, useToken, useModalContext } from '@chakra-ui/react'
+import { Box, Flex, useToken, useModalContext, Button } from '@chakra-ui/react'
 import { MotionFlex, MotionBox, MotionSpan, MotionBurger } from '~components/motion'
 import { SfxLink, SfxButton } from '~components/sfx'
 import { useLayoutContext } from '~src/context/layout'
 import { ROUTES, SITE_CONFIG } from '~src/constants'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import { MusicButton, SoundFxButton } from './MenuAudioButtons'
 import { menuBarBg } from './variants'
-
+import { useSession, signOut } from 'next-auth/react'
 import { ReactComponent as LogoSvg } from '~public/brand/logo.svg'
 import { ReactComponent as LogonameSvg } from '~public/brand/logoname.svg'
 
@@ -22,7 +22,8 @@ export default function MenuBar() {
   const [fullRadius] = useToken('radii', ['full'])
   const { isOpen, toggleOpen, onClose } = useModalContext() as ModalContextExtended
   const { back, threshold = 100 } = useLayoutContext()
-
+  const { data: session } = useSession()
+  
   const [isAtTop, setIsAtTop] = useState(true)
   const [isScrollingBack, setIsScrollingBack] = useState(false)
 
@@ -55,17 +56,20 @@ export default function MenuBar() {
 
   useEffect(() => {
     barMotion.set(whenFixed && !isOpen ? 'fixed' : 'unfixed')
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     barMotion.start({
       y: whenVisible ? 0 : '-100%',
       transition: { duration: 0.2, ease: 'easeInOut' },
     })
   }, [barMotion, whenFixed, whenVisible, isOpen])
-  const router = useRouter();
-    const currentPath = router.pathname; // Get the current 
-    let backroute = currentPath.startsWith('/learn') ? "/learn": 
-                    currentPath.startsWith('/practice') ? "/practice" : 
-                    "/learn"; // Default to /learn if neither matches
+
+  const router = useRouter()
+  const currentPath = router.pathname
+  let backroute = currentPath.startsWith('/learn')
+    ? "/learn"
+    : currentPath.startsWith('/practice')
+    ? "/practice"
+    : "/learn" // Default to /learn if neither matches
+
   return (
     <MotionFlex
       pos="fixed"
@@ -179,6 +183,20 @@ export default function MenuBar() {
         <Flex gap={2} display={isOpen ? 'none' : ['none', 'flex']}>
           <MusicButton />
           <SoundFxButton />
+          {/* Insert Sign Out button here if user is authenticated */}
+        {session && (
+          <MotionBox layout initial={{ borderRadius: fullRadius }}>
+            <Button
+              colorScheme="red"
+              variant="ghost"
+              size="md"
+              onClick={() => signOut({ callbackUrl: "/auth" })}
+              bg="red.100"
+            >
+              Sign Out
+            </Button>
+          </MotionBox>
+        )}
         </Flex>
         <MotionBox layout initial={{ borderRadius: fullRadius }}>
           <SfxButton
@@ -203,14 +221,17 @@ export default function MenuBar() {
             onClick={toggleOpen}
             rounded="inherit"
           >
+            
             <Box as="span" display={isOpen ? 'none' : 'inline'} ml={2}>
               Menu
             </Box>
+            
             <MotionSpan layout w={10} h={10} p={2} bg="brand.300" rounded="circle">
               <MotionBurger open={isOpen} />
             </MotionSpan>
           </SfxButton>
         </MotionBox>
+        
       </MotionFlex>
     </MotionFlex>
   )

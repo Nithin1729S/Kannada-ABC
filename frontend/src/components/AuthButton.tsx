@@ -34,7 +34,6 @@ export default function AuthButton() {
 
   return (
     <Flex direction="column" align="center" gap={3}>
-      <Text>Not signed in</Text>
       <Button 
         colorScheme="blue" 
         onClick={() => signIn("google", { callbackUrl: "/" })}

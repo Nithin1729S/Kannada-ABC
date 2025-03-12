@@ -2,15 +2,10 @@ import { useState, useCallback } from 'react'
 import NextImage from 'next/image'
 import { Box, Flex, useModalContext } from '@chakra-ui/react'
 import { MotionBox } from '~components/motion'
-import { SfxLink } from '~components/sfx'
-import { SITE_CONFIG } from '~src/constants'
 import { MenuLinks } from './MenuLinks'
 import { MenuAudioPanel } from './MenuAudioPanel'
 import { MenuFaces } from './MenuFaces'
 import { menuOverlay } from './variants'
-
-import { ReactComponent as GithubSvg } from '~public/icons/github.svg'
-import { ReactComponent as BuyCoffeeSvg } from '~public/icons/buymeacoffee.svg'
 import branchUrl from '~public/img/menu-branch.svg'
 
 export default function Menu() {
