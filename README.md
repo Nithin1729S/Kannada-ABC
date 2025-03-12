@@ -31,7 +31,7 @@ uvicorn api.main:app --reload
 
 ## Function
 
-MongoDB - For User and his Progress related data
+MongoDB - For User and his Progress related data \
 FastAPI Server - to serve the cnn model
  
 ## Available Routes
