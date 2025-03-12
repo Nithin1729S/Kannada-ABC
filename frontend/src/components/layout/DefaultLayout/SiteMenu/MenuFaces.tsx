@@ -103,5 +103,6 @@ export const MenuFaces = ({ hovered }: MenuFacesProps) => {
         </MotionSpan>
       </MotionSpan>
     </MotionFlex>
+    
   )
 }

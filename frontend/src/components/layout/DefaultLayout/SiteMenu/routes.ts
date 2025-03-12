@@ -10,14 +10,6 @@ export const routes = [
     imgAlt: 'cute panda bear',
   },
   {
-    id: 2,
-    name: 'Learn',
-    url: ROUTES.learn,
-    color: 'orange.300',
-    img: '/img/menu-tiger.svg',
-    imgAlt: 'cute tiger',
-  },
-  {
     id: 3,
     name: 'Practice',
     url: ROUTES.practice,
@@ -25,6 +17,15 @@ export const routes = [
     img: '/img/menu-monkey.svg',
     imgAlt: 'cute monkey',
   },
+  {
+    id: 2,
+    name: 'Learn',
+    url: ROUTES.learn,
+    color: 'orange.300',
+    img: '/img/menu-tiger.svg',
+    imgAlt: 'cute tiger',
+  },
+  
   {
     id: 4,
     name: 'Wiki',

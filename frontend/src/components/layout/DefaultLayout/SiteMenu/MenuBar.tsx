@@ -184,19 +184,7 @@ export default function MenuBar() {
           <MusicButton />
           <SoundFxButton />
           {/* Insert Sign Out button here if user is authenticated */}
-        {session && (
-          <MotionBox layout initial={{ borderRadius: fullRadius }}>
-            <Button
-              colorScheme="red"
-              variant="ghost"
-              size="md"
-              onClick={() => signOut({ callbackUrl: "/auth" })}
-              bg="red.100"
-            >
-              Sign Out
-            </Button>
-          </MotionBox>
-        )}
+        
         </Flex>
         <MotionBox layout initial={{ borderRadius: fullRadius }}>
           <SfxButton
