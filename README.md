@@ -23,8 +23,9 @@ npm run dev
 ## Available Routes
 | Route | Description |
 |-------|-------------|
-| `/learn` | Connect the Dots |
-| `/practice` | Letter Tracing Exercise |
+| `/learn` | Letter Tracing |
+| `/practice` | Blank Canvas |
 | `/profile` | View Learning Progress |
 | `/wiki` | Random Animal Thing |
+| `/auth` | Authentication |
 
