@@ -2,11 +2,7 @@ import type { PropsWithChildren, ComponentProps } from 'react'
 import NextImage from 'next/image'
 import { Box } from '@chakra-ui/react'
 
-interface FixedBackgroundProps extends ComponentProps<typeof NextImage> {
-  className?: string;
-  src: string;
-  alt?: string;
-}
+interface FixedBackgroundProps extends ComponentProps<typeof NextImage> {}
 
 export const FixedBackground = ({
   className,

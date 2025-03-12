@@ -108,7 +108,7 @@ export default function Play() {
 
 Play.getLayout = (page: ReactElement, props?: LayoutProps) => {
   return getPlayLayout(
-    <FixedBackground src={ImgPlay.src} alt="">
+    <FixedBackground src={ImgPlay} alt="">
       {page}
     </FixedBackground>,
     props
