@@ -57,7 +57,11 @@ const styles = {
   },
 };
 
-export default function CanvasDrawing() {
+export default function CanvasDrawing({
+  letterData
+}: {
+  letterData: number
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
@@ -185,6 +189,9 @@ export default function CanvasDrawing() {
       const data = await response.json();
       setRecognitionResult(data.prediction);
       console.log("Recognition result:", data);
+      console.log("-------------")
+      console.log(letterData);
+      console.log(recognitionResult)
     } catch (error) {
       console.error("Error sending image:", error);
       setRecognitionResult(null);
@@ -214,6 +221,18 @@ export default function CanvasDrawing() {
       {recognitionResult !== null && (
         <div style={styles.resultText}>
           Recognized Alphabet: {letters[recognitionResult-1]}
+        </div>
+      )}
+
+      {recognitionResult !== null && Number(recognitionResult) !== Number(letterData) && (
+        <div style={styles.resultText}>
+          Not Match
+        </div>
+      )}
+
+      {recognitionResult !== null && Number(recognitionResult) === Number(letterData) && (
+        <div style={styles.resultText}>
+          Match
         </div>
       )}
 

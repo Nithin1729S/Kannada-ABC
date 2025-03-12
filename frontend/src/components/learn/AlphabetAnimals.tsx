@@ -30,10 +30,9 @@ export const AlphabetAnimals = () => {
   const router = useRouter();
   const numeral = Number(router.query.id); // Convert query param to number
   const letterData = alphabets.find(item => item.numeral === numeral);
-
   return (
     <div style={{ textAlign: 'center', background: '', padding: '20px', borderRadius: '10px' }}>
-        <CanvasDrawing/>
+        <CanvasDrawing letterData={letterData?.numeral ?? 0} />
     </div>
   );
 };
