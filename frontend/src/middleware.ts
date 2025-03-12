@@ -1,22 +1,31 @@
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
-export function middleware(req: NextRequest) {
-  if (req.nextUrl.pathname === req.nextUrl.pathname.toLocaleLowerCase()) {
-    return NextResponse.next()
+export async function middleware(req: NextRequest) {
+  // Enforce lowercase URLs
+  if (req.nextUrl.pathname !== req.nextUrl.pathname.toLowerCase()) {
+    const url = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname.toLowerCase()}`);
+    return NextResponse.redirect(url);
   }
 
-  //Redirect to lowercase
-  const url = new URL(`${req.nextUrl.origin}${req.nextUrl.pathname.toLocaleLowerCase()}`)
-  return NextResponse.redirect(url)
+  // Authentication check using JWT token
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
+  const isAuthPage = req.nextUrl.pathname.startsWith('/auth');
+  const isProtectedRoute = !isAuthPage; // Protect all routes except /auth
+
+  if (!token && isProtectedRoute) {
+    return NextResponse.redirect(new URL('/auth', req.url));
+  }
+
+  if (token && isAuthPage) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/learn/:path*', '/wiki/:path*'],
-}
-
-// BUG: https://github.com/vercel/next.js/issues/38239
-// New middleware causing 404 page not to be shown for notfound
-// dyanimc routes when client-side navigating
-// Possible fix in v13.2.4-canary.4
-// As at v13.3.1 works locally but not in PROD env
+  matcher: ['/learn/:path*', '/wiki/:path*', '/', '/dashboard', '/profile', '/auth'],
+};

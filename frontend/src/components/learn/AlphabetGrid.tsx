@@ -264,7 +264,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                           position="relative"
                           justifyContent="center"
                           bg="white"
-                          boxSize="270px"
+                          boxSize="full"
                           rounded="10%"
                           p="10%"
                           boxShadow="sm"
