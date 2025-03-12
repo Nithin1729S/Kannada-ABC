@@ -116,94 +116,265 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
     },
     []
   )
-
+  const firstHalfAlphabets = alphabets.length > 0 ? alphabets.slice(0, 15) : [];
+  const secondHalfAlphabets = alphabets.length > 15 ? alphabets.slice(15, 40) : [];
+  const thirdHalfAlphabets = alphabets.length > 40 ? alphabets.slice(40, 49) : [];
+  
   return (
-    <>
-      <AnimatePresence initial={false}>
-        <Box
-          layerStyle="page"
-          pos="relative"
-          zIndex={1}
-          w="full"
-          pt={[32, 24]}
-          visibility={show ? 'visible' : 'hidden'}
-        >
-          <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
-            <Heading color="text.inverse" textAlign="center">
-              {title} the{' '}
-              <Box
-                as="span"
-                display={['block', 'inline']}
-                p={[null, 1]}
-                color="text.highlight"
-                fontSize="3xl"
-              >
-                49
-              </Box>{' '}
-              Alphabets
-            </Heading>
-          </Fade>
-          <MotionList
-            layerStyle="gridy"
-            pt={16}
-            variants={list}
-            initial="out"
-            animate={show ? 'in' : 'out'}
+      <>
+        <AnimatePresence initial={false}>
+          <Box
+            layerStyle="page"
+            pos="relative"
+            zIndex={1}
+            w="full"
+            pt={[32, 24]}
+            visibility={show ? 'visible' : 'hidden'}
           >
-            {alphabets.map((alphabet) => {
-              const { name } = alphabet
-              return (
-                <MotionListItem key={name} variants={item}>
-                  {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
-                  <MotionBox
-                    whileHover={{
-                      scale: 1.1,
-                      transition: { type: 'spring', stiffness: 200 },
-                    }}
-                  >
-                    <SoundRegister ref={getRef(name)} glyph={name}>
-                      <SfxLink
-                        as="button"
-                        type="button"
-                        display="flex"
-                        position="relative"
-                        justifyContent="center"
-                        bg="white"
-                        boxSize="full"
-                        rounded="10%"
-                        p="10%"
-                        boxShadow="sm"
-                        layerStyle="pushy"
-                        _hover={{ boxShadow: 'xl' }}
-                        appearance="none"
-                        onClick={select(alphabet)}
-                      >
-                        <MotionAspectRatio
-                          layoutId={`learn-${name}`}
-                          as="span"
-                          display="block"
-                          w="full"
-                          ratio={1}
+            <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
+              <Heading color="text.inverse" textAlign="center">
+                {title} the{' '}
+                <Box
+                  as="span"
+                  display={['block', 'inline']}
+                  p={[null, 1]}
+                  color="text.highlight"
+                  fontSize="3xl"
+                >
+                  49
+                </Box>{' '}
+                Alphabets
+              </Heading>
+            </Fade>
+            <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
+              <Heading color="text.inverse" textAlign="center">
+                
+                <Box
+                  as="span"
+                  display={['block', 'inline']}
+                  p={[null, 1]}
+                  color="text.highlight"
+                  fontSize="3xl"
+                >
+                 
+                </Box>{' '}
+                ಸ್ವರಗಳು
+              </Heading>
+            </Fade>
+            <MotionList
+              layerStyle="gridy"
+              pt={16}
+              variants={list}
+              initial="out"
+              animate={show ? 'in' : 'out'}
+            >
+              {firstHalfAlphabets.map((alphabet) => {
+                const { name } = alphabet
+                return (
+                  <MotionListItem key={name} variants={item}>
+                    {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
+                    <MotionBox
+                      whileHover={{
+                        scale: 1.1,
+                        transition: { type: 'spring', stiffness: 200 },
+                      }}
+                    >
+                      <SoundRegister ref={getRef(name)} glyph={name}>
+                        <SfxLink
+                          as="button"
+                          type="button"
+                          display="flex"
+                          position="relative"
+                          justifyContent="center"
+                          bg="white"
+                          boxSize="full"
+                          rounded="10%"
+                          p="10%"
+                          boxShadow="sm"
+                          layerStyle="pushy"
+                          _hover={{ boxShadow: 'xl' }}
+                          appearance="none"
+                          onClick={select(alphabet)}
                         >
-                          <NextImage
-                            src={`/img/glyphs/${alphabet.numeral}.svg`}
-                            alt={`Animal letter ${alphabet.numeral}`}
-                            width={200} // Set desired width
-                            height={200} // Set desired height
-                            style={{ objectFit: 'contain' }} // Ensures no cropping
-                            priority
-                          />
-                        </MotionAspectRatio>
-                      </SfxLink>
-                    </SoundRegister>
-                  </MotionBox>
-                </MotionListItem>
-              )
-            })}
-          </MotionList>
-        </Box>
-      </AnimatePresence>
-      <AlphabetModal selected={selected} onClose={handleClose} playSound={handlePlay} />
-    </>
-  )
+                          <MotionAspectRatio
+                            layoutId={`learn-${name}`}
+                            as="span"
+                            display="block"
+                            w="full"
+                            ratio={1}
+                          >
+                            <NextImage
+                              src={`/img/glyphs/${alphabet.numeral}.svg`}
+                              alt={`Animal letter ${alphabet.numeral}`}
+                              width={200} // Set desired width
+                              height={200} // Set desired height
+                              style={{ objectFit: 'contain' }} // Ensures no cropping
+                              priority
+                            />
+                          </MotionAspectRatio>
+                        </SfxLink>
+                      </SoundRegister>
+                    </MotionBox>
+                  </MotionListItem>
+                )
+              })}
+            </MotionList>
+  
+            <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
+              <Heading color="text.inverse" textAlign="center">
+                
+                <Box
+                  as="span"
+                  display={['block', 'inline']}
+                  p={[null, 1]}
+                  color="text.highlight"
+                  fontSize="3xl"
+                >
+                 
+                </Box>{' '}
+                ವ್ಯಂಜನಗಳು
+              </Heading>
+            </Fade>
+            
+            <MotionList
+              layerStyle="gridy"
+              gridTemplateColumns="repeat(5, 1fr)"
+              gap={4}
+              pt={16}
+              variants={list}
+              initial="out"
+              animate={show ? 'in' : 'out'}
+            >
+              {secondHalfAlphabets.map((alphabet) => {
+                const { name } = alphabet
+                return (
+                  <MotionListItem key={name} variants={item}>
+                    {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
+                    <MotionBox
+                      whileHover={{
+                        scale: 1.1,
+                        transition: { type: 'spring', stiffness: 200 },
+                      }}
+                    >
+                      <SoundRegister ref={getRef(name)} glyph={name}>
+                        <SfxLink
+                          as="button"
+                          type="button"
+                          display="flex"
+                          position="relative"
+                          justifyContent="center"
+                          bg="white"
+                          boxSize="270px"
+                          rounded="10%"
+                          p="10%"
+                          boxShadow="sm"
+                          layerStyle="pushy"
+                          _hover={{ boxShadow: 'xl' }}
+                          appearance="none"
+                          onClick={select(alphabet)}
+                        >
+                          <MotionAspectRatio
+                            layoutId={`learn-${name}`}
+                            as="span"
+                            display="block"
+                            w="full"
+                            ratio={1}
+                          >
+                            <NextImage
+                              src={`/img/glyphs/${alphabet.numeral}.svg`}
+                              alt={`Animal letter ${alphabet.numeral}`}
+                              width={200} // Set desired width
+                              height={200} // Set desired height
+                              style={{ objectFit: 'contain' }} // Ensures no cropping
+                              priority
+                            />
+                          </MotionAspectRatio>
+                        </SfxLink>
+                      </SoundRegister>
+                    </MotionBox>
+                  </MotionListItem>
+                )
+              })}
+            </MotionList>
+            <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
+              <Heading color="text.inverse" textAlign="center">
+                
+                <Box
+                  as="span"
+                  display={['block', 'inline']}
+                  p={[null, 1]}
+                  color="text.highlight"
+                  fontSize="3xl"
+                >
+                 
+                </Box>{' '}
+                ಯೋಗವಾಹಗಳು
+              </Heading>
+            </Fade>
+            
+            <MotionList
+              layerStyle="gridy"
+              pt={16}
+              variants={list}
+              initial="out"
+              animate={show ? 'in' : 'out'}
+            >
+              {thirdHalfAlphabets.map((alphabet) => {
+                const { name } = alphabet
+                return (
+                  <MotionListItem key={name} variants={item}>
+                    {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
+                    <MotionBox
+                      whileHover={{
+                        scale: 1.1,
+                        transition: { type: 'spring', stiffness: 200 },
+                      }}
+                    >
+                      <SoundRegister ref={getRef(name)} glyph={name}>
+                        <SfxLink
+                          as="button"
+                          type="button"
+                          display="flex"
+                          position="relative"
+                          justifyContent="center"
+                          bg="white"
+                          boxSize="full"
+                          rounded="10%"
+                          p="10%"
+                          boxShadow="sm"
+                          layerStyle="pushy"
+                          _hover={{ boxShadow: 'xl' }}
+                          appearance="none"
+                          onClick={select(alphabet)}
+                        >
+                          <MotionAspectRatio
+                            layoutId={`learn-${name}`}
+                            as="span"
+                            display="block"
+                            w="full"
+                            ratio={1}
+                          >
+                            <NextImage
+                              src={`/img/glyphs/${alphabet.numeral}.svg`}
+                              alt={`Animal letter ${alphabet.numeral}`}
+                              width={200} // Set desired width
+                              height={200} // Set desired height
+                              style={{ objectFit: 'contain' }} // Ensures no cropping
+                              priority
+                            />
+                          </MotionAspectRatio>
+                        </SfxLink>
+                      </SoundRegister>
+                    </MotionBox>
+                  </MotionListItem>
+                )
+              })}
+            </MotionList>
+  
+            
+          </Box>
+        </AnimatePresence>
+        <AlphabetModal selected={selected} onClose={handleClose} playSound={handlePlay} />
+      </>
+    )
 }

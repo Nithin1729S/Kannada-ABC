@@ -30,6 +30,7 @@ export default function Play() {
       </Fade>
       <Box mt={20} mb={24}>
         <BannerHeads />
+        
       </Box>
       <SlideFade transition={{ enter: { duration: 0.6, delay: 0.25 + 0.65 + 2.25 } }} in>
         <MotionBox
@@ -53,7 +54,9 @@ export default function Play() {
           <AuthButton/>
         </MotionBox>
       </SlideFade>
+      
     </Box>
+    
   )
 }
 
