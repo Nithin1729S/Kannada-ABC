@@ -7,7 +7,7 @@ interface LetterTracingProps {
 
 const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
   // Configurable tolerance value; change this value in the code as needed.
-  const tolerance = 10;
+  const tolerance = 100;
 
   const [isDrawing, setIsDrawing] = React.useState(false);
   const [isOutOfBounds, setIsOutOfBounds] = React.useState(false);

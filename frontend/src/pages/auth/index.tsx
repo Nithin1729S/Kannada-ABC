@@ -51,7 +51,7 @@ export default function Play() {
 Play.getLayout = (page: ReactElement, props?: LayoutProps) => {
   return getPlayLayout(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-    <FixedBackground src={ImgPlay} alt="">
+    <FixedBackground src={ImgPlay.src} alt="">
       {page}
     </FixedBackground>,
     props

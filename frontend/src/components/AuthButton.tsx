@@ -35,7 +35,10 @@ export default function AuthButton() {
   return (
     <Flex direction="column" align="center" gap={3}>
       <Button 
-        colorScheme="blue" 
+        bg="#669966" // Custom background color
+        color="white" // Text color
+        _hover={{ bg: "#003300" }} // Slightly darker shade for hover effect
+        _active={{ bg: "#1f2f1f" }} // Even darker shade when pressed
         onClick={() => signIn("google", { callbackUrl: "/" })}
         size="md"
         px={6}
