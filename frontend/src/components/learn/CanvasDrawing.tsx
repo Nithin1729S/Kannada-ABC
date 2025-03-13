@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { Pencil, Download, Send } from "lucide-react";
-
+import { useConfetti } from "~components/ui/confetti-trigger";
 const styles = {
   container: {
     display: 'flex',
@@ -66,6 +66,16 @@ export default function CanvasDrawing({
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
   const [recognitionResult, setRecognitionResult] = useState<number | null>(null);
+  const confetti = useConfetti();
+  useEffect(() => {
+    if (recognitionResult !== null) {
+      if (Number(recognitionResult) === Number(letterData)) {
+        confetti.trigger('default');
+      }
+    }
+  }, [recognitionResult, letterData, confetti]);
+
+  
   const letters = [
     'ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ',
     'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ', 'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
@@ -73,6 +83,7 @@ export default function CanvasDrawing({
     'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ', 'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
     'ಯ', 'ರ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ'
   ];
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -190,6 +201,7 @@ export default function CanvasDrawing({
       setRecognitionResult(data.prediction);
       console.log("Recognition result:", data);
       console.log("-------------")
+      
       console.log(letterData);
       console.log(recognitionResult)
     } catch (error) {
@@ -223,15 +235,14 @@ export default function CanvasDrawing({
           Recognized Alphabet: {letters[recognitionResult-1]}
         </div>
       )}
-
       {recognitionResult !== null && Number(recognitionResult) !== Number(letterData) && (
         <div style={styles.resultText}>
           Not Match
         </div>
       )}
 
-      {recognitionResult !== null && Number(recognitionResult) === Number(letterData) && (
-        <div style={styles.resultText}>
+      {recognitionResult !== null && Number(recognitionResult) === Number(letterData) &&  (
+        <div style={styles.resultText} >
           Match
         </div>
       )}

@@ -11,7 +11,7 @@ import { useGestureNavigation } from '~src/hooks/useGestureNavigation'
 import { ROUTES } from '~src/constants'
 
 import { getLayout } from '~components/layout/AlphabetLayout'
-
+import { useConfetti } from "~components/ui/confetti-trigger";
 import { alphabets } from '~src/data/alphabets'
 
 export default function LearnAlphabet({
@@ -28,12 +28,6 @@ export default function LearnAlphabet({
   ];
   const shadowColor = useToken('colors', 'brand.300', 'white')
   const { push } = useRouter()
-
-  // This function logs the x and y coordinates of the click event
-  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    console.log('X coordinate:', e.clientX)
-    console.log('Y coordinate:', e.clientY)
-  }
 
   const prev = useCallback(() => {
     if (prevId) {
@@ -58,15 +52,14 @@ export default function LearnAlphabet({
   const bgTheme = alphabet ? `${alphabet.bg}.100` : 'white'
   const prevLabel = `Alphabet ${letters[Number(prevId)-1]}`
   const nextLabel = `Alphabet ${letters[Number(nextId)-1]}`
-
+  const confetti = useConfetti();
   return (
     // The onClick handler is added here so that clicking anywhere inside the Box logs the coordinates
-    <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw" onClick={handleClick}>
+    <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw" >
       <VisuallyHidden as="h1">{`Alphabet ${alphabet?.numeral ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
         <AlphabetAnimals bg={bgTheme} />
       </AlphabetEnterAnimation>
-
       <Flex
         pos="fixed"
         zIndex="docked"
