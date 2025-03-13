@@ -6,7 +6,7 @@ import { ReactComponent as FaceThreeSvg } from '~public/img/menu-face-3.svg'
 import { ReactComponent as FaceFourSvg } from '~public/img/menu-face-4.svg'
 import { ReactComponent as FaceFiveSvg } from '~public/img/menu-face-5.svg'
 
-import { ROUTE_1, ROUTE_2, ROUTE_3, ROUTE_4, ROUTE_5 } from './routes'
+import { ROUTE_1, ROUTE_2, ROUTE_3, ROUTE_4} from './routes'
 import { container, faceItem } from './variants'
 
 interface MenuFacesProps {
@@ -91,11 +91,11 @@ export const MenuFaces = ({ hovered }: MenuFacesProps) => {
         layout
         flex={1}
         h={28}
-        bg={ROUTE_5.color}
+        bg={"green"}
         border="3px solid"
         borderBottomWidth={0}
         borderTopRadius="full"
-        paddingRight={hovered === ROUTE_5.id ? '32px' : 0}
+        paddingRight={hovered === 1 ? '32px' : 0}
         variants={faceItem}
       >
         <MotionSpan layout="position" display="block">

@@ -55,7 +55,7 @@ export const AlphabetDiscovery = ({ alphabet }: AlphabetDiscoveryProps) => {
         </Text>
         <SfxButton
           as={NextLink}
-          href={ROUTES.wiki}
+          href={ROUTES.home}
           variant="ghost"
           colorScheme={alphabet?.bg ?? 'blackAlpha'}
           bg="whiteAlpha.900"
@@ -143,7 +143,7 @@ export const AlphabetDiscovery = ({ alphabet }: AlphabetDiscoveryProps) => {
                   color="white"
                   fontSize="fxl"
                   fontWeight="medium"
-                  href={`${ROUTES.wiki}/ant`}
+                  href={`${ROUTES.home}/ant`}
                 >
                   Ant
                 </Link>

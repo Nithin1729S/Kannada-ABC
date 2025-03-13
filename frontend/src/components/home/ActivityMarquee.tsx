@@ -37,7 +37,7 @@ export function ActivityMarquee({ children }: PropsWithChildren) {
 
   const handleClick = useCallback(() => {
     playClick?.()
-    void push(`${ROUTES.wiki}`)
+    void push(`${ROUTES.home}`)
   }, [push, playClick])
 
   return (

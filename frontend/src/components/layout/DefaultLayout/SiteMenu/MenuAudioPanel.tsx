@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { MotionBox } from '~components/motion'
 import { MusicControl, SoundEffectsControl, SoundPhonicsControl } from './MenuAudioControls'
-import { ROUTE_2, ROUTE_3, ROUTE_5 } from './routes'
+import { ROUTE_2, ROUTE_3,ROUTE_1} from './routes'
 import { container, listItem } from './variants'
 
 const AudioPanel = () => {
@@ -14,7 +14,7 @@ const AudioPanel = () => {
       <MotionBox
         mb={2}
         p={2}
-        bg={ROUTE_5.color}
+        bg={ROUTE_1.color}
         border="5px solid"
         borderColor="background"
         rounded="full"

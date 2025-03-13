@@ -44,11 +44,11 @@ export const Gallery = ({ index, gallery, prevId, nextId, showIcons }: GalleryPr
       setActiveIdx((idx) => (showIcons ? newIdx ?? idx + dir : 0))
 
       if (showIcons) {
-        const newUrl = `${ROUTES.wiki}?id=${pathId}`
-        const asUrl = `${ROUTES.wiki}/${pathId}`
+        const newUrl = `${ROUTES.home}?id=${pathId}`
+        const asUrl = `${ROUTES.home}/${pathId}`
         window.history.replaceState({ ...window.history.state, as: asUrl, url: newUrl }, '', asUrl)
       } else {
-        void push(`${ROUTES.wiki}/${pathId}`)
+        void push(`${ROUTES.home}/${pathId}`)
       }
     },
     [push, showIcons]
@@ -77,8 +77,8 @@ export const Gallery = ({ index, gallery, prevId, nextId, showIcons }: GalleryPr
     prev,
     next,
     allowPrefetch: !showIcons,
-    ...(prevId && { prevUrl: `${ROUTES.wiki}/${prevId}` }),
-    ...(nextId && { nextUrl: `${ROUTES.wiki}/${nextId}` }),
+    ...(prevId && { prevUrl: `${ROUTES.home}/${prevId}` }),
+    ...(nextId && { nextUrl: `${ROUTES.home}/${nextId}` }),
   })
 
   const filterRange = showIcons ? range(activeIdx - 10, activeIdx + 10) : [activeIdx]

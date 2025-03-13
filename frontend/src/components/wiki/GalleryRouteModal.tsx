@@ -33,7 +33,7 @@ export const GalleryRouteModal = ({
     const searchParams = new URLSearchParams(url.substring(url.indexOf('?')))
     setLastViewedWiki(searchParams.get('g'))
 
-    void push(ROUTES.wiki, undefined, { shallow: true })
+    void push(ROUTES.home, undefined, { shallow: true })
   }, [push, setLastViewedWiki])
 
   useEffect(() => {

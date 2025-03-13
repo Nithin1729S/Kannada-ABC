@@ -118,8 +118,8 @@ export default function FunWiki() {
         <Text fontSize={['fxl', null, 'f2xl']}>...and more</Text>
         <MotionPop delay={0.2} display="inline-block" mt={8}>
           <MagneticBox>
-            <SfxButton as={NextLink} href={ROUTES.wiki} color="background">
-              Explore Wikis
+            <SfxButton as={NextLink} href={ROUTES.home} color="background">
+              Explore App
             </SfxButton>
           </MagneticBox>
         </MotionPop>

@@ -48,7 +48,7 @@ export default function Features() {
                 <NextImage src={ImgDino} alt="Cute green dinosaur doodle" />
               </Box>
               <Text mt={1} fontSize="fxl" fontWeight={500}>
-                Animal Wiki
+                Animals
               </Text>
             </MotionPop>
           </ListItem>
