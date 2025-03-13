@@ -202,8 +202,7 @@ export default function CanvasDrawing({
 
       const data = await response.json();
       setRecognitionResult(data.prediction);
-      console.log(letterData);
-      console.log(recognitionResult)
+      console.log(letters[data.prediction-1])
     } catch (error) {
       console.error("Error sending image:", error);
       setRecognitionResult(null);
