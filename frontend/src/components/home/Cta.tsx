@@ -44,7 +44,7 @@ export default function Cta() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          It&apos;s Free.
+          It&apos;s Fun.
         </MotionSpan>
       </Heading>
       <MotionPop delay={0.2} display="inline-block" mt={8}>

@@ -17,8 +17,7 @@ export default function Features() {
         Made for Fun
       </Heading>
       <Text fontSize={['f2xl', null, null, null, 'f3xl']}>
-        We offer fun activities & games for kids to grow their knowledge and develop their cognitive
-        skills.
+        We offer fun activities for kids to grow their knowledge on the Kannada language.
       </Text>
       <Box pt={[16, null, 20]} pb={16} textAlign="center">
         <List flexWrap="wrap" rowGap={[16, null, 20]} display="flex">
@@ -48,7 +47,7 @@ export default function Features() {
                 <NextImage src={ImgDino} alt="Cute green dinosaur doodle" />
               </Box>
               <Text mt={1} fontSize="fxl" fontWeight={500}>
-                Animals
+                Trace
               </Text>
             </MotionPop>
           </ListItem>

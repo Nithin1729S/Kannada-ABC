@@ -176,7 +176,7 @@ const FullFooter = () => {
                   userSelect="none"
                   aria-hidden="true"
                 >
-                  Funtastic
+                  ಅಕ್ಷರ ಕಲಿ
                 </Heading>
               </Flex>
               <MotionBox maxW="xs" style={{ y, rotate: 3 }}>

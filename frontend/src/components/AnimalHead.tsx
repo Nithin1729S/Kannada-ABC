@@ -41,7 +41,11 @@ const AnimalHeadBase: ForwardRefRenderFunction<HTMLDivElement, AnimalHeadProps> 
 ) => {
   const haloFill = useToken('colors', fill, 'transparent')
   const AnimalSVG = animalsMap[animal]
-
+  const translate = new Map([
+    ["tiger", "ಹುಲಿ"],
+    ["lion", "ಸಿಂಹ"],
+    ["bear", "ಕರಡಿ"]
+  ]);
   return (
     <AspectRatio ref={ref} w="full" maxW={size} ratio={1} {...rest}>
       <Box overflow="initial !important" bg={bg} rounded="full">
@@ -49,7 +53,7 @@ const AnimalHeadBase: ForwardRefRenderFunction<HTMLDivElement, AnimalHeadProps> 
         {!icon && (
           <>
             <Heading as="p" pos="absolute" top="-0.25em" opacity={0.9} size="2xl" variant="title">
-              {animal}
+              {translate.get(animal)}
             </Heading>
             {(title || children) && (
               <Heading as="p" pos="absolute" bottom="-0.5em" size="4xl" variant="title">

@@ -118,7 +118,7 @@ export default function Activity() {
                 lineHeight={{ md: 1.1 }}
                 variants={slideUpItem}
               >
-                Go on a fun adventure and experience the alphabet like never before.
+                Go on a fun adventure and experience the alphabets like never before.
               </MotionText>
               <MotionText textAlign="right" fontSize="fxl" fontWeight={700} variants={slideUpItem}>
                 <Box as="span" p={1} color="background" bg="brand.500" rounded="xtiny">
@@ -133,7 +133,7 @@ export default function Activity() {
                 variants={slideUpItem}
               >
                 <Box as="span" px={3} py={1} color="background" bg="accent.300" rounded="xtiny">
-                  ಕಖಗಘಙ
+                  ಕ ಖ ಗ ಘ ಙ
                 </Box>
               </MotionText>
             </MotionBox>

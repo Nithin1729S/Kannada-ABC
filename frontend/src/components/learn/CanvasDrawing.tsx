@@ -26,8 +26,8 @@ const styles = {
     transition: 'all 0.2s',
   },
   primaryButton: {
-    backgroundColor: '#3b82f6',
-    color: 'white',
+    backgroundColor: '#6eec99',
+    color: 'black',
     border: 'none',
     '&:hover': {
       backgroundColor: '#2563eb',
@@ -40,8 +40,8 @@ const styles = {
     },
   },
   icon: {
-    width: '1rem',
-    height: '1rem',
+    width: '1.5rem',
+    height: '1.5rem',
     marginRight: '0.5rem',
   },
   canvasContainer: {

@@ -107,7 +107,7 @@ export function LearnLettersBoard() {
           userSelect="none"
           style={{ opacity: borderOpacity }}
         >
-          Interactive
+         
         </MotionText>
         <MotionFlex minW={0} minH="inherit" style={{ x, opacity }}>
           <LearnLetters letters={AIrow} />

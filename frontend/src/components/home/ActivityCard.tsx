@@ -40,7 +40,7 @@ export function ActivityCard() {
           rowGap={[2, null, null, 12]}
         >
           <Text as="h3" maxW={[null, null, 44]} fontSize="f2xl" fontWeight={700}>
-            Animal
+            Kannada
             <Box
               as="span"
               display="inline-flex"
@@ -61,9 +61,7 @@ export function ActivityCard() {
             </Box>
             Alphabets
           </Text>
-          <Text maxW={[null, null, '3xs']} fontSize="2xl" textAlign={[null, 'center', 'left']}>
-            Discover animals that begin with each alphabet.
-          </Text>
+          
         </Flex>
       </Box>
       <Flex flex={{ lg: 1 }} px={[12, null, 24]} pt={12}>
