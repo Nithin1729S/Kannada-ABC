@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
 import { Pencil, Download, Send } from "lucide-react";
+import { showModal } from '../../components/ui/Modal';
 import { useConfetti } from "~components/ui/confetti-trigger";
 const styles = {
   container: {
@@ -71,6 +72,8 @@ export default function CanvasDrawing({
     if (recognitionResult !== null) {
       if (Number(recognitionResult) === Number(letterData)) {
         confetti.trigger('default');
+      }else{
+          showModal('Try Again!')
       }
     }
   }, [recognitionResult, letterData, confetti]);
@@ -199,9 +202,6 @@ export default function CanvasDrawing({
 
       const data = await response.json();
       setRecognitionResult(data.prediction);
-      console.log("Recognition result:", data);
-      console.log("-------------")
-      
       console.log(letterData);
       console.log(recognitionResult)
     } catch (error) {
@@ -229,7 +229,7 @@ export default function CanvasDrawing({
           
         />
       </div>
-
+{/* 
       {recognitionResult !== null && (
         <div style={styles.resultText}>
           Recognized Alphabet: {letters[recognitionResult-1]}
@@ -245,7 +245,7 @@ export default function CanvasDrawing({
         <div style={styles.resultText} >
           Match
         </div>
-      )}
+      )} */}
 
       <div style={styles.buttonGroup}>
         <button
