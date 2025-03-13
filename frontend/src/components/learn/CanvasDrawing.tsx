@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import { Pencil, Download, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { showModal } from '../../components/ui/Modal';
 import { useConfetti } from "~components/ui/confetti-trigger";
 const styles = {
@@ -45,11 +45,13 @@ const styles = {
     marginRight: '0.5rem',
   },
   canvasContainer: {
-    
+    marginTop: '80px',
+    border: '10px solid #8B4513', // Wooden border color
     borderRadius: '0.5rem',
   },
   canvas: {
     cursor: 'crosshair',
+    //border: '10px solid #8B4513'
   },
   resultText: {
     marginTop: '1rem',
@@ -215,10 +217,10 @@ export default function CanvasDrawing({
         
       </div>
 
-      <div style={{...styles.canvasContainer, paddingTop: '6rem'}}>
+      <div style={{...styles.canvasContainer}}>
         <canvas
           ref={canvasRef}
-          width={400}
+          width={600}
           height={400}
           onMouseDown={startDrawing}
           onMouseMove={draw}
@@ -228,24 +230,6 @@ export default function CanvasDrawing({
           
         />
       </div>
-{/* 
-      {recognitionResult !== null && (
-        <div style={styles.resultText}>
-          Recognized Alphabet: {letters[recognitionResult-1]}
-        </div>
-      )}
-      {recognitionResult !== null && Number(recognitionResult) !== Number(letterData) && (
-        <div style={styles.resultText}>
-          Not Match
-        </div>
-      )}
-
-      {recognitionResult !== null && Number(recognitionResult) === Number(letterData) &&  (
-        <div style={styles.resultText} >
-          Match
-        </div>
-      )} */}
-
       <div style={styles.buttonGroup}>
         <button
           onClick={processImage}
