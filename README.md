@@ -5,7 +5,7 @@
 Create a `.env.local` file in the frontend directory with the following variables:
 
 ```env
-MONGODB_URI=your_mongodb_uri            # MongoDB connection string
+MONGODB_URI=your_mongodb_uri            # MongoDB connection string 
 GOOGLE_CLIENT_ID=your_google_client_id  # OAuth client ID from Google Cloud Console
 GOOGLE_CLIENT_SECRET=your_google_client_secret  # OAuth client secret
 NEXTAUTH_URL=http://localhost:3000      # Your application URL
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 uvicorn api.main:app --reload
 ```
 
-## Function
+## 
 
 MongoDB - For User and his Progress related data \
 FastAPI Server - to serve the cnn model
@@ -41,4 +41,8 @@ FastAPI Server - to serve the cnn model
 | `/practice` | Blank Canvas CNN Model |
 | `/profile` | View Learning Progress |
 | `/auth` | Authentication |
+
+## CNN Architecture
+
+![mermaid-diagram-2025-03-14-021602](https://github.com/user-attachments/assets/8427b259-3d2b-47be-8270-04bcfd536b11)
 
