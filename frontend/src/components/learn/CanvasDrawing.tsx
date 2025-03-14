@@ -46,7 +46,9 @@ const styles = {
   },
   canvasContainer: {
     marginTop: '80px',
-    border: '10px solid #8B4513', // Wooden border color
+    border: '10px solid transparent', // Set border color to transparent for the gradient to show
+    borderImage: 'repeating-linear-gradient(45deg, #8B4513, #8B4513 2px, #5C3317 2px, #5C3317 4px) 70 round',
+    
     borderRadius: '0.5rem',
   },
   canvas: {
