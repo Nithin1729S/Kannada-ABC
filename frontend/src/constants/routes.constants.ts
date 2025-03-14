@@ -5,7 +5,6 @@ export const ROUTES = {
   learn: '/learn',
   profile: '/profile',
   practice: '/practice',
-  wiki: '/wiki',
 } as const
 
 export type RoutePath = ValueOf<typeof ROUTES>
