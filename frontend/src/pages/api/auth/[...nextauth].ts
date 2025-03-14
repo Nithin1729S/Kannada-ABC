@@ -23,13 +23,10 @@ export default NextAuth({
   },
   events: {
     async createUser({ user }) {
-      // Build an object with your custom fields
       const additionalFields: Record<string, any> = {};
-      // Instead of numeric keys, use a naming convention like field1, field2, ...
       for (let i = 1; i <= 49; i++) {
-        additionalFields[`field${i}`] = 0; // default value; adjust as needed
+        additionalFields[`letter${i}`] = 0; 
       }
-      additionalFields.progress = 0; // default progress
 
       // Connect to the database and update the user document
       const client = await clientPromise;

@@ -14,7 +14,7 @@ const alpha = 0.2; // Smoothing factor (adjust as needed)
 export async function updateLetterScore(
   email: string,
   letterNumber: number,
-  field: "learn" | "practice",
+  field: "learn",
   newEntry: number
 ): Promise<void> {
   const client = await clientPromise;
