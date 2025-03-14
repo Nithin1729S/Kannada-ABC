@@ -1,5 +1,6 @@
 'use client';
 import React, { JSX } from 'react';
+import AccuracyScore from './AccuracyScore';
 
 interface LetterTracingProps {
   letter: string;
@@ -159,7 +160,6 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
-      gap: '1rem',
       padding: '2rem',
     },
     canvasContainer: {
@@ -240,9 +240,7 @@ const StandaloneLetterTracing: React.FC<LetterTracingProps> = ({ letter }) => {
       
       {isCompleted && (
         <div style={styles.completionContainer}>
-          <div style={styles.score}>
-            Accuracy Score: {score}%
-          </div>
+          <AccuracyScore score={score} />
         </div>
       )}
     </div>
