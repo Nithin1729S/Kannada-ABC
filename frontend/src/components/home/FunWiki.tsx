@@ -26,7 +26,7 @@ export default function FunWiki() {
   )
 
   return (
-    <Box as="section" mt={[20, null, 28]} mb={56} aria-labelledby={HOMEPAGE_IDS.wiki}>
+    <Box as="section" mt={[20, null, 28]} mb={56} >
       <MotionBox
         pos="relative"
         mx={[null, 1, null, 5]}
@@ -61,7 +61,7 @@ export default function FunWiki() {
           >
             <NextImage src={ImgQaAnimals} alt="Cute animal faces" />
           </Box>
-          <Heading pt={2} color="brand.900" fontSize="f4xl" id={HOMEPAGE_IDS.wiki}>
+          <Heading pt={2} color="brand.900" fontSize="f4xl" >
             Wiki Fun!
           </Heading>
           <Text color="text.inverse" fontSize={['fxl', null, 'f2xl']}>
