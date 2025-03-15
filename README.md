@@ -8,6 +8,7 @@ GOOGLE_CLIENT_ID=your_google_client_id  # OAuth client ID from Google Cloud Cons
 GOOGLE_CLIENT_SECRET=your_google_client_secret  # OAuth client secret
 NEXTAUTH_URL=http://localhost:3000      # Your application URL
 NEXTAUTH_SECRET=random_string           # Random string for NextAuth session
+NEXT_PUBLIC_BACKEND_URL=fastapi_address # URL of the FastAPI Backend Server
 ```
 
 ## Getting Started

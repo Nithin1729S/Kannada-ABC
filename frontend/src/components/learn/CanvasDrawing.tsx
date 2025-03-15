@@ -190,9 +190,10 @@ export default function CanvasDrawing({
     finalCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, 28, 28);
 
     const processedImage = finalCanvas.toDataURL("image/jpeg", 1.0);
-
+    const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+    console.log(backendURL)
     try {
-      const response = await fetch("http://localhost:8000/api/recognize", {
+      const response = await fetch(`${backendURL}/api/recognize`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
