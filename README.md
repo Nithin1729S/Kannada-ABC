@@ -34,8 +34,8 @@ FastAPI Server - to serve the cnn model
 ## Available Routes
 | Route | Description |
 |-------|-------------|
-| `/learn` | Letter Tracing |
-| `/practice` | Blank Canvas |
+| `/learn` | Blank Canvas |
+| `/practice` | Letter Tracing |
 | `/profile` | View Learning Progress |
 | `/auth` | Authentication |
 
