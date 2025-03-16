@@ -47,7 +47,7 @@ FastAPI Server - to serve the cnn model
 ### Data Loading and Preprocessing
 
 - **Dataset:**  
-  The dataset can be obtained from here `https://ieee-dataport.org/documents/kannada-language-image-dataset`.
+  The dataset can be obtained from here [https://ieee-dataport.org/documents/kannada-language-image-dataset](https://ieee-dataport.org/documents/kannada-language-image-dataset).
 
 - **Image Configuration:**  
   Images are converted to grayscale and resized to 28x28 pixels.  
@@ -62,7 +62,7 @@ To improve the generalization of the model, data augmentation is applied **only 
 
 This augmentation is implemented using a Keras `Sequential` model.
 
-## CNN Architecture
+### CNN Architecture
 
 The CNN model consists of three convolutional blocks:
 
@@ -71,12 +71,12 @@ The CNN model consists of three convolutional blocks:
   - Max pooling layer and dropout (25%).
 
 - **Block 2:**
-  - Two convolutional layers (64 filters) with batch normalization.
-  - Max pooling and dropout.
+  - Two convolutional layers (64 filters, 3x3 kernel, ReLU activation) with batch normalization.
+  - Max pooling and dropout (25%).
 
 - **Block 3:**
-  - Two convolutional layers (128 filters) with batch normalization.
-  - Max pooling and dropout.
+  - Two convolutional layers (128 filters, 3x3 kernel, ReLU activation) with batch normalization.
+  - Max pooling and dropout (25%).
 
 Following the convolutional layers, the network is flattened and fed through dense layers:
 - A dense layer with 128 neurons (ReLU activation) with batch normalization and dropout (50%).
@@ -85,7 +85,7 @@ Following the convolutional layers, the network is flattened and fed through den
 ![mermaid-diagram-2025-03-14-021602](https://github.com/user-attachments/assets/8427b259-3d2b-47be-8270-04bcfd536b11)
 
 
-## Compilation and Training
+### Compilation and Training
 
 - **Compilation:**  
   The model is compiled with the Adam optimizer and categorical crossentropy loss.
