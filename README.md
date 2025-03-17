@@ -1,4 +1,4 @@
-# ಅಕ್ಕರ ಕಲಿ - Kannada Alphabet Learning Application
+# ಅಕ್ಷರ ಕಲಿ - Kannada Alphabet Learning Application
 
 **ಅಕ್ಷರ ಕಲಿ** (*Akshara Kali*) is an interactive Kannada alphabet learning application designed to help kids learn and practice Kannada script through guided tracing and personalized progress tracking. The platform integrates a **CNN-based handwriting recognition model** to evaluate handwriting accuracy and improve learning outcomes. It is built using **Next.js** for the frontend with **NextAuth.js** for authentication and **Tailwind CSS** for styling. The backend is powered by **FastAPI**, with **MongoDB** managing user progress and authentication data. The handwriting recognition model is developed using **TensorFlow/Keras**, with **OpenCV** for image preprocessing.
 
