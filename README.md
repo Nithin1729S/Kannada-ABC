@@ -48,9 +48,9 @@ uvicorn api.main:app --reload
 
 ---
 
-# Kannada Handwritten Alphabet Recognition CNN Model
+## Kannada Handwritten Alphabet Recognition CNN Model
 
-## Training Process
+### Training Process
 
 ### Data Loading and Preprocessing
 
@@ -110,5 +110,5 @@ The model consists of three convolutional blocks:
 - **Model Saving:**
   - The trained model is saved as `full_model.h5` for later inference.
 
-## Inference and Evaluation
+### Inference and Evaluation
 **Test Accuracy:** 98.45%
