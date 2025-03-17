@@ -48,15 +48,45 @@ const styles = {
   },
   canvasContainer: {
     marginTop: '80px',
-    border: '10px solid transparent', // Set border color to transparent for the gradient to show
-    borderImage: 'repeating-linear-gradient(45deg, #8B4513, #8B4513 2px, #5C3317 2px, #5C3317 4px) 70 round',
-    
-    borderRadius: '0.5rem',
+    padding: '10px',
+    background: 'linear-gradient(45deg, #D0FFD0, #E0FFE0)', // Slightly stronger green
+    borderRadius: '16px',
+    position: 'relative' as const,
+    boxShadow: `
+      0 0 0 2px #32CD32,  // Solid Green
+      0 0 0 4px #228B22,  // Darker green shade after solid border
+    `,
+    border: '1px solid #228B22', // Darker green for a stronger contrast
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      top: '-1px',
+      left: '-1px',
+      right: '-1px',
+      bottom: '-1px',
+      background: `
+        repeating-linear-gradient(45deg,
+          #32CD32 0px,
+          #228B22 2px,  // Darker green in the pattern
+          transparent 2px,
+          transparent 4px
+        )
+      `,
+      borderRadius: '20px',
+      zIndex: '-1',
+      opacity: '0.2', // Slightly stronger opacity
+    }
   },
+
   canvas: {
     cursor: 'crosshair',
-    //border: '10px solid #8B4513'
+    borderRadius: '12px',
+    boxShadow: 'inset 0 0 4px rgba(144, 238, 144, 0.2)',
+    background: 'black',
   },
+
+
+
   resultText: {
     marginTop: '1rem',
     fontSize: '1.25rem',
@@ -103,13 +133,30 @@ export default function CanvasDrawing({
 
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "white";
     ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
+  }, []);useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+  
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+  
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    // Set the display canvas to white with black strokes
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 8;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
   }, []);
+  
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
@@ -139,7 +186,7 @@ export default function CanvasDrawing({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    ctx.strokeStyle = tool === "pen" ? "white" : "black";
+    ctx.strokeStyle = tool === "pen" ? "black" : "white";
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.beginPath();
@@ -153,68 +200,76 @@ export default function CanvasDrawing({
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
+  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
-    ctx.fillStyle = "black";
+  
+    // Clear the canvas with a white background
+    ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setRecognitionResult(null);
   };
+  
 
   const processImage = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
+  
     const tempCanvas = document.createElement("canvas");
     const scaleFactor = 4;
     tempCanvas.width = 28 * scaleFactor;
     tempCanvas.height = 28 * scaleFactor;
     const tempCtx = tempCanvas.getContext("2d", { willReadFrequently: true });
     if (!tempCtx) return;
-
+  
     tempCtx.imageSmoothingEnabled = true;
     tempCtx.imageSmoothingQuality = 'high';
-    tempCtx.fillStyle = "black";
+    tempCtx.fillStyle = "white"; // white background for display
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
     tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, tempCanvas.width, tempCanvas.height);
-
+  
     const finalCanvas = document.createElement("canvas");
     finalCanvas.width = 28;
     finalCanvas.height = 28;
     const finalCtx = finalCanvas.getContext("2d", { willReadFrequently: true });
     if (!finalCtx) return;
-
+  
     finalCtx.imageSmoothingEnabled = true;
     finalCtx.imageSmoothingQuality = 'high';
-    finalCtx.fillStyle = "black";
+    finalCtx.fillStyle = "white"; // maintain display's white background before inversion
     finalCtx.fillRect(0, 0, 28, 28);
     finalCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, 28, 28);
-
+  
+    // Invert the image for backend processing
+    const imageData = finalCtx.getImageData(0, 0, 28, 28);
+    const pixels = imageData.data;
+    for (let i = 0; i < pixels.length; i += 4) {
+      pixels[i] = 255 - pixels[i];         // Red
+      pixels[i + 1] = 255 - pixels[i + 1];   // Green
+      pixels[i + 2] = 255 - pixels[i + 2];   // Blue
+      // Alpha channel remains unchanged
+    }
+    finalCtx.putImageData(imageData, 0, 0);
+  
     const processedImage = finalCanvas.toDataURL("image/jpeg", 1.0);
     const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-    console.log(backendURL)
     try {
       const response = await fetch(`${backendURL}/api/recognize`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: processedImage }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to send image to server");
-      }
-
+      if (!response.ok) throw new Error("Failed to send image to server");
+  
       const data = await response.json();
       setRecognitionResult(data.prediction);
-      console.log(letters[data.prediction-1])
+      console.log(letters[data.prediction - 1]);
     } catch (error) {
       console.error("Error sending image:", error);
       setRecognitionResult(null);
     }
   };
+  
 
   return (
     <div style={styles.container}>
