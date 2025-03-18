@@ -137,7 +137,7 @@ export function IntroScreen({ onExit }: IntroScreenProps) {
               custom={1}
               willChange="opacity"
             >
-              Learn our names while having fun.
+              Learn kannada letters while having fun.
             </MotionText>
             <MotionBox variants={appear} custom={1}>
               <MagneticBox>
