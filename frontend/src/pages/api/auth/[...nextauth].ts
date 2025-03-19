@@ -25,7 +25,10 @@ export default NextAuth({
     async createUser({ user }) {
       const additionalFields: Record<string, any> = {};
       for (let i = 1; i <= 49; i++) {
-        additionalFields[`letter${i}`] = 0; 
+        additionalFields[`letter${i}`] = {
+          attempts: 0, // Total number of attempts
+          correct: 0   // Total number of correct attempts
+        };
       }
 
       // Connect to the database and update the user document

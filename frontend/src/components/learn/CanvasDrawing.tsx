@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { Send } from "lucide-react";
 import { showModal } from '../../components/ui/Modal';
 import { useConfetti } from "~components/ui/confetti-trigger";
+import { useSession } from "next-auth/react";
+
 const styles = {
   container: {
     display: 'flex',
@@ -67,6 +69,8 @@ export default function CanvasDrawing({
 }: {
   letterData: number
 }) {
+  const { data: session } = useSession();  // Fetch user's session
+  const userEmail = session?.user?.email;  // Extract user's email
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
@@ -80,7 +84,7 @@ export default function CanvasDrawing({
           showModal('Try Again!')
       }
     }
-  }, [recognitionResult, letterData, confetti]);
+  }, [recognitionResult, letterData]);
 
   
   const letters = [
@@ -197,7 +201,11 @@ export default function CanvasDrawing({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ image: processedImage }),
+        body: JSON.stringify({ 
+          image: processedImage,
+          letterdata: letterData,  // Include the letter data here
+          email: userEmail  // Send user's email along with the request
+        }),
       });
 
       if (!response.ok) {
