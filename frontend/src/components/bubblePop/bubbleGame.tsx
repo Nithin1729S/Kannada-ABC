@@ -102,7 +102,7 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
       <div
         style={{
           position: 'absolute',
-          top: 0,
+          top: 500,
           left: 0,
           right: 0,
           padding: '1rem',
