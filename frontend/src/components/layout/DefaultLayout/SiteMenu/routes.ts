@@ -27,12 +27,21 @@ export const routes = [
   },
   {
     id: 4,
+    name: 'Games',
+    url: '/games',
+    color: 'pink.200',
+    img: '/img/menu-owl.svg',
+    imgAlt: 'cute owl',
+  },
+  {
+    id: 4,
     name: 'Profile',
     url: ROUTES.profile,
     color: 'green.400',
     img: '/img/menu-unicorn.svg',
     imgAlt: 'cute unicorn',
   },
+  
 ]
 
 export const [ROUTE_1, ROUTE_2, ROUTE_3, ROUTE_4] = routes

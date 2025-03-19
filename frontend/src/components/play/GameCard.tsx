@@ -66,7 +66,6 @@ export const GameCard = ({ title = '', colorScheme = 'green', imgSrc, href }: Ga
           mx="auto"
           transform="auto"
           ratio={1}
-          rotate={-45}
           scale={2}
           translateY="15%"
         >

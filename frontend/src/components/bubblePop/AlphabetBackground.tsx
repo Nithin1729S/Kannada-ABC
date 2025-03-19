@@ -30,9 +30,9 @@ export function AlphabetBackground() {
   // Generate the random letters only on the client after the component mounts.
   useEffect(() => {
     const randomTarget = allLetters[Math.floor(Math.random() * allLetters.length)];
-    const randomOtherLetters = getRandomOtherLetters(allLetters, 9, randomTarget);
+    const randomOtherLetters = getRandomOtherLetters(allLetters, 5, randomTarget);
     setTargetLetter(randomTarget);
-    setLettersToPass([randomTarget, ...randomOtherLetters]);
+    setLettersToPass([...Array(5).fill(randomTarget), ...randomOtherLetters]);
   }, []);
 
   // Don't render BubbleGame until targetLetter is set.

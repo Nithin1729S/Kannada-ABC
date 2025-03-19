@@ -48,7 +48,7 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
   }, [lastId, letters]);
 
   useEffect(() => {
-    const interval = setInterval(createBubble, 2000);
+    const interval = setInterval(createBubble, 20);
 
     const animate = () => {
       setBubbles(prev =>
@@ -133,6 +133,7 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
               top: bubble.y,
               rotate: bubble.rotation,
               perspective: '1000px',
+              cursor: 'pointer',
             }}
             initial={{ opacity: 0, scale: 0.5, rotateY: -180 }}
             animate={{
@@ -142,17 +143,12 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
               transition: { duration: 0.5 },
             }}
             exit={{
-              scale: [1, 1.2, 0],
-              opacity: [1, 1, 0],
-              rotateY: [0, 45, -45],
-              filter: [
-                'brightness(1) contrast(1)',
-                'brightness(1.2) contrast(1.5)',
-                'brightness(0.8) contrast(0.5)',
-              ],
+              scale: [1, 1.8, 0],           // Burst: quickly scale up then shrink to 0
+              opacity: [1, 0.6, 0],         // Fade out over the burst
+              rotateZ: [0, 90, 45],         // A quick spin for extra burst effect
               transition: {
-                duration: 0.4,
-                times: [0, 0.2, 1],
+                duration: 0.5,
+                times: [0, 0.4, 1],
                 ease: 'easeOut',
               },
             }}
@@ -203,7 +199,7 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
                     fontWeight: 'bold',
                     position: 'relative',
                     zIndex: 10,
-                    color: bubble.letter === targetLetter ? '#FFD700' : 'white',
+                    color: bubble.letter === targetLetter ? '#FFD700' : 'black',
                     textShadow: '0 0 10px rgba(255,255,255,0.5)',
                   }}
                 >
