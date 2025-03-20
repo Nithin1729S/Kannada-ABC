@@ -45,7 +45,7 @@ export function AlphabetBackground() {
         pos="relative"
         zIndex={1}
         w="full"
-        pt={[720, 580]}
+        pt={[720, 100]}
         opacity={1}
       >
         <AlphabetCatcher targetLetter={targetLetter} otherLetters={lettersToPass}  />

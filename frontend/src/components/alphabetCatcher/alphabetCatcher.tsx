@@ -15,28 +15,40 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
   const [position, setPosition] = useState(50); // Basket position (percentage)
   const [letters, setLetters] = useState<Array<{ id: number; letter: string; x: number; y: number; caught: boolean }>>([]);
   const [gameActive, setGameActive] = useState(false);
-  const [showInstructions, setShowInstructions] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number>(0);
   const letterIdRef = useRef(0);
-  
+
   // Game settings
-  const fallSpeed = 0.8; // Reduced from 2 to 0.8 pixels per frame
-  const spawnRate = 1800; // Increased from 1500 to 1800 ms between letter spawns
-  const basketWidth = 12; // percentage of screen width
-  
-  // Start game
+  const fallSpeed = 0.6; // Reduced fall speed (pixels per frame)
+  const spawnRate = 1800; // Milliseconds between letter spawns
+  const basketWidth = 12; // Percentage of screen width
+
+  // Start the game function resets the score and letters, and sets gameActive true.
   const startGame = () => {
     setGameActive(true);
-    setShowInstructions(false);
     setScore(0);
     setLetters([]);
   };
-  
-  // Handle key presses for basket movement
+
+  // Automatically start the game on component mount.
+  useEffect(() => {
+    startGame();
+  }, []);
+
+  // Ask to play again if score drops below -15.
+  useEffect(() => {
+    if (score <= -15) {
+      if (window.confirm("Game Over! Play again?")) {
+        startGame();
+      }
+    }
+  }, [score]);
+
+  // Handle key presses for basket movement.
   useEffect(() => {
     if (!gameActive) return;
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft' || e.key === 'a') {
         setPosition((prev) => Math.max(prev - 3, 0));
@@ -44,59 +56,59 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
         setPosition((prev) => Math.min(prev + 3, 100 - basketWidth));
       }
     };
-    
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameActive]);
-  
-  // Handle touch movement for mobile
+
+  // Handle touch movement for mobile.
   useEffect(() => {
     if (!gameActive || !containerRef.current) return;
-    
+
     const container = containerRef.current;
-    
+
     const handleTouchMove = (e: TouchEvent) => {
       const touch = e.touches[0];
       const containerRect = container.getBoundingClientRect();
       const touchX = touch.clientX - containerRect.left;
       const containerWidth = containerRect.width;
       const newPosition = (touchX / containerWidth) * 100 - (basketWidth / 2);
-      
+
       setPosition(Math.max(0, Math.min(newPosition, 100 - basketWidth)));
     };
-    
+
     container.addEventListener('touchmove', handleTouchMove);
     return () => container.removeEventListener('touchmove', handleTouchMove);
   }, [gameActive]);
-  
-  // Handle mouse movement
+
+  // Handle mouse movement.
   useEffect(() => {
     if (!gameActive || !containerRef.current) return;
-    
+
     const container = containerRef.current;
-    
+
     const handleMouseMove = (e: MouseEvent) => {
       const containerRect = container.getBoundingClientRect();
       const mouseX = e.clientX - containerRect.left;
       const containerWidth = containerRect.width;
       const newPosition = (mouseX / containerWidth) * 100 - (basketWidth / 2);
-      
+
       setPosition(Math.max(0, Math.min(newPosition, 100 - basketWidth)));
     };
-    
+
     container.addEventListener('mousemove', handleMouseMove);
     return () => container.removeEventListener('mousemove', handleMouseMove);
   }, [gameActive]);
-  
-  // Spawn letters
+
+  // Spawn letters at regular intervals.
   useEffect(() => {
     if (!gameActive) return;
-    
+
     const spawnLetter = () => {
       const isTargetLetter = Math.random() < 0.4; // 40% chance for target letter
       const letter = isTargetLetter ? targetLetter : otherLetters[Math.floor(Math.random() * otherLetters.length)];
       const x = Math.random() * (100 - 8); // Random horizontal position (%)
-      
+
       setLetters((prev) => [
         ...prev,
         {
@@ -108,72 +120,68 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
         },
       ]);
     };
-    
+
     const spawnInterval = setInterval(spawnLetter, spawnRate);
     return () => clearInterval(spawnInterval);
   }, [gameActive, targetLetter, otherLetters]);
-  
-  // Game loop - move letters and detect collisions
+
+  // Game loop - move letters and detect collisions.
   useEffect(() => {
     if (!gameActive) return;
-    
+
     const gameLoop = () => {
       setLetters((prevLetters) => {
         const newLetters = prevLetters
           .map((letterObj) => {
-            // Skip already caught letters
-            if (letterObj.caught) return letterObj;
-            
+            if (letterObj.caught) return letterObj; // Skip letters that are already caught
+
             const newY = letterObj.y + fallSpeed;
-            
-            // Check if letter is caught by the basket
+
+            // Check if the letter is caught by the basket.
             const isCaught =
-              newY >= 85 && newY <= 95 && // Basket Y position
+              newY >= 85 && newY <= 95 && // Y range of the basket.
               letterObj.x + 4 >= position && letterObj.x <= position + basketWidth; // X overlap
-            
+
             if (isCaught) {
-              // Update score
+              // Update score: +10 for target letter, -5 for wrong letter.
               const scoreChange = letterObj.letter === targetLetter ? 10 : -5;
               setScore((prevScore) => {
                 const newScore = prevScore + scoreChange;
                 if (onScoreChange) onScoreChange(newScore);
                 return newScore;
               });
-              
               return { ...letterObj, caught: true };
             }
-            
+
             return { ...letterObj, y: newY };
           })
-          .filter((letterObj) => letterObj.y < 100 || letterObj.caught); // Remove letters that fall off screen
-        
+          .filter((letterObj) => letterObj.y < 100 || letterObj.caught); // Remove letters that fall off screen.
+
         return newLetters;
       });
-      
+
       frameRef.current = requestAnimationFrame(gameLoop);
     };
-    
+
     frameRef.current = requestAnimationFrame(gameLoop);
     return () => cancelAnimationFrame(frameRef.current);
   }, [gameActive, position, targetLetter, onScoreChange]);
-  
+
   return (
     <div
       ref={containerRef}
       style={{
         position: 'relative',
         width: '100%',
-        height: '500px',
+        height: '800px',
         overflow: 'hidden',
-        backgroundColor: '#f5f5f7',
+        backgroundColor: 'transparent',
         borderRadius: '24px',
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.08)',
         fontFamily: 'SF Pro Display, -apple-system, BlinkMacSystemFont, sans-serif',
         userSelect: 'none',
         touchAction: 'none',
       }}
     >
-      {/* Game container */}
       <div
         style={{
           position: 'absolute',
@@ -181,7 +189,7 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'radial-gradient(circle at center, rgba(255,255,255,0.9) 0%, rgba(245,245,247,1) 100%)',
+          background: 'transparent',
           zIndex: 0,
         }}
       >
@@ -211,14 +219,8 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
               boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)',
             }}
           >
-            <div
-              style={{
-                fontWeight: 600,
-                fontSize: '16px',
-                color: '#1d1d1f',
-              }}
-            >
-              Target: 
+            <div style={{ fontWeight: 600, fontSize: '16px', color: '#1d1d1f' }}>
+              Target:
               <span
                 style={{
                   display: 'inline-block',
@@ -232,21 +234,9 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
                 {targetLetter}
               </span>
             </div>
-            <div
-              style={{
-                width: '1px',
-                height: '24px',
-                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-              }}
-            />
-            <div
-              style={{
-                fontWeight: 600,
-                fontSize: '16px',
-                color: '#1d1d1f',
-              }}
-            >
-              Score: 
+            <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(0, 0, 0, 0.1)' }} />
+            <div style={{ fontWeight: 600, fontSize: '16px', color: '#1d1d1f' }}>
+              Score:
               <span
                 style={{
                   display: 'inline-block',
@@ -261,7 +251,7 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
             </div>
           </div>
         </div>
-        
+
         {/* Letters */}
         {letters.map((letterObj) => (
           <div
@@ -281,9 +271,7 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
               fontWeight: 700,
               fontSize: '22px',
               boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-              transform: letterObj.caught 
-                ? 'scale(1.3) rotate(10deg)' 
-                : 'scale(1)',
+              transform: letterObj.caught ? 'scale(1.3) rotate(10deg)' : 'scale(1)',
               opacity: letterObj.caught ? 0 : 1,
               transition: 'transform 0.2s ease, opacity 0.3s ease',
               zIndex: 2,
@@ -292,7 +280,7 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
             {letterObj.letter}
           </div>
         ))}
-        
+
         {/* Basket */}
         <div
           style={{
@@ -322,83 +310,7 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
             }}
           />
         </div>
-        
-        {/* Instructions / Start screen */}
-        {showInstructions && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'rgba(245, 245, 247, 0.95)',
-              backdropFilter: 'blur(10px)',
-              zIndex: 10,
-            }}
-          >
-            <div
-              style={{
-                textAlign: 'center',
-                maxWidth: '80%',
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: '28px',
-                  fontWeight: 700,
-                  color: '#1d1d1f',
-                  marginBottom: '8px',
-                }}
-              >
-                Alphabet Catcher
-              </h2>
-              <p
-                style={{
-                  fontSize: '16px',
-                  fontWeight: 400,
-                  color: '#86868b',
-                  marginBottom: '30px',
-                  lineHeight: 1.5,
-                }}
-              >
-                Catch the target letter to score points. Avoid catching wrong letters.
-                <br />
-                Move the basket with your mouse, touch, or arrow keys.
-              </p>
-              <button
-                onClick={startGame}
-                style={{
-                  backgroundColor: '#0066cc',
-                  color: 'white',
-                  border: 'none',
-                  padding: '12px 24px',
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  borderRadius: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 4px 20px rgba(0, 102, 204, 0.3)',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.backgroundColor = '#0055b3';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.backgroundColor = '#0066cc';
-                }}
-              >
-                Start Game
-              </button>
-            </div>
-          </div>
-        )}
-        
+
         {/* Background decoration */}
         <div
           style={{
