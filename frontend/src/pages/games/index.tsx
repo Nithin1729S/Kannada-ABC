@@ -15,6 +15,7 @@ import ImgPlay from '~public/img/bg-play.svg'
 import ImgGameSwap from '~public/img/bg-game-swap.svg'
 import bubble from '~public/img/bubble.png'
 import snake from '~public/img/snake.png'
+import tictactoe from '~public/img/tictactoe.png'
 
 export default function Play() {
   const { scrollReveal } = useScrollReveal({ offset: ['start end', 'end start'] })
@@ -57,7 +58,7 @@ export default function Play() {
   px={[5, 12]} sx={{ '--size': 'sizes.60' }} layerStyle="gridy" >
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard imgSrc={bubble} href="/bubble-pop" title="Bubble Pop" colorScheme="orange" />
+                <GameCard imgSrc={bubble}  href="/bubble-pop" title="Bubble Pop" colorScheme="orange" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
@@ -67,7 +68,7 @@ export default function Play() {
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard  title="D" colorScheme="blue" />
+                <GameCard  title="Tic Tac Toe" imgSrc={tictactoe} href="/tictactoe" colorScheme="blue" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
