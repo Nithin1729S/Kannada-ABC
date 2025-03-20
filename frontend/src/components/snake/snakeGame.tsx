@@ -211,9 +211,8 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: '100vh',
     background: 'transparent',
-    transform: 'translateY(-500px)'
+    margin:0
   };
 
   const gameCardStyle: React.CSSProperties = {
@@ -221,25 +220,8 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     borderRadius: '8px',
     padding: '2rem',
     width: 'fit-content',
-    position: 'relative'
-  };
-
-  const titleStyle: React.CSSProperties = {
-    textAlign: 'center',
-    marginBottom: '1rem'
-  };
-
-  const h2Style: React.CSSProperties = {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-    color: '#1F2937',
-    margin: 0
-  };
-
-  const paragraphStyle: React.CSSProperties = {
-    fontSize: '1.125rem',
-    color: '#4B5563',
-    margin: '0.5rem 0'
+    position: 'relative',
+    margin:0
   };
 
   // Use GRID_WIDTH and GRID_HEIGHT to define a rectangular board
@@ -283,12 +265,6 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     marginTop: '1rem'
   };
 
-  const infoTextStyle: React.CSSProperties = {
-    marginTop: '1.5rem',
-    color: 'white',
-    textAlign: 'center',
-    marginBottom:'-80rem'
-  };
 
   return (
     <div style={containerStyle}>
@@ -351,7 +327,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
       <div
         style={{
           position: 'absolute',
-          top: 1400,
+          top: 1130,
           left: 0,
           right: 0,
           padding: '1rem',
