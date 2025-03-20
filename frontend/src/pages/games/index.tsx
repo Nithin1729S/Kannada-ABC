@@ -14,6 +14,7 @@ import { useScrollReveal } from '~/src/hooks/useScrollReveal'
 import ImgPlay from '~public/img/bg-play.svg'
 import ImgGameSwap from '~public/img/bg-game-swap.svg'
 import bubble from '~public/img/bubble.png'
+import snake from '~public/img/snake.png'
 
 export default function Play() {
   const { scrollReveal } = useScrollReveal({ offset: ['start end', 'end start'] })
@@ -61,7 +62,7 @@ export default function Play() {
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard title="F" colorScheme="pink" />
+                <GameCard imgSrc={snake} title="Snake Game" href="/snake"  colorScheme="pink" />
               </Flex>
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
