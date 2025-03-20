@@ -22,7 +22,7 @@ interface SnakeGameProps {
 
 // New parameters for rectangular grid dimensions
 const GRID_WIDTH = 80;   // Number of cells horizontally
-const GRID_HEIGHT = 40;  // Number of cells vertically
+const GRID_HEIGHT = 20;  // Number of cells vertically
 const CELL_SIZE = 25;
 const INITIAL_SNAKE_LENGTH = 3;
 const GAME_SPEED = 150;
@@ -36,7 +36,10 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [snakeSize, setSnakeSize] = useState(CELL_SIZE - 2);
-
+  useEffect(() => {
+    initializeGame(); // Automatically start the game when the component mounts
+  }, []);
+  
   // Generate a single new food item on the rectangular grid
   const generateSingleFood = () => {
     const availableLetters = [...letters];
@@ -255,7 +258,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'transparent',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center'
@@ -283,22 +286,13 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   const infoTextStyle: React.CSSProperties = {
     marginTop: '1.5rem',
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom:'-80rem'
   };
 
   return (
     <div style={containerStyle}>
       <div style={gameCardStyle}>
-        <div style={titleStyle}>
-          <h2 style={h2Style}>Alphabet Snake</h2>
-          <p style={paragraphStyle}>
-            Target Letter: <span style={{ fontWeight: 'bold', color: '#4F46E5' }}>{targetLetter}</span>
-          </p>
-          <p style={paragraphStyle}>
-            Score: <span style={{ fontWeight: 'bold', color: '#4F46E5' }}>{score}</span>
-          </p>
-        </div>
-
         <div style={boardStyle}>
           {/* Snake */}
           {snake.map((segment, index) => (
@@ -325,7 +319,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
                 justifyContent: 'center',
                 fontWeight: 'bold',
                 fontSize: '3rem',
-                color: item.char === targetLetter ? '#16A34A' : '#DC2626',
+                color: item.char === targetLetter ? '#faf089' : '#c53030',
                 width: CELL_SIZE,
                 height: CELL_SIZE,
                 left: item.position.x * CELL_SIZE,
@@ -353,21 +347,30 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
             </div>
           </div>
         )}
-
-        {/* Start Game Button */}
-        {!gameStarted && !gameOver && (
-          <button onClick={initializeGame} style={buttonStyle}>
-            Start Game
-          </button>
-        )}
+      </div>
+      <div
+        style={{
+          position: 'absolute',
+          top: 1400,
+          left: 0,
+          right: 0,
+          padding: '1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          background: 'rgba(255, 255, 255, 0.2)',
+          backdropFilter: 'blur(5px)',
+          zIndex: 50,
+        }}
+      >
+        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
+          Target Letter: <span style={{ color: '#FFD700' }}>{targetLetter}</span>
+        </div>
+        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
+          Score: <span style={{ color: '#FFD700' }}>{score}</span>
+        </div>
       </div>
 
-      <div style={infoTextStyle}>
-        <p style={{ fontSize: '1.125rem' }}>Use arrow keys to control the snake</p>
-        <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
-          Eat {targetLetter} to increase score, avoid other letters!
-        </p>
-      </div>
     </div>
   );
 }
