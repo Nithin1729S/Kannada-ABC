@@ -8,6 +8,23 @@ type Position = {
   y: number;
 };
 
+const styles = `
+  @keyframes glow {
+    0% {
+      text-shadow: 0 0 5px #faf089, 0 0 10px #faf089, 0 0 15px #faf089;
+    }
+    50% {
+      text-shadow: 0 0 10px #faf089, 0 0 20px #faf089, 0 0 30px #faf089;
+    }
+    100% {
+      text-shadow: 0 0 5px #faf089, 0 0 10px #faf089, 0 0 15px #faf089;
+    }
+  }
+  .glowing {
+    animation: glow 1.5s ease-in-out infinite;
+  }
+`;
+
 type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
 type Letter = {
@@ -63,10 +80,28 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     return { char, position };
   };
 
+  const generateSpecificFood = (char: string): Letter => {
+    const position = {
+      x: Math.floor(Math.random() * GRID_WIDTH),
+      y: Math.floor(Math.random() * GRID_HEIGHT)
+    };
+  
+    // Ensure the new food doesn't overlap with the snake or existing food
+    while (
+      snake.some(segment => segment.x === position.x && segment.y === position.y) ||
+      food.some(f => f.position.x === position.x && f.position.y === position.y)
+    ) {
+      position.x = Math.floor(Math.random() * GRID_WIDTH);
+      position.y = Math.floor(Math.random() * GRID_HEIGHT);
+    }
+  
+    return { char, position };
+  };
+  
+
   // Initialize snake position and food
   const initializeGame = () => {
     const initialSnake: Position[] = [];
-    // Center the snake using GRID_WIDTH and GRID_HEIGHT
     for (let i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
       initialSnake.push({
         x: Math.floor(GRID_WIDTH / 2) - i,
@@ -78,15 +113,21 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     setScore(5);
     setGameOver(false);
     setSnakeSize(CELL_SIZE - 2);
-
-    // Generate initial food items
+  
     const initialFood: Letter[] = [];
-    for (let i = 0; i < MIN_FOOD_COUNT; i++) {
+  
+    // Ensure at least one target letter in the food
+    initialFood.push(generateSpecificFood(targetLetter));
+  
+    // Generate remaining food items
+    while (initialFood.length < MIN_FOOD_COUNT) {
       initialFood.push(generateSingleFood());
     }
+  
     setFood(initialFood);
     setGameStarted(true);
   };
+  
 
   // Handle keyboard controls
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
@@ -191,19 +232,18 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   // Calculate snake segment colors based on position
   const getSnakeSegmentStyle = (index: number, total: number) => {
     const progress = index / total;
-    const baseHue = 200; // Blue
-    const hue = baseHue + progress * 30; // Gradually change hue
-    const saturation = 70 - progress * 20; // Gradually decrease saturation
-    const lightness = 50 - progress * 10; // Gradually decrease lightness
-
+    // Vary lightness from 10% for the head to 50% for the tail.
+    const lightness = 10 + progress * 40;
+  
     return {
-      backgroundColor: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
+      backgroundColor: `hsl(0, 0%, ${lightness}%)`, // Grayscale color
       width: snakeSize - (index * 0.5),
       height: snakeSize - (index * 0.5),
       borderRadius: '40%',
       boxShadow: index === 0 ? '0 0 10px rgba(0,0,0,0.3)' : 'none',
     };
   };
+  
 
   // Inline styles for various elements
   const containerStyle: React.CSSProperties = {
@@ -247,7 +287,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   };
 
   const gameOverCardStyle: React.CSSProperties = {
-    backgroundColor: 'white',
+    backgroundColor: '#cbe4d1',
     padding: '2rem',
     borderRadius: '8px',
     textAlign: 'center'
@@ -287,22 +327,25 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
           {/* Food */}
           {food.map((item, index) => (
             <div
-              key={`food-${index}`}
-              style={{
-                position: 'absolute',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 'bold',
-                fontSize: '3rem',
-                color: item.char === targetLetter ? '#faf089' : '#c53030',
-                width: CELL_SIZE,
-                height: CELL_SIZE,
-                left: item.position.x * CELL_SIZE,
-                top: item.position.y * CELL_SIZE,
-                textShadow: item.char === targetLetter
-                  ? '0 0 10px rgba(22,163,74,0.3)'
-                  : '0 0 10px rgba(220,38,38,0.3)'
+            key={`food-${index}`}
+            // Apply the "glowing" class only if the letter is the targetLetter
+            className={item.char === targetLetter ? 'glowing' : ''}
+            style={{
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              fontSize: '3rem',
+              color: item.char === targetLetter ? '#faf089' : '#c53030',
+              width: CELL_SIZE,
+              height: CELL_SIZE,
+              left: item.position.x * CELL_SIZE,
+              top: item.position.y * CELL_SIZE,
+              // Initial text-shadow (will be animated if target letter)
+              textShadow: item.char === targetLetter
+                ? '0 0 10px rgba(22,163,74,0.3)'
+                : '0 0 10px rgba(220,38,38,0.3)'
               }}
             >
               {item.char}
@@ -316,7 +359,6 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
             <div style={gameOverCardStyle}>
               <Skull style={{ width: 64, height: 64, color: '#DC2626', margin: '0 auto' }} />
               <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1F2937' }}>Game Over!</h3>
-              <p style={{ color: '#4B5563' }}>Final Score: {score}</p>
               <button onClick={initializeGame} style={{ ...buttonStyle, padding: '0.5rem 1rem' }}>
                 Play Again
               </button>
@@ -327,7 +369,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
       <div
         style={{
           position: 'absolute',
-          top: 1130,
+          top: 570,
           left: 0,
           right: 0,
           padding: '1rem',

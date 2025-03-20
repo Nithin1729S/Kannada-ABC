@@ -44,7 +44,7 @@ export function AlphabetBackground() {
         pos="relative"
         zIndex={1}
         w="full"
-        pt={[720, 580]}
+        pt={[100, 3.5]} 
         opacity={1}
       >
         <SnakeGame 
