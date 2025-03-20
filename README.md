@@ -43,6 +43,7 @@ uvicorn api.main:app --reload
 |------------|------------------------|
 | `/learn`   | Blank Canvas           |
 | `/practice`| Letter Tracing         |
+| `/games`   | 5 Mini Games          |
 | `/profile` | View Learning Progress |
 | `/auth`    | Authentication         |
 
