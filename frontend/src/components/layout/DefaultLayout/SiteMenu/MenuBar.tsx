@@ -135,8 +135,8 @@ export default function MenuBar() {
                 transform: 'scale(0.95) rotate(-45deg)',
               },
             }}
-            aria-label={`${SITE_CONFIG.appName}: Home for Animal ABCs`}
-            title={`${SITE_CONFIG.appName}: Home for Animal ABCs`}
+            aria-label={`${SITE_CONFIG.appName}: Kannada Alphabet Learning Application `}
+            title={`${SITE_CONFIG.appName}: Kannada Alphabet Learning Application`}
             onClick={onClose}
           >
             <Box
