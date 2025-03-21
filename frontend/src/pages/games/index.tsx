@@ -17,6 +17,7 @@ import bubble from '~public/img/bubble.png'
 import snake from '~public/img/snake.png'
 import tictactoe from '~public/img/tictactoe.png'
 import bucket from '~public/img/bucket.png'
+import jigsaw from '~public/img/jigsaw.jpg'
 
 export default function Play() {
   const { scrollReveal } = useScrollReveal({ offset: ['start end', 'end start'] })
@@ -79,7 +80,7 @@ export default function Play() {
             </MotionPop>
             <MotionPop as="li" marge="0px" once>
               <Flex h="full" maxH={[64, null, 72, null, 'none']} rounded="card">
-                <GameCard title="O" />
+                <GameCard title="Jigsaw" imgSrc={jigsaw} href='/jigsaw'  colorScheme='yellow'/>
               </Flex>
             </MotionPop>
             {/* <MotionPop as="li" marge="0px" once>

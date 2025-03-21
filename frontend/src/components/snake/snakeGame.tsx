@@ -327,6 +327,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
           {/* Food */}
           {food.map((item, index) => (
             <div
+            
             key={`food-${index}`}
             // Apply the "glowing" class only if the letter is the targetLetter
             className={item.char === targetLetter ? 'glowing' : ''}
@@ -335,18 +336,22 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              textAlign: 'center',
               fontWeight: 'bold',
-              fontSize: '3rem',
+              fontSize: `${CELL_SIZE }px`, // Increased font size
+              backgroundColor: item.char === targetLetter ? 'rgba(0, 102, 204, 0.9)' : 'rgba(250, 250, 250, 0.9)', // Background color
               color: item.char === targetLetter ? '#faf089' : '#c53030',
-              width: CELL_SIZE,
-              height: CELL_SIZE,
-              left: item.position.x * CELL_SIZE,
-              top: item.position.y * CELL_SIZE,
-              // Initial text-shadow (will be animated if target letter)
+              width: `${CELL_SIZE*1.5}px`,
+              height: `${CELL_SIZE*1.5}px`,
+              left: `${item.position.x * CELL_SIZE}px`,
+              top: `${item.position.y * CELL_SIZE}px`,
+              borderRadius: '8px', // Rounded corners
+              lineHeight: '1', // Ensures proper text scaling
+              padding: '5px', // Prevents text from touching the edges
               textShadow: item.char === targetLetter
                 ? '0 0 10px rgba(22,163,74,0.3)'
-                : '0 0 10px rgba(220,38,38,0.3)'
-              }}
+                : '0 0 10px rgba(220,38,38,0.3)',
+            }}
             >
               {item.char}
             </div>
