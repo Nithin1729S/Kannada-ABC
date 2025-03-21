@@ -4,6 +4,8 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useConfetti } from '../ui/confetti-trigger';
 
+let globalRandomNumber = Math.floor(Math.random() * 49) + 1;
+
 interface PuzzlePieceProps {
   piece: number;
   position: number;
@@ -147,6 +149,7 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
   const initPuzzle = () => {
     // Generate a new random number between 1 and 49
     const randomNumber = Math.floor(Math.random() * 49) + 1;
+    globalRandomNumber=randomNumber;
     // Set the new puzzle image using the random number
     setPuzzleImage(`/img/glyphs/${randomNumber}.png`);
 
@@ -180,6 +183,15 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
     });
   };
 
+  const letters = [
+    'ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ',
+    'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ', 'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
+    'ಚ', 'ಛ', 'ಜ', 'ಝ', 'ಞ', 'ಟ', 'ಠ', 'ಡ', 'ಢ', 'ಣ',
+    'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ', 'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
+    'ಯ', 'ರ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ'
+  ];
+  
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div
@@ -190,6 +202,7 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '2rem',
+          
         }}
       >
         <motion.div
@@ -200,6 +213,7 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
             flexDirection: 'column',
             alignItems: 'center',
             gap: '2rem',
+            marginBottom:'5rem'
           }}
         >
           {!isComplete ? (
@@ -228,14 +242,6 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
                   />
                 ))}
               </div>
-              <p
-                style={{
-                  color: 'rgba(255,255,255,0.6)',
-                  fontSize: '0.875rem',
-                }}
-              >
-                Drag and drop pieces to solve the puzzle
-              </p>
             </>
           ) : (
             <motion.div
@@ -251,7 +257,7 @@ export default function PuzzleGame({ onSuccess }: PuzzleGameProps) {
                   marginBottom: '1rem',
                 }}
               >
-                Puzzle Solved!
+                {`Puzzle Solved! It's ${letters[globalRandomNumber-1]}!`}
               </h2>
               <button
                 onClick={initPuzzle}

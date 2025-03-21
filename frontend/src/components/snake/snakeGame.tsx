@@ -185,7 +185,17 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
             // Generate new food immediately when target letter is eaten
             const newFood = [...food];
             newFood.splice(foodIndex, 1);
-            newFood.push(generateSingleFood());
+            // Check if there are any target letters left
+            const hasTargetLetter = newFood.some(f => f.char === targetLetter);
+            
+            // If no target letters left, generate a specific target letter
+            if (!hasTargetLetter) {
+              newFood.push(generateSpecificFood(targetLetter));
+            } else if (newFood.length < MIN_FOOD_COUNT) {
+              // Otherwise generate any random letter if below minimum
+              newFood.push(generateSingleFood());
+            }
+            
             setFood(newFood);
           } else {
             setScore(prev => {
