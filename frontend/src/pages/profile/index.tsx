@@ -14,6 +14,7 @@ import { useScrollReveal } from '~/src/hooks/useScrollReveal'
 import ImgPlay from '~public/img/bg-play.svg'
 import ImgGameSwap from '~public/img/bg-game-swap.svg'
 import { useSession } from 'next-auth/react'
+import { AlphabetGrid } from '~/src/components/profile/AlphabetGrid'
 
 export default function Play() {
   const { scrollReveal } = useScrollReveal({ offset: ['start end', 'end start'] })
@@ -44,7 +45,6 @@ export default function Play() {
         </Heading>
         <Text opacity={0.75}>Level Up in your Quest.</Text>
       </Box>
-      <Underline mb={12} fill="brand.900" />
     </Box>
   )
 }
@@ -53,7 +53,8 @@ Play.getLayout = (page: ReactElement, props?: LayoutProps) => {
   return getPlayLayout(
     <FixedBackground src={ImgPlay} alt="">
       {page}
+      <AlphabetGrid show={true} />
+      
     </FixedBackground>,
-    props
   )
 }
