@@ -309,7 +309,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
               >
                
               </Box>{' '}
-              ಯೋಗವಾಹಗಳು
+              
             </Heading>
           </Fade>
           

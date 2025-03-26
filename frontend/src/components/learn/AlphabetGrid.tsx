@@ -146,6 +146,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                 Alphabets
               </Heading>
             </Fade>
+            
             <Fade transition={{ enter: { duration: 0.6 } }} in={show}>
               <Heading color="text.inverse" textAlign="center">
                 
@@ -308,7 +309,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                 >
                  
                 </Box>{' '}
-                ಯೋಗವಾಹಗಳು
+                
               </Heading>
             </Fade>
             

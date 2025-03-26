@@ -53,6 +53,7 @@ Play.getLayout = (page: ReactElement, props?: LayoutProps) => {
   return getPlayLayout(
     <FixedBackground src={ImgPlay} alt="">
       {page}
+      <Underline mb={12} fill="brand.900" />
       <AlphabetGrid show={true} />
       
     </FixedBackground>,
