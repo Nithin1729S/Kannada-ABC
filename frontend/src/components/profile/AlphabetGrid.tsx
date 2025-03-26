@@ -15,9 +15,9 @@ import { AlphabetModal } from '~components/learn/AlphabetModal'
 
 // import type { AlphabetType } from '~/types/data'
 import { alphabets } from '~src/data/alphabets'
-import { Underline } from '../Underline'
+
 type AlphabetType = (typeof alphabets)[number]
-type GlyphType = AlphabetType['name']
+type GlyphType = string
 
 const MotionList = motion<ListProps>(List)
 const MotionListItem = motion<ListItemProps>(ListItem)
@@ -131,7 +131,7 @@ const Stars = ({ fillLevel = 0 }: { fillLevel?: number }) => {
     <div
       style={{
         position: 'absolute',
-        top: '1%',
+        top: '10%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '100%',
@@ -153,8 +153,11 @@ const Stars = ({ fillLevel = 0 }: { fillLevel?: number }) => {
 
 interface Alphabet {
   name: string
-  numeral: number // Match the type of 'numeral' in AlphabetType
-  fillLevel?: number // Optional fillLevel (defaults to 0 if undefined)
+  numeral: number
+  fillLevel?: number
+  color: string
+  bg: string
+  modalBg: string
 }
 
 export function AlphabetGrid({ show }: AlphabetGridProps) {
@@ -241,7 +244,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             animate={show ? 'in' : 'out'}
           >
             {firstHalfAlphabets.map((alphabet: Alphabet) => {
-              const { name, numeral, fillLevel = 3 } = alphabet
+              const { name, numeral, fillLevel = 1 } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   <MotionBox
@@ -317,8 +320,8 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             initial="out"
             animate={show ? 'in' : 'out'}
           >
-            {secondHalfAlphabets.map((alphabet) => {
-              const { name } = alphabet
+            {secondHalfAlphabets.map((alphabet:Alphabet) => {
+              const { name, numeral, fillLevel = 2 } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
@@ -327,7 +330,10 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                       scale: 1.1,
                       transition: { type: 'spring', stiffness: 200 },
                     }}
+                    position="relative"
                   >
+                    {/* Stars overlay */}
+                    <Stars fillLevel={fillLevel} />
                     <SoundRegister ref={getRef(name)} glyph={name}>
                       <SfxLink
                         as="button"
@@ -387,8 +393,8 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             initial="out"
             animate={show ? 'in' : 'out'}
           >
-            {thirdHalfAlphabets.map((alphabet) => {
-              const { name } = alphabet
+            {thirdHalfAlphabets.map((alphabet:Alphabet) => {
+              const { name, numeral, fillLevel = 3 } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
@@ -397,7 +403,9 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                       scale: 1.1,
                       transition: { type: 'spring', stiffness: 200 },
                     }}
+                    position="relative"
                   >
+                    <Stars fillLevel={fillLevel} />
                     <SoundRegister ref={getRef(name)} glyph={name}>
                       <SfxLink
                         as="button"
