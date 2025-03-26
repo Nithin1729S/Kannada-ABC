@@ -89,25 +89,64 @@ interface StarsProps {
   fillLevel: number
 }
 
-const Stars: React.FC<StarsProps> = ({ fillLevel }) => {
+import { Star } from 'lucide-react'
+
+// Partial Star component
+const PartialStar = ({ fillPercentage }: { fillPercentage: number }) => {
+  return (
+    <div style={{ position: 'relative', width: '40px', height: '40px' }}>
+      {/* Background star (unfilled) */}
+      <Star
+        size={40}
+        style={{
+          position: 'absolute',
+          stroke: '#D1D5DB',
+          fill: 'none',
+        }}
+      />
+      {/* Foreground star (filled) with clip path */}
+      <div
+        style={{
+          position: 'absolute',
+          width: `${fillPercentage * 100}%`,
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <Star
+          size={40}
+          style={{
+            stroke: '#FBBF24',
+            fill: '#FBBF24',
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+// Stars component with partial fill support
+const Stars = ({ fillLevel = 0 }: { fillLevel?: number }) => {
   return (
     <div
       style={{
-        display: 'flex',
         position: 'absolute',
-        top: '-10px',
+        top: '1%',
         left: '50%',
-        transform: 'translateX(-50%)',
-        gap: '5px',
+        transform: 'translate(-50%, -50%)',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '4px',
+        pointerEvents: 'none',
+        zIndex: 10,
       }}
     >
-      {[...Array(3)].map((_, index) => (
-        <FaStar
-          key={index}
-          size={20}
-          color={index < fillLevel ? '#FFD700' : '#D3D3D3'} // Gold for filled, LightGray for empty
-        />
-      ))}
+      {[1, 2, 3].map((starIndex) => {
+        const remainingFill = fillLevel - (starIndex - 1)
+        const fillPercentage = Math.min(Math.max(remainingFill, 0), 1)
+        return <PartialStar key={starIndex} fillPercentage={fillPercentage} />
+      })}
     </div>
   )
 }
@@ -202,7 +241,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             animate={show ? 'in' : 'out'}
           >
             {firstHalfAlphabets.map((alphabet: Alphabet) => {
-              const { name, numeral, fillLevel = 0 } = alphabet // Ensure default fillLevel
+              const { name, numeral, fillLevel = 3 } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   <MotionBox
@@ -338,7 +377,6 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
                 color="text.highlight"
                 fontSize="3xl"
               ></Box>{' '}
-              
             </Heading>
           </Fade>
 
