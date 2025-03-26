@@ -25,8 +25,16 @@ export function AlphabetBackground() {
 
   // Function to choose new letters
   const chooseNewLetters = () => {
-    setPlayerSymbol(pickRandomLetter(allLetters));
-    setComputerSymbol(pickRandomLetter(allLetters));
+    const playerLetter = pickRandomLetter(allLetters);
+    let computerLetter = pickRandomLetter(allLetters);
+
+    // Ensure computerSymbol is not the same as playerSymbol
+    while (computerLetter === playerLetter) {
+      computerLetter = pickRandomLetter(allLetters);
+    }
+
+    setPlayerSymbol(playerLetter);
+    setComputerSymbol(computerLetter);
   };
 
   // Initially choose letters once when component mounts.

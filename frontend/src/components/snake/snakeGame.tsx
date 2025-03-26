@@ -349,8 +349,8 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
               textAlign: 'center',
               fontWeight: 'bold',
               fontSize: `${CELL_SIZE }px`, // Increased font size
-              backgroundColor: item.char === targetLetter ? 'rgba(0, 102, 204, 0.9)' : 'rgba(250, 250, 250, 0.9)', // Background color
-              color: item.char === targetLetter ? '#faf089' : '#c53030',
+              backgroundColor: item.char === targetLetter ? 'rgba(0, 102, 204, 0.9)' : 'rgba(255, 0, 0, 0.9)', // Background color
+              color: item.char === targetLetter ? '#faf089' : '#ffffff',
               width: `${CELL_SIZE*1.5}px`,
               height: `${CELL_SIZE*1.5}px`,
               left: `${item.position.x * CELL_SIZE}px`,
