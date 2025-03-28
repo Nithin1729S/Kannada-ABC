@@ -199,6 +199,10 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
   const secondHalfAlphabets = alphabets.length > 15 ? alphabets.slice(15, 40) : []
   const thirdHalfAlphabets = alphabets.length > 40 ? alphabets.slice(40, 49) : []
 
+  const firstHalfAlphabetsScores=[1,2,3,4,1,2,3,1,2,3,1,1,2,3,1,1]
+  const secondHalfAlphabetsScores = [2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1]
+  const thirdHalfAlphabetsScores = [1, 2, 3, 2, 1, 2, 3, 1, 2]
+
   return (
     <>
       <AnimatePresence initial={false}>
@@ -243,8 +247,9 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             initial="out"
             animate={show ? 'in' : 'out'}
           >
-            {firstHalfAlphabets.map((alphabet: Alphabet) => {
-              const { name, numeral, fillLevel = 1 } = alphabet
+            {firstHalfAlphabets.map((alphabet: Alphabet,index) => {
+              const score=firstHalfAlphabetsScores[index]
+              const { name, numeral, fillLevel = score} = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   <MotionBox
@@ -320,8 +325,9 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             initial="out"
             animate={show ? 'in' : 'out'}
           >
-            {secondHalfAlphabets.map((alphabet:Alphabet) => {
-              const { name, numeral, fillLevel = 2 } = alphabet
+            {secondHalfAlphabets.map((alphabet:Alphabet,index) => {
+              const score=secondHalfAlphabetsScores[index]
+              const { name, numeral, fillLevel = score } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
@@ -393,8 +399,9 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
             initial="out"
             animate={show ? 'in' : 'out'}
           >
-            {thirdHalfAlphabets.map((alphabet:Alphabet) => {
-              const { name, numeral, fillLevel = 3 } = alphabet
+            {thirdHalfAlphabets.map((alphabet:Alphabet,index) => {
+              const score=thirdHalfAlphabetsScores[index]
+              const { name, numeral, fillLevel = score } = alphabet
               return (
                 <MotionListItem key={name} variants={item}>
                   {/* Extra wrapper because of https://github.com/framer/motion/issues/1197 */}
