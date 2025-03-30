@@ -20,7 +20,6 @@ interface Bubble {
 
 export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
   const { data: session } = useSession();
-  const userId = session?.user?.email || '';
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [score, setScore] = useState(0);
   const [lastId, setLastId] = useState(0);

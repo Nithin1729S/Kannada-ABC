@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { Skull } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 type Position = {
   x: number;
@@ -46,6 +47,8 @@ const GAME_SPEED = 150;
 const MIN_FOOD_COUNT = 5;
 
 export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
+  const { data: session } = useSession();
+
   const [snake, setSnake] = useState<Position[]>([]);
   const [direction, setDirection] = useState<Direction>('RIGHT');
   const [food, setFood] = useState<Letter[]>([]);
@@ -56,6 +59,48 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   useEffect(() => {
     initializeGame(); // Automatically start the game when the component mounts
   }, []);
+
+  const [previousBest, setPreviousBest] = useState(0);
+  const scoreField = 'snakeGameBestScore';
+  useEffect(() => {
+    async function fetchBestScore() {
+      if (session?.user?.email) {
+        try {
+          const res = await fetch(
+            `/api/getBestScore?email=${session.user.email}&field=${scoreField}`
+          );
+          const data = await res.json();
+          setPreviousBest(data.score || 0);
+        } catch (error) {
+          console.error('Error fetching best score', error);
+        }
+      }
+    }
+    fetchBestScore();
+  }, [session, scoreField]);
+
+  useEffect(() => {
+    async function updateBestScore() {
+      if (score > previousBest && session?.user?.email) {
+        try {
+          await fetch(`/api/updateBestScore`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: session.user.email,
+              field: scoreField,
+              score: score,
+            }),
+          });
+          setPreviousBest(score);
+        } catch (error) {
+          console.error('Error updating best score', error);
+        }
+      }
+    }
+    updateBestScore();
+  }, [score, previousBest, session, scoreField]);
+
   
   // Generate a single new food item on the rectangular grid
   const generateSingleFood = () => {
@@ -398,6 +443,9 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
       >
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Target Letter: <span style={{ color: '#FFD700' }}>{targetLetter}</span>
+        </div>
+        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
+          Previous Score: <span style={{ color: '#FFD700' }}>{previousBest}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Score: <span style={{ color: '#FFD700' }}>{score}</span>
