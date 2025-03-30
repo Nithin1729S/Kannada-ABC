@@ -5,11 +5,13 @@ import type { Variants } from 'framer-motion'
 import type { ListProps, ListItemProps, AspectRatioProps } from '@chakra-ui/react'
 import type { PlayFunction } from 'use-sound/dist/types'
 import { useState, useCallback, useRef, useImperativeHandle, forwardRef } from 'react'
+import {useEffect } from "react";
 import { AnimatePresence, motion } from 'framer-motion'
 import { Box, Heading, List, ListItem, AspectRatio, Fade } from '@chakra-ui/react'
 import { MotionBox } from '~components/motion'
 import { SfxLink } from '~components/sfx'
 import { usePhonics } from '~src/hooks/usePhonics'
+import { useSession } from 'next-auth/react';
 
 import { AlphabetModal } from '~components/learn/AlphabetModal'
 
@@ -162,7 +164,8 @@ interface Alphabet {
 
 export function AlphabetGrid({ show }: AlphabetGridProps) {
   const [selected, setSelected] = useState<AlphabetType | null>(null)
-
+  const { data: session } = useSession();
+  const [allScores, setAllScores] = useState<number[]>([]);
   const alphabetSoundsRef = useRef<Partial<AlphabetSounds>>({})
   const router = useRouter()
   const currentPath = router.pathname // Get the current
@@ -195,13 +198,42 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
     },
     []
   )
+
+  useEffect(() => {
+    if (!session?.user?.email) return;
+    
+    async function fetchAllScores() {
+      const email = session?.user?.email;
+      const scorePromises = [];
+      for (let i = 1; i <= 49; i++) {
+        const field = `letter_score_${i}`;
+        scorePromises.push(
+          fetch(`/api/getBestScore?email=${email}&field=${field}`)
+            .then((res) => res.json())
+            .then((data) => data.score || 0)
+            .catch((error) => {
+              console.error(`Error fetching ${field}:`, error);
+              return 0;
+            })
+        );
+      }
+      const scores = await Promise.all(scorePromises);
+      setAllScores(scores);
+    }
+    fetchAllScores();
+  }, [session]);
+
   const firstHalfAlphabets = alphabets.length > 0 ? alphabets.slice(0, 15) : []
   const secondHalfAlphabets = alphabets.length > 15 ? alphabets.slice(15, 40) : []
   const thirdHalfAlphabets = alphabets.length > 40 ? alphabets.slice(40, 49) : []
 
-  const firstHalfAlphabetsScores=[1,2,3,4,1,2,3,1,2,3,1,1,2,3,1,1]
-  const secondHalfAlphabetsScores = [2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1]
-  const thirdHalfAlphabetsScores = [1, 2, 3, 2, 1, 2, 3, 1, 2]
+  // const firstHalfAlphabetsScores=[1,2,3,4,1,2,3,1,2,3,1,1,2,3,1,1]
+  // const secondHalfAlphabetsScores = [2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1]
+  // const thirdHalfAlphabetsScores = [1, 2, 3, 2, 1, 2, 3, 1, 2]
+
+  const firstHalfAlphabetsScores = allScores.slice(0, 15);
+  const secondHalfAlphabetsScores = allScores.slice(15, 40);
+  const thirdHalfAlphabetsScores = allScores.slice(40, 49);
 
   return (
     <>
