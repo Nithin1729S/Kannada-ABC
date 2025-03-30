@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 
 interface BubbleGameProps {
   targetLetter: string;
@@ -18,9 +19,52 @@ interface Bubble {
 }
 
 export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
+  const { data: session } = useSession();
+  const userId = session?.user?.email || '';
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [score, setScore] = useState(0);
   const [lastId, setLastId] = useState(0);
+  const [previousBest, setPreviousBest] = useState(0);
+  const scoreField = 'bubblePopBestScore';
+  useEffect(() => {
+    async function fetchBestScore() {
+      if (session?.user?.email) {
+        try {
+          const res = await fetch(
+            `/api/getBestScore?email=${session.user.email}&field=${scoreField}`
+          );
+          const data = await res.json();
+          setPreviousBest(data.score || 0);
+        } catch (error) {
+          console.error('Error fetching best score', error);
+        }
+      }
+    }
+    fetchBestScore();
+  }, [session, scoreField]);
+
+  useEffect(() => {
+    async function updateBestScore() {
+      if (score > previousBest && session?.user?.email) {
+        try {
+          await fetch(`/api/updateBestScore`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: session.user.email,
+              field: scoreField,
+              score: score,
+            }),
+          });
+          setPreviousBest(score);
+        } catch (error) {
+          console.error('Error updating best score', error);
+        }
+      }
+    }
+    updateBestScore();
+  }, [score, previousBest, session, scoreField]);
+
 
   const createBubble = useCallback(() => {
     const x = Math.random() * (window.innerWidth - 100);
@@ -116,6 +160,9 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
       >
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Target Letter: <span style={{ color: '#FFD700' }}>{targetLetter}</span>
+        </div>
+        <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
+          Previous Best: <span style={{ color: '#FFD700' }}>{previousBest}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Score: <span style={{ color: '#FFD700' }}>{score}</span>
