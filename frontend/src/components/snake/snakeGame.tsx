@@ -45,6 +45,7 @@ const CELL_SIZE = 25;
 const INITIAL_SNAKE_LENGTH = 3;
 const GAME_SPEED = 150;
 const MIN_FOOD_COUNT = 5;
+const INITIAL_SCORE=5;
 
 export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   const { data: session } = useSession();
@@ -55,13 +56,16 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   const [score, setScore] = useState(5);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
-  const [snakeSize, setSnakeSize] = useState(CELL_SIZE - 2);
+  const [snakeSize, setSnakeSize] = useState(CELL_SIZE - 2)  ;
+  
   useEffect(() => {
     initializeGame(); // Automatically start the game when the component mounts
   }, []);
 
   const [previousBest, setPreviousBest] = useState(0);
   const scoreField = 'snakeGameBestScore';
+  
+  // Fetch best score when session loads
   useEffect(() => {
     async function fetchBestScore() {
       if (session?.user?.email) {
@@ -79,9 +83,11 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     fetchBestScore();
   }, [session, scoreField]);
 
+  // Update best score only if current score is greater than both INITIAL_SCORE and previousBest
   useEffect(() => {
     async function updateBestScore() {
-      if (score > previousBest && session?.user?.email) {
+      // Only update if game is not in its initial state
+      if (score > previousBest && score > INITIAL_SCORE && session?.user?.email) {
         try {
           await fetch(`/api/updateBestScore`, {
             method: 'POST',
@@ -145,7 +151,21 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
   
 
   // Initialize snake position and food
-  const initializeGame = () => {
+  const initializeGame = async () => {
+    // Re-fetch the best score from the database
+    if (session?.user?.email) {
+      try {
+        const res = await fetch(
+          `/api/getBestScore?email=${session.user.email}&field=${scoreField}`
+        );
+        const data = await res.json();
+        setPreviousBest(data.score || 0);
+      } catch (error) {
+        console.error('Error fetching best score', error);
+      }
+    }
+  
+    // Set up the game
     const initialSnake: Position[] = [];
     for (let i = 0; i < INITIAL_SNAKE_LENGTH; i++) {
       initialSnake.push({
@@ -160,18 +180,17 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
     setSnakeSize(CELL_SIZE - 2);
   
     const initialFood: Letter[] = [];
-  
-    // Ensure at least one target letter in the food
     initialFood.push(generateSpecificFood(targetLetter));
-  
-    // Generate remaining food items
     while (initialFood.length < MIN_FOOD_COUNT) {
       initialFood.push(generateSingleFood());
     }
-  
     setFood(initialFood);
+    setScore(INITIAL_SCORE)
     setGameStarted(true);
+
+    
   };
+  
   
 
   // Handle keyboard controls
@@ -445,7 +464,7 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
           Target Letter: <span style={{ color: '#FFD700' }}>{targetLetter}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
-          Best Score: <span style={{ color: '#FFD700' }}>{previousBest}</span>
+          Previous Score: <span style={{ color: '#FFD700' }}>{previousBest}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Score: <span style={{ color: '#FFD700' }}>{score}</span>
