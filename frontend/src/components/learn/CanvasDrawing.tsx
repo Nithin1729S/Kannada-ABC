@@ -3,6 +3,9 @@ import { useRef, useState, useEffect } from "react";
 import { Send } from "lucide-react";
 import { showModal } from '../../components/ui/Modal';
 import { useConfetti } from "~components/ui/confetti-trigger";
+import { useSession } from 'next-auth/react';
+
+
 const styles = {
   container: {
     display: 'flex',
@@ -94,6 +97,18 @@ const styles = {
   },
 };
 
+
+
+const MAX_ATTEMPTS = 5; // Maximum attempts after which score becomes 0
+
+// Compute the score based on the number of attempts
+function computeLetterScore(attempts: number, maxAttempts: number = MAX_ATTEMPTS): number {
+  // If attempts is 1, score is 3; if attempts >= maxAttempts, score is 0; otherwise, linearly interpolate.
+  if (attempts <= 1) return 3;
+  if (attempts >= maxAttempts) return 0;
+  return 3 * ((maxAttempts - attempts) / (maxAttempts - 1));
+}
+
 export default function CanvasDrawing({
   letterData
 }: {
@@ -103,16 +118,43 @@ export default function CanvasDrawing({
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState<"pen" | "eraser">("pen");
   const [recognitionResult, setRecognitionResult] = useState<number | null>(null);
+  const [attemptCount, setAttemptCount] = useState(0);
+  const { data: session } = useSession();
   const confetti = useConfetti();
+  // When recognitionResult changes, check correctness
   useEffect(() => {
     if (recognitionResult !== null) {
       if (Number(recognitionResult) === Number(letterData)) {
-        confetti.trigger('default');
-      }else{
-          showModal('Try Again!')
+        confetti.trigger("default");
+
+        // Compute the score based on number of attempts (attemptCount + 1, counting current attempt)
+        const computedScore = computeLetterScore(attemptCount + 1);
+        
+        // Construct field name using letterData (e.g., "letterScore_45")
+        const fieldName = `letter_score_${letterData}`;
+
+        // Call updateScore API (POST) with the field name and computed score.
+        // Replace '/api/updateBestScore' with your API route.
+        fetch(`/api/updateBestScore`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: session?.user?.email,
+            field: fieldName,
+            score: computedScore,
+          }),
+        }).catch((error) => {
+          console.error("Error updating score:", error);
+        });
+        // Reset attempt count for the next letter
+        setAttemptCount(0);
+      } else {
+        // Wrong guess: Increase attempt count and prompt user to try again.
+        setAttemptCount((prev) => prev + 1);
+        showModal("Try Again!");
       }
     }
-  }, [recognitionResult, letterData, confetti]);
+  }, [recognitionResult, letterData, confetti, attemptCount]);
 
   
   const letters = [

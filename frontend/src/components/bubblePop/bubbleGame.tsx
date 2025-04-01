@@ -161,7 +161,7 @@ export default function BubbleGame({ targetLetter, letters }: BubbleGameProps) {
           Target Letter: <span style={{ color: '#FFD700' }}>{targetLetter}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
-          Previous Best: <span style={{ color: '#FFD700' }}>{previousBest}</span>
+          Best Score: <span style={{ color: '#FFD700' }}>{previousBest}</span>
         </div>
         <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'white' }}>
           Score: <span style={{ color: '#FFD700' }}>{score}</span>
