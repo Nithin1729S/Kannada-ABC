@@ -28,6 +28,9 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 
 ![Screenshot from 2025-03-15 13-39-54](https://github.com/user-attachments/assets/813f903e-c95c-4b1d-9e0a-0948dcfdbe96)
 
+![Screenshot from 2025-03-15 13-37-45](https://github.com/user-attachments/assets/bf66668e-ff31-4cc6-b2d4-925f8668d841)
+
+
 ###  OAuth Page
 
 ![Screenshot from 2025-03-15 13-40-14](https://github.com/user-attachments/assets/4f8a6516-01e5-42c9-afe3-b029860fe8d0)
@@ -46,6 +49,9 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 
 
 ![Screenshot from 2025-03-15 13-42-06](https://github.com/user-attachments/assets/f177b7bb-1b85-4c6a-a8d0-e73a8c6550cb)
+
+![Screenshot from 2025-03-19 15-55-36](https://github.com/user-attachments/assets/c8200d98-dcb0-4409-a628-7160d43aa40f)
+
 
 ### Learn Module
 
