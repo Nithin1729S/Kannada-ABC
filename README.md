@@ -28,7 +28,7 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 
 ![Screenshot from 2025-03-15 13-39-54](https://github.com/user-attachments/assets/813f903e-c95c-4b1d-9e0a-0948dcfdbe96)
 
-###  Outh Page
+###  OAuth Page
 
 ![Screenshot from 2025-03-15 13-40-14](https://github.com/user-attachments/assets/4f8a6516-01e5-42c9-afe3-b029860fe8d0)
 
@@ -94,12 +94,13 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 - **Thematic Learning Elements:**  
   - **Animal Illustrations:** Letters are paired with animals to make learning more engaging for children.  
 
-- **Interactive Mini-Games:**  
+- **Interactive Mini-Games (With Score Tracking):**  
   - **Bucket Catch:** Letters fall from the top, and the user must catch the correct ones in a bucket.  
   - **Tic-Tac-Toe (Kannada Letters):** A classic game adapted to reinforce letter recognition.  
   - **Jigsaw Puzzle:** Players piece together Kannada letters to complete the puzzle.  
   - **Snake Game:** The snake must eat only the correct target letter to grow, while incorrect choices reduce points.  
   - **Bubble Pop:** Users must pop bubbles containing the target letter while avoiding incorrect ones.  
+  - **Previous Best Score Storage:** The highest score for each game is saved, allowing users to track their progress and try to beat their best performances.  
 
 - **AI-Powered Evaluation:**  
   - A **Convolutional Neural Network (CNN)** analyzes freehand writing and assigns scores based on accuracy.  
@@ -109,8 +110,8 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
   - Low-rated letters are **prioritized for additional practice** to reinforce learning.  
 
 - **Secure Authentication:**  
-  - **Google OAuth integration** allows seamless login while maintaining data privacy.
-    
+  - **Google OAuth integration** allows seamless login while maintaining data privacy.  
+
 ## Environmental Variables
 
 Create a `.env.local` file in the frontend directory with the following variables:
