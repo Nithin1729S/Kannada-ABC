@@ -81,24 +81,36 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 ![Screenshot from 2025-03-31 02-20-24](https://github.com/user-attachments/assets/fd7adba7-bc45-44ed-ac40-02fe66e8e682)
 
 
-## Features
+## Features  
 
 - **Two Learning Modes:**  
-  - **Practice Mode (Guided Tracing):** Helps learners trace letters with guided assistance.  
-  - **Write Mode (Freehand Writing):** Evaluates handwritten characters using AI-powered recognition.
+  - **Practice Mode (Guided Tracing):** Helps learners trace Kannada letters with guided assistance.  
+  - **Write Mode (Freehand Writing):** Evaluates handwritten characters using AI-powered recognition and provides corrective feedback.  
+
+- **Letter Pronunciation & Haptics:**  
+  - Each letter is accompanied by **audio pronunciation** to help children learn the correct sounds.  
+  - **Haptic feedback** enhances engagement by providing tactile responses during tracing exercises.  
+
+- **Thematic Learning Elements:**  
+  - **Animal Illustrations:** Letters are paired with animals to make learning more engaging for children.  
 
 - **Interactive Mini-Games:**  
-  - Five games designed to reinforce letter recognition in an engaging manner.  
+  - **Bucket Catch:** Letters fall from the top, and the user must catch the correct ones in a bucket.  
+  - **Tic-Tac-Toe (Kannada Letters):** A classic game adapted to reinforce letter recognition.  
+  - **Jigsaw Puzzle:** Players piece together Kannada letters to complete the puzzle.  
+  - **Snake Game:** The snake must eat only the correct target letter to grow, while incorrect choices reduce points.  
+  - **Bubble Pop:** Users must pop bubbles containing the target letter while avoiding incorrect ones.  
 
 - **AI-Powered Evaluation:**  
-  - A Convolutional Neural Network (CNN) assesses freehand writing and provides real-time feedback.
+  - A **Convolutional Neural Network (CNN)** analyzes freehand writing and assigns scores based on accuracy.  
+  - Users are rated out of **three stars** for each letter attempt.  
 
-- **Adaptive Learning Mechanism:**  
-  - Personalized recommendations ensure additional practice for letters the learner struggles with.
+- **Progress Tracking & Adaptive Learning:**  
+  - Low-rated letters are **prioritized for additional practice** to reinforce learning.  
 
 - **Secure Authentication:**  
-  - Google OAuth integration for effortless login while maintaining data privacy.
-
+  - **Google OAuth integration** allows seamless login while maintaining data privacy.
+    
 ## Environmental Variables
 
 Create a `.env.local` file in the frontend directory with the following variables:
