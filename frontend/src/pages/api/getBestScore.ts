@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (user) {
       // Extract all letter scores from the user object
-      const scores = {};
+      const scores: { [key: string]: { correct: number; attempted: number } } = {};
       for (let i = 1; i <= 49; i++) {
         const field = `letter_score_${i}`;
         const scoreData = user[field] || { correct: 0, attempted: 0 };
@@ -25,7 +25,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           attempted: scoreData.attempted || 0,
         };
       }
-      res.status(200).json({ scores });
+      res.status(200).json({ 
+        scores,
+        snakeGameBestScore: user.snakeGameBestScore || 0 ,
+        bubblePopBestScore: user.bubblePopBestScore || 0 ,
+        bucketCatchBestScore: user.bucketCatchBestScore || 0 
+      });
     } else {
       res.status(404).json({ error: 'User not found' });
     }

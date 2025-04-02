@@ -87,10 +87,10 @@ const AlphabetCatcher: React.FC<AlphabetCatcherProps> = ({
         if (session?.user?.email) {
           try {
             const res = await fetch(
-              `/api/getBestScore?email=${session.user.email}&field=${scoreField}`
+              `/api/getBestScore?email=${session.user.email}`
             );
             const data = await res.json();
-            setPreviousBest(data.score || 0);
+            setPreviousBest(data.bucketCatchBestScore || 0);
           } catch (error) {
             console.error('Error fetching best score', error);
           }

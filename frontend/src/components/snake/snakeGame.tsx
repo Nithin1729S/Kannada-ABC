@@ -71,10 +71,11 @@ export default function SnakeGame({ targetLetter, letters }: SnakeGameProps) {
       if (session?.user?.email) {
         try {
           const res = await fetch(
-            `/api/getBestScore?email=${session.user.email}&field=${scoreField}`
+            `/api/getBestScore?email=${session.user.email}`
           );
           const data = await res.json();
-          setPreviousBest(data.score || 0);
+          setPreviousBest(data.snakeGameBestScore || 0);
+          console.log(data)
         } catch (error) {
           console.error('Error fetching best score', error);
         }

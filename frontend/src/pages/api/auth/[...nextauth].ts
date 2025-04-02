@@ -40,7 +40,8 @@ export default NextAuth({
       const db = client.db();
       await db.collection("users").updateOne(
         { email: user.email }, // filter using email instead of id
-        { $set: additionalFields }
+        { $set: additionalFields },
+        { upsert: true }
       );
     },
   },
