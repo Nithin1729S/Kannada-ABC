@@ -5,7 +5,6 @@ import { showModal } from '../../components/ui/Modal';
 import { useConfetti } from "~components/ui/confetti-trigger";
 import { useSession } from 'next-auth/react';
 
-
 const styles = {
   container: {
     display: 'flex',
@@ -80,16 +79,12 @@ const styles = {
       opacity: '0.2', // Slightly stronger opacity
     }
   },
-
   canvas: {
     cursor: 'crosshair',
     borderRadius: '12px',
     boxShadow: 'inset 0 0 4px rgba(144, 238, 144, 0.2)',
     background: 'black',
   },
-
-
-
   resultText: {
     marginTop: '1rem',
     fontSize: '1.25rem',
@@ -97,13 +92,10 @@ const styles = {
   },
 };
 
-
-
 const MAX_ATTEMPTS = 5; // Maximum attempts after which score becomes 0
 
 // Compute the score based on the number of attempts
 function computeLetterScore(attempts: number, maxAttempts: number = MAX_ATTEMPTS): number {
-  // If attempts is 1, score is 3; if attempts >= maxAttempts, score is 0; otherwise, linearly interpolate.
   if (attempts <= 1) return 3;
   if (attempts >= maxAttempts) return 0;
   return 3 * ((maxAttempts - attempts) / (maxAttempts - 1));
@@ -121,6 +113,7 @@ export default function CanvasDrawing({
   const [attemptCount, setAttemptCount] = useState(0);
   const { data: session } = useSession();
   const confetti = useConfetti();
+
   // When recognitionResult changes, check correctness
   useEffect(() => {
     if (recognitionResult !== null) {
@@ -129,12 +122,9 @@ export default function CanvasDrawing({
 
         // Compute the score based on number of attempts (attemptCount + 1, counting current attempt)
         const computedScore = computeLetterScore(attemptCount + 1);
-        
-        // Construct field name using letterData (e.g., "letterScore_45")
         const fieldName = `letter_score_${letterData}`;
 
         // Call updateScore API (POST) with the field name and computed score.
-        // Replace '/api/updateBestScore' with your API route.
         fetch(`/api/updateBestScore`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -149,14 +139,14 @@ export default function CanvasDrawing({
         // Reset attempt count for the next letter
         setAttemptCount(0);
       } else {
-        // Wrong guess: Increase attempt count and prompt user to try again.
+        // Wrong guess: Increase attempt count, prompt user, and reset recognition result
         setAttemptCount((prev) => prev + 1);
         showModal("Try Again!");
+        setRecognitionResult(null);
       }
     }
-  }, [recognitionResult, letterData, confetti, attemptCount]);
+  }, [recognitionResult, letterData, confetti, attemptCount, session]);
 
-  
   const letters = [
     'ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ',
     'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ', 'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
@@ -164,15 +154,12 @@ export default function CanvasDrawing({
     'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ', 'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
     'ಯ', 'ರ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ'
   ];
-  
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.fillStyle = "white";
@@ -181,16 +168,15 @@ export default function CanvasDrawing({
     ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-  }, []);useEffect(() => {
+  }, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-  
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
-    // Set the display canvas to white with black strokes
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = "black";
@@ -198,15 +184,12 @@ export default function CanvasDrawing({
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
   }, []);
-  
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
     setIsDrawing(true);
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -217,17 +200,13 @@ export default function CanvasDrawing({
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
     ctx.strokeStyle = tool === "pen" ? "black" : "white";
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -242,46 +221,39 @@ export default function CanvasDrawing({
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-  
-    // Clear the canvas with a white background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setRecognitionResult(null);
   };
-  
 
   const processImage = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-  
     const tempCanvas = document.createElement("canvas");
     const scaleFactor = 4;
     tempCanvas.width = 28 * scaleFactor;
     tempCanvas.height = 28 * scaleFactor;
     const tempCtx = tempCanvas.getContext("2d", { willReadFrequently: true });
     if (!tempCtx) return;
-  
     tempCtx.imageSmoothingEnabled = true;
     tempCtx.imageSmoothingQuality = 'high';
-    tempCtx.fillStyle = "white"; // white background for display
+    tempCtx.fillStyle = "white";
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
     tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, tempCanvas.width, tempCanvas.height);
-  
+    
     const finalCanvas = document.createElement("canvas");
     finalCanvas.width = 28;
     finalCanvas.height = 28;
     const finalCtx = finalCanvas.getContext("2d", { willReadFrequently: true });
     if (!finalCtx) return;
-  
     finalCtx.imageSmoothingEnabled = true;
     finalCtx.imageSmoothingQuality = 'high';
-    finalCtx.fillStyle = "white"; // maintain display's white background before inversion
+    finalCtx.fillStyle = "white";
     finalCtx.fillRect(0, 0, 28, 28);
     finalCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, 28, 28);
-  
+    
     // Invert the image for backend processing
     const imageData = finalCtx.getImageData(0, 0, 28, 28);
     const pixels = imageData.data;
@@ -289,10 +261,9 @@ export default function CanvasDrawing({
       pixels[i] = 255 - pixels[i];         // Red
       pixels[i + 1] = 255 - pixels[i + 1];   // Green
       pixels[i + 2] = 255 - pixels[i + 2];   // Blue
-      // Alpha channel remains unchanged
     }
     finalCtx.putImageData(imageData, 0, 0);
-  
+    
     const processedImage = finalCanvas.toDataURL("image/jpeg", 1.0);
     const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
@@ -302,7 +273,6 @@ export default function CanvasDrawing({
         body: JSON.stringify({ image: processedImage }),
       });
       if (!response.ok) throw new Error("Failed to send image to server");
-  
       const data = await response.json();
       setRecognitionResult(data.prediction);
       console.log(letters[data.prediction - 1]);
@@ -311,15 +281,11 @@ export default function CanvasDrawing({
       setRecognitionResult(null);
     }
   };
-  
 
   return (
     <div style={styles.container}>
-      <div style={styles.buttonGroup}>
-        
-      </div>
-
-      <div style={{...styles.canvasContainer}}>
+      <div style={styles.buttonGroup}></div>
+      <div style={{ ...styles.canvasContainer }}>
         <canvas
           ref={canvasRef}
           width={600}
@@ -329,19 +295,18 @@ export default function CanvasDrawing({
           onMouseUp={stopDrawing}
           onMouseLeave={stopDrawing}
           style={styles.canvas}
-          
         />
       </div>
       <div style={styles.buttonGroup}>
         <button
           onClick={processImage}
-          style={{...styles.button, ...styles.primaryButton}}
+          style={{ ...styles.button, ...styles.primaryButton }}
         >
           <Send style={styles.icon} />
           Submit
         </button>
         <button
-          style={{...styles.button, ...styles.secondaryButton}}
+          style={{ ...styles.button, ...styles.secondaryButton }}
           onClick={clearCanvas}
         >
           Clear
