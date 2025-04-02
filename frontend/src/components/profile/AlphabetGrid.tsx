@@ -201,28 +201,42 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
 
   useEffect(() => {
     if (!session?.user?.email) return;
-    
+  
     async function fetchAllScores() {
       const email = session?.user?.email;
-      const scorePromises = [];
-      for (let i = 1; i <= 49; i++) {
-        const field = `letter_score_${i}`;
-        scorePromises.push(
-          fetch(`/api/getBestScore?email=${email}&field=${field}`)
-            .then((res) => res.json())
-            .then((data) => data.score || 0)
-            .catch((error) => {
-              console.error(`Error fetching ${field}:`, error);
-              return 0;
-            })
-        );
+      
+      try {
+        const res = await fetch(`/api/getBestScore?email=${email}`);
+        const data = await res.json();
+  
+        console.log("Data fetched from API:", data);  // Debugging line
+  
+        if (res.ok && data.scores) {
+          const scores = Array.from({ length: 49 }, (_, i) => {
+            const scoreData = data.scores[`letter_score_${i + 1}`] || { correct: 0, attempted: 0 };
+            const { correct, attempted } = scoreData;
+            const calculatedScore = attempted > 0 ? Math.floor((correct * 3) / attempted) : 0;
+            return calculatedScore;
+          });
+  
+          console.log("Calculated Scores:", scores);  // Print the calculated scores
+  
+          setAllScores(scores);
+        } else {
+          console.error("Error fetching scores:", data.error || "Unknown error");
+          setAllScores(Array(49).fill(0));
+        }
+      } catch (error) {
+        console.error('Error fetching all scores:', error);
+        setAllScores(Array(49).fill(0));
       }
-      const scores = await Promise.all(scorePromises);
-      setAllScores(scores);
     }
+  
     fetchAllScores();
   }, [session]);
-
+  
+  
+  
   const firstHalfAlphabets = alphabets.length > 0 ? alphabets.slice(0, 15) : []
   const secondHalfAlphabets = alphabets.length > 15 ? alphabets.slice(15, 40) : []
   const thirdHalfAlphabets = alphabets.length > 40 ? alphabets.slice(40, 49) : []

@@ -25,7 +25,10 @@ export default NextAuth({
     async createUser({ user }) {
       const additionalFields: Record<string, any> = {};
       for (let i = 1; i <= 49; i++) {
-        additionalFields[`letter_score_${i}`] = 0; 
+        additionalFields[`letter_score_${i}`] = {
+          correct: 0,
+          attempted: 0,
+        };
       }
       additionalFields[`bubblePopBestScore`] = 0; 
       additionalFields[`snakeGameBestScore`] = 0; 

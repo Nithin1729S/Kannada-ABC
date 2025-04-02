@@ -5,10 +5,25 @@ import tensorflow as tf
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import traceback
+from motor.motor_asyncio import AsyncIOMotorClient
+
+
+# MongoDB Configuration
+MONGO_URI = "mongodb://localhost:27017"  # Change this if your DB is hosted elsewhere
+DATABASE_NAME = "test"
+COLLECTION_NAME = "users"
+
+client = AsyncIOMotorClient(MONGO_URI)
+db = client[DATABASE_NAME]
+users_collection = db[COLLECTION_NAME]
 
 # Pydantic model to parse the incoming JSON payload
 class ImageRequest(BaseModel):
     image: str  # Expected to be a data URL (base64 encoded JPEG)
+    letterdata: int  # Add letterdata field
+    email: str  # Add email field
+
 
 app = FastAPI()
 
@@ -43,6 +58,8 @@ class_names = [
 async def recognize_alphabet(request: ImageRequest = Body(...)):
     try:
         image_b64 = request.image
+        letterdata = request.letterdata
+        email = request.email
 
         # Remove header if the data URL includes it, e.g. "data:image/jpeg;base64,"
         if "," in image_b64:
@@ -68,7 +85,27 @@ async def recognize_alphabet(request: ImageRequest = Body(...)):
         prediction = loaded_model.predict(img_array)
         predicted_label = class_names[np.argmax(prediction)]
 
+        is_correct = int(predicted_label) == int(letterdata)
+
+        # Construct the field name dynamically
+        letter_field = f"letter_score_{letterdata}"
+
+        update_query = {
+            "$inc": {
+                f"{letter_field}.attempted": 1,  # Always increment attempts
+            }
+        }
+
+        if is_correct:
+            update_query["$inc"][f"{letter_field}.correct"] = 1  # Increment correct only if correct
+
+        result = await users_collection.update_one({"email": email}, update_query)
+
+        if result.matched_count == 0:
+            raise HTTPException(status_code=404, detail="User not found")
+
         # Return the predicted label as JSON
         return {"prediction": predicted_label}
     except Exception as e:
+        print(traceback.format_exc())  # Print full error stack trace
         raise HTTPException(status_code=500, detail=str(e))
