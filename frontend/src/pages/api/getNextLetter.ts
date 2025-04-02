@@ -19,30 +19,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     let minScore = Infinity;
-    let minField = '';
-    
-    // Iterate through letter_score_1 to letter_score_49
+    let minLetterNumber = Infinity;
+
     for (let i = 1; i <= 49; i++) {
-      // If the ignore parameter is provided and equals the current index, skip it.
       if (ignore && Number(ignore) === i) continue;
-      
       const fieldName = `letter_score_${i}`;
-      const score = typeof user[fieldName] === 'number' ? user[fieldName] : Infinity;
-      
-      if (score < minScore) {
-        minScore = score;
-        minField = fieldName;
+      const scoreData = user[fieldName] || { correct: 0, attempted: 0 };
+      const { correct, attempted } = scoreData;
+      const calculatedScore = attempted > 0 ? ((correct * 3) / attempted) : 0;
+      if (calculatedScore < minScore || (calculatedScore === minScore && i < minLetterNumber)) {
+        minScore = calculatedScore;
+        minLetterNumber = i;
       }
     }
-    
-    // If no score was found, return a default value.
-    if (minScore === Infinity || !minField) {
+    if (minScore === Infinity || minLetterNumber === Infinity) {
       return res.status(200).json({ letter: 1 });
     }
-    
-    // Extract the letter number from the field name.
-    const letterNumber = parseInt(minField.replace('letter_score_', ''), 10);
-    return res.status(200).json({ letter: letterNumber });
+    return res.status(200).json({ letter: minLetterNumber });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Error fetching next letter' });
