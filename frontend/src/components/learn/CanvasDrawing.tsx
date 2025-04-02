@@ -158,17 +158,21 @@ export default function CanvasDrawing({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
+  
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
+    // Set the display canvas to white with black strokes
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
   }, []);
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -221,39 +225,46 @@ export default function CanvasDrawing({
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
+  
+    // Clear the canvas with a white background
     ctx.fillStyle = "white";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     setRecognitionResult(null);
   };
+  
 
   const processImage = async () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+  
     const tempCanvas = document.createElement("canvas");
     const scaleFactor = 4;
     tempCanvas.width = 28 * scaleFactor;
     tempCanvas.height = 28 * scaleFactor;
     const tempCtx = tempCanvas.getContext("2d", { willReadFrequently: true });
     if (!tempCtx) return;
+  
     tempCtx.imageSmoothingEnabled = true;
     tempCtx.imageSmoothingQuality = 'high';
-    tempCtx.fillStyle = "white";
+    tempCtx.fillStyle = "white"; // white background for display
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
     tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, tempCanvas.width, tempCanvas.height);
-    
+  
     const finalCanvas = document.createElement("canvas");
     finalCanvas.width = 28;
     finalCanvas.height = 28;
     const finalCtx = finalCanvas.getContext("2d", { willReadFrequently: true });
     if (!finalCtx) return;
+  
     finalCtx.imageSmoothingEnabled = true;
     finalCtx.imageSmoothingQuality = 'high';
-    finalCtx.fillStyle = "white";
+    finalCtx.fillStyle = "white"; // maintain display's white background before inversion
     finalCtx.fillRect(0, 0, 28, 28);
     finalCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, 28, 28);
-    
+  
     // Invert the image for backend processing
     const imageData = finalCtx.getImageData(0, 0, 28, 28);
     const pixels = imageData.data;
@@ -261,9 +272,10 @@ export default function CanvasDrawing({
       pixels[i] = 255 - pixels[i];         // Red
       pixels[i + 1] = 255 - pixels[i + 1];   // Green
       pixels[i + 2] = 255 - pixels[i + 2];   // Blue
+      // Alpha channel remains unchanged
     }
     finalCtx.putImageData(imageData, 0, 0);
-    
+  
     const processedImage = finalCanvas.toDataURL("image/jpeg", 1.0);
     const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
@@ -273,6 +285,7 @@ export default function CanvasDrawing({
         body: JSON.stringify({ image: processedImage }),
       });
       if (!response.ok) throw new Error("Failed to send image to server");
+  
       const data = await response.json();
       setRecognitionResult(data.prediction);
       console.log(letters[data.prediction - 1]);
@@ -281,6 +294,8 @@ export default function CanvasDrawing({
       setRecognitionResult(null);
     }
   };
+  
+  
 
   return (
     <div style={styles.container}>
