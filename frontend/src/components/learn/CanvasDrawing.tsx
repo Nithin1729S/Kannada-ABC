@@ -86,7 +86,7 @@ export default function CanvasDrawing({
     }
   }, [recognitionResult, letterData]);
 
-  
+
   const letters = [
     'ಅ', 'ಆ', 'ಇ', 'ಈ', 'ಉ', 'ಊ', 'ಋ', 'ಎ', 'ಏ', 'ಐ',
     'ಒ', 'ಓ', 'ಔ', 'ಅಂ', 'ಅಃ', 'ಕ', 'ಖ', 'ಗ', 'ಘ', 'ಙ',
@@ -94,20 +94,20 @@ export default function CanvasDrawing({
     'ತ', 'ಥ', 'ದ', 'ಧ', 'ನ', 'ಪ', 'ಫ', 'ಬ', 'ಭ', 'ಮ',
     'ಯ', 'ರ', 'ಲ', 'ವ', 'ಶ', 'ಷ', 'ಸ', 'ಹ', 'ಳ'
   ];
-  
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
+  
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
+  
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.fillStyle = "black";
+
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.strokeStyle = "white";
+    ctx.strokeStyle = "black";
     ctx.lineWidth = 8;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -116,10 +116,8 @@ export default function CanvasDrawing({
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
     setIsDrawing(true);
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -130,18 +128,15 @@ export default function CanvasDrawing({
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
-
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
-
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
     ctx.strokeStyle = tool === "pen" ? "white" : "black";
+
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.beginPath();
@@ -220,14 +215,10 @@ export default function CanvasDrawing({
       setRecognitionResult(null);
     }
   };
-
   return (
     <div style={styles.container}>
-      <div style={styles.buttonGroup}>
-        
-      </div>
-
-      <div style={{...styles.canvasContainer}}>
+      <div style={styles.buttonGroup}></div>
+      <div style={{ ...styles.canvasContainer }}>
         <canvas
           ref={canvasRef}
           width={600}
@@ -237,19 +228,18 @@ export default function CanvasDrawing({
           onMouseUp={stopDrawing}
           onMouseLeave={stopDrawing}
           style={styles.canvas}
-          
         />
       </div>
       <div style={styles.buttonGroup}>
         <button
           onClick={processImage}
-          style={{...styles.button, ...styles.primaryButton}}
+          style={{ ...styles.button, ...styles.primaryButton }}
         >
           <Send style={styles.icon} />
           Submit
         </button>
         <button
-          style={{...styles.button, ...styles.secondaryButton}}
+          style={{ ...styles.button, ...styles.secondaryButton }}
           onClick={clearCanvas}
         >
           Clear
