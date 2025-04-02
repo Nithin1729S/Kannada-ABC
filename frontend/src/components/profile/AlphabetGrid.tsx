@@ -12,10 +12,8 @@ import { MotionBox } from '~components/motion'
 import { SfxLink } from '~components/sfx'
 import { usePhonics } from '~src/hooks/usePhonics'
 import { useSession } from 'next-auth/react';
-
+import { Star } from 'lucide-react'
 import { AlphabetModal } from '~components/learn/AlphabetModal'
-
-// import type { AlphabetType } from '~/types/data'
 import { alphabets } from '~src/data/alphabets'
 
 type AlphabetType = (typeof alphabets)[number]
@@ -85,13 +83,7 @@ type AlphabetSounds = Record<GlyphType, SoundRef>
 interface AlphabetGridProps {
   show: boolean
 }
-import { FaStar } from 'react-icons/fa'
 
-interface StarsProps {
-  fillLevel: number
-}
-
-import { Star } from 'lucide-react'
 
 // Partial Star component
 const PartialStar = ({ fillPercentage }: { fillPercentage: number }) => {
@@ -193,8 +185,8 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
   }, [])
 
   const select = useCallback(
-    (alphabet: AlphabetType) => () => {
-      setSelected(alphabet)
+    (alphabet: Alphabet) => () => {
+      setSelected(alphabet as AlphabetType)
     },
     []
   )
@@ -215,7 +207,7 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
           const scores = Array.from({ length: 49 }, (_, i) => {
             const scoreData = data.scores[`letter_score_${i + 1}`] || { correct: 0, attempted: 0 };
             const { correct, attempted } = scoreData;
-            const calculatedScore = attempted > 0 ? Math.floor((correct * 3) / attempted) : 0;
+            const calculatedScore = attempted > 0 ? ((correct * 3) / attempted) : 0;
             return calculatedScore;
           });
   
@@ -240,10 +232,6 @@ export function AlphabetGrid({ show }: AlphabetGridProps) {
   const firstHalfAlphabets = alphabets.length > 0 ? alphabets.slice(0, 15) : []
   const secondHalfAlphabets = alphabets.length > 15 ? alphabets.slice(15, 40) : []
   const thirdHalfAlphabets = alphabets.length > 40 ? alphabets.slice(40, 49) : []
-
-  // const firstHalfAlphabetsScores=[1,2,3,4,1,2,3,1,2,3,1,1,2,3,1,1]
-  // const secondHalfAlphabetsScores = [2, 1, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1, 2, 3, 1, 2, 3, 1, 2, 3, 2, 1]
-  // const thirdHalfAlphabetsScores = [1, 2, 3, 2, 1, 2, 3, 1, 2]
 
   const firstHalfAlphabetsScores = allScores.slice(0, 15);
   const secondHalfAlphabetsScores = allScores.slice(15, 40);
