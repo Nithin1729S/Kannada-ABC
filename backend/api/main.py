@@ -1,5 +1,7 @@
 import base64
 import cv2
+import os
+from dotenv import load_dotenv
 import numpy as np
 import tensorflow as tf
 from fastapi import FastAPI, HTTPException, Body
@@ -8,13 +10,14 @@ from pydantic import BaseModel
 import traceback
 from motor.motor_asyncio import AsyncIOMotorClient
 
+load_dotenv()
 
 # MongoDB Configuration
-MONGO_URI = "mongodb://localhost:27017"  # Change this if your DB is hosted elsewhere
-DATABASE_NAME = "test"
+MONGODB_URI = os.getenv("MONGODB_URI")  
+DATABASE_NAME = os.getenv("DATABASE_NAME")
 COLLECTION_NAME = "users"
 
-client = AsyncIOMotorClient(MONGO_URI)
+client = AsyncIOMotorClient(MONGODB_URI)
 db = client[DATABASE_NAME]
 users_collection = db[COLLECTION_NAME]
 

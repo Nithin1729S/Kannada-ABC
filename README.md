@@ -129,6 +129,14 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret  # OAuth client secret
 NEXTAUTH_URL=http://localhost:3000      # Your application URL
 NEXTAUTH_SECRET=random_string           # Random string for NextAuth session
 NEXT_PUBLIC_BACKEND_URL=fastapi_address # URL of the FastAPI Backend Server
+DATABASE_NAME=database_name             # Database name
+```
+
+Create a `.env` file in the backtend directory with the following variables:
+
+```env
+MONGODB_URI=your_mongodb_uri            # MongoDB connection string
+DATABASE_NAME=database_name             # Database name
 ```
 
 ## Getting Started

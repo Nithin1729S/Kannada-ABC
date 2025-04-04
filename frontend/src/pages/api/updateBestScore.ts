@@ -1,7 +1,7 @@
 // /pages/api/updateBestScore.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from "../../lib/@props/mongodb";
-
+const DATABASE_NAME=process.env.DATABASE_NAME
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const client = await clientPromise;
-    const db = client.db('test');
+    const db = client.db(DATABASE_NAME);
     await db.collection('users').updateOne(
       { email },
       { $set: { [field]: score } }

@@ -1,7 +1,7 @@
 // /pages/api/getNextLetter.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import clientPromise from '../../lib/@props/mongodb';
-
+const DATABASE_NAME=process.env.DATABASE_NAME
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { email, ignore } = req.query;
   
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const client = await clientPromise;
-    const db = client.db('test'); // replace if needed
+    const db = client.db(DATABASE_NAME);
     const user = await db.collection('users').findOne({ email });
     
     if (!user) {
