@@ -118,6 +118,12 @@ The application is built using **Next.js** for the frontend, with **NextAuth.js*
 - **Secure Authentication:**  
   - **Google OAuth integration** allows seamless login while maintaining data privacy.  
 
+## Deployment Details
+
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas
+  
 ## Environmental Variables
 
 Create a `.env.local` file in the frontend directory with the following variables:
