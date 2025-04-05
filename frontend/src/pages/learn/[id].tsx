@@ -78,7 +78,7 @@ export default function LearnAlphabet({
     <Box bg={bgTheme} shadow={`0 0 0 1.5em ${shadowColor}`} roundedBottom="10vw" >
       <VisuallyHidden as="h1">{`Alphabet ${alphabet?.numeral ?? ''}`}</VisuallyHidden>
       <AlphabetEnterAnimation alphabet={alphabet} {...handlers}>
-        <AlphabetAnimals bg={bgTheme} />
+        <AlphabetAnimals />
       </AlphabetEnterAnimation>
       <Flex
         pos="fixed"
